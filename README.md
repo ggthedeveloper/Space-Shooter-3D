@@ -3,7 +3,7 @@
 An atmospheric 3D space combat simulator built with **Three.js** and **Web Audio API**, featuring **3 Lives System**, **Hyperspace Level Progression**, an interactive **Weapon & Armory Store**, and **5 Selectable 3D Starfighters with Unique Specialized Weapons**.
 
 > **Developed by Gaurav Gautam**  
-> GitHub: [@ggthedeveloper](https://github.com/ggthedeveloper) · Repository: [Space-Shooter-3D-](https://github.com/ggthedeveloper/Space-Shooter-3D-)
+> GitHub: [@ggthedeveloper](https://github.com/ggthedeveloper) · Repository: [Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)
 
 ---
 ### Live at: https://ggthedeveloper.github.io/Space-Shooter-3D/
@@ -214,4 +214,4 @@ Launch [`index.html`](file:///Users/gg/.gemini/antigravity/scratch/alien-assault
 
 **Developed by Gaurav Gautam**
 - **GitHub**: [@ggthedeveloper](https://github.com/ggthedeveloper)
-- **Repository**: [https://github.com/ggthedeveloper/Space-Shooter-3D-](https://github.com/ggthedeveloper/Space-Shooter-3D)
+- **Repository**: [https://github.com/ggthedeveloper/Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)
