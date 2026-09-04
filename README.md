@@ -6,7 +6,7 @@ An atmospheric 3D space combat simulator built with **Three.js** and **Web Audio
 > GitHub: [@ggthedeveloper](https://github.com/ggthedeveloper) · Repository: [Space-Shooter-3D-](https://github.com/ggthedeveloper/Space-Shooter-3D-)
 
 ---
-## Live at: https://ggthedeveloper.github.io/Space-Shooter-3D-/
+## Live at: https://ggthedeveloper.github.io/Space-Shooter-3D/
 
 ## 🎮 Flight, Weapon & Store Controls
 
