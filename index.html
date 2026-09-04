@@ -1346,9 +1346,9 @@
           </div>
         </div>
         <!-- PILOT CALLSIGN & RANK BADGE -->
-        <div id="pilotBadge" style="background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.35); border-radius: 6px; padding: 3px 6px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; max-width: 110px;" onclick="openPilotRegistrationModal()" title="Pilot Callsign & Military Rank (Click to Edit)">
-          <span style="font-size: 8px; font-weight: 800; color: #00ff88; letter-spacing: 0.8px;" id="pilotRankVal">⭐ ENSIGN</span>
-          <span style="font-size: 10.5px; font-weight: 800; color: #ffd166; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="pilotNameVal">STARFIGHTER ACE</span>
+        <div id="pilotBadge" style="background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.35); border-radius: 6px; padding: 3px 6px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; min-width: 80px; max-width: 130px;" onclick="openPilotRegistrationModal()" title="Pilot Callsign & Military Rank (Click to Edit)">
+          <span style="font-size: 8px; font-weight: 800; color: #00ff88; letter-spacing: 0.8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="pilotRankVal">⭐ ENSIGN</span>
+          <span style="font-size: 10px; font-weight: 800; color: #ffd166; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="pilotNameVal">STARFIGHTER ACE</span>
         </div>
       </div>
 
@@ -4555,12 +4555,12 @@ const state = {
 // MILITARY RANKS & TACTICAL BOUNTIES
 // ==========================================
 const RANKS = [
-  { rank: 1, title: "ENSIGN", xpRequired: 0, perk: "Standard Fleet Issue" },
-  { rank: 2, title: "LIEUTENANT", xpRequired: 300, perk: "+5% Firepower Boost" },
-  { rank: 3, title: "CAPTAIN", xpRequired: 800, perk: "+10% Shield Capacity" },
-  { rank: 4, title: "MAJOR", xpRequired: 1600, perk: "+10% Flight Agility" },
-  { rank: 5, title: "COMMANDER", xpRequired: 2800, perk: "+15% Scrap Salvage" },
-  { rank: 6, title: "FLEET ADMIRAL", xpRequired: 4500, perk: "+20% Critical Strikes" }
+  { rank: 1, title: "ENSIGN", badge: "⭐", xpRequired: 0, perk: "Standard Fleet Issue" },
+  { rank: 2, title: "LIEUTENANT", badge: "🌟", xpRequired: 300, perk: "+5% Firepower Boost" },
+  { rank: 3, title: "CAPTAIN", badge: "🎖️", xpRequired: 800, perk: "+10% Shield Capacity" },
+  { rank: 4, title: "MAJOR", badge: "🛡️", xpRequired: 1600, perk: "+10% Flight Agility" },
+  { rank: 5, title: "COMMANDER", badge: "⚡", xpRequired: 2800, perk: "+15% Scrap Salvage" },
+  { rank: 6, title: "FLEET ADMIRAL", badge: "👑", xpRequired: 4500, perk: "+20% Critical Strikes" }
 ];
 
 function getPlayerRank(xp) {
@@ -4571,19 +4571,37 @@ function getPlayerRank(xp) {
   return cur;
 }
 
-function addPlayerXP(amount) {
-  const oldRank = getPlayerRank(state.xp || 0);
-  state.xp = (state.xp || 0) + amount;
-  const newRank = getPlayerRank(state.xp);
-
-  if (newRank.rank > oldRank.rank) {
-    state.playerRank = newRank.rank;
-    audio.playPromotionFanfare();
-    showAchievementToast(`PROMOTED TO ${newRank.title}!`, `Perk Unlocked: ${newRank.perk}`);
-    spawnFloatingText(player.position, `⭐ PROMOTED: ${newRank.title}!`, "#ffd166");
+function showAchievementToast(title, desc) {
+  const toast = document.getElementById('achievementToast');
+  const toastTitle = document.getElementById('achievementToastTitle');
+  const toastDesc = document.getElementById('achievementToastDesc');
+  if (toast && toastTitle && toastDesc) {
+    toastTitle.textContent = title;
+    toastDesc.textContent = desc;
+    toast.style.transform = 'translateX(-50%) translateY(0px)';
+    setTimeout(() => {
+      toast.style.transform = 'translateX(-50%) translateY(-120px)';
+    }, 3600);
   }
-  updateHUD();
-  saveGameData();
+}
+
+function addPlayerXP(amount) {
+  try {
+    const oldRank = getPlayerRank(state.xp || 0);
+    state.xp = (state.xp || 0) + amount;
+    const newRank = getPlayerRank(state.xp);
+
+    if (newRank.rank > oldRank.rank) {
+      state.playerRank = newRank.rank;
+      if (audio.playPromotionFanfare) audio.playPromotionFanfare();
+      showAchievementToast(`PROMOTED TO ${newRank.title}!`, `Perk Unlocked: ${newRank.perk}`);
+      spawnFloatingText(player.position, `⭐ PROMOTED: ${newRank.title}!`, "#ffd166");
+    }
+    updateHUD();
+    saveGameData();
+  } catch(err) {
+    console.warn("XP update non-fatal error:", err);
+  }
 }
 
 const BOUNTY_POOL = [
@@ -4637,11 +4655,11 @@ function renderMenuRankAndBounty() {
   const currentRankIdx = RANKS.findIndex(r => r.title === rank.title);
   const nextRank = RANKS[currentRankIdx + 1];
   if (nextRank) {
-    const prevXP = rank.minXP;
-    const needed = nextRank.minXP - prevXP;
+    const prevXP = rank.xpRequired;
+    const needed = nextRank.xpRequired - prevXP;
     const progress = Math.max(0, Math.min(1, ((state.xp || 0) - prevXP) / needed));
     if (rankFillEl) rankFillEl.style.width = `${Math.round(progress * 100)}%`;
-    if (rankXpEl) rankXpEl.textContent = `${state.xp || 0} / ${nextRank.minXP} XP`;
+    if (rankXpEl) rankXpEl.textContent = `${state.xp || 0} / ${nextRank.xpRequired} XP`;
   } else {
     if (rankFillEl) rankFillEl.style.width = `100%`;
     if (rankXpEl) rankXpEl.textContent = `${state.xp || 0} XP (MAX RANK)`;
@@ -4682,18 +4700,7 @@ function unlockAchievement(id) {
 
   const ach = ACHIEVEMENTS_LIST.find(a => a.id === id);
   if (ach) {
-    const toast = document.getElementById('achievementToast');
-    const toastTitle = document.getElementById('achievementToastTitle');
-    const toastDesc = document.getElementById('achievementToastDesc');
-    if (toast && toastTitle && toastDesc) {
-      toastTitle.textContent = `${ach.icon} ${ach.title}`;
-      toastDesc.textContent = ach.desc;
-      toast.style.transform = 'translateX(-50%) translateY(0px)';
-      audio.speak(`Achievement unlocked: ${ach.title}`);
-      setTimeout(() => {
-        toast.style.transform = 'translateX(-50%) translateY(-120px)';
-      }, 3600);
-    }
+    showAchievementToast(`${ach.icon} ${ach.title}`, ach.desc);
   }
   renderAchievementsMenu();
 }
@@ -7997,7 +8004,7 @@ function showOnScreenError(title, err) {
     el.style = 'position:fixed;top:72px;left:16px;right:16px;z-index:999999;background:rgba(220,20,60,0.95);color:#fff;padding:14px;border:2px solid #ffd166;border-radius:8px;font-family:monospace;font-size:12px;box-shadow:0 0 30px rgba(255,0,0,0.8);pointer-events:auto;';
     document.body.appendChild(el);
   }
-  el.innerHTML = `<strong>⚠️ ${title}:</strong> ${err ? (err.message || err) : 'Error'}<pre style="margin:4px 0 0;font-size:11px;white-space:pre-wrap;">${err && err.stack ? err.stack : ''}</pre>`;
+  el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;"><strong>⚠️ ${title}:</strong> <button onclick="this.closest('#runtimeErrorBanner').remove()" style="background:#222;color:#fff;border:1px solid #ffd166;padding:3px 10px;cursor:pointer;border-radius:4px;font-size:11px;font-weight:bold;">✕ DISMISS</button></div>${err ? (err.message || err) : 'Error'}<pre style="margin:4px 0 0;font-size:11px;white-space:pre-wrap;">${err && err.stack ? err.stack : ''}</pre>`;
 }
 
 window.addEventListener('error', (e) => {
