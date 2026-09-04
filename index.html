@@ -83,48 +83,54 @@
 
   /* TOP HUD BAR */
   #topBar {
-    top: 14px;
-    left: 16px;
-    right: 16px;
+    top: 12px;
+    left: 14px;
+    right: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
     pointer-events: none;
+    z-index: 25;
   }
 
   .hud-group {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     pointer-events: auto;
+    flex-shrink: 0;
   }
 
   .bar-container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    min-width: 120px;
+    gap: 3px;
+    min-width: 105px;
+    width: 110px;
+    flex-shrink: 0;
   }
 
   .bar-label {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
-    letter-spacing: 1.5px;
-    color: #9db2d9;
+    letter-spacing: 1.2px;
+    color: #a5b9e0;
     text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
   }
 
   .meter-bg {
     width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.08);
+    height: 9px;
+    background: rgba(2, 6, 20, 0.75);
     border-radius: 4px;
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.9);
   }
 
   .meter-fill {
@@ -135,13 +141,13 @@
   }
 
   #hullFill {
-    background: linear-gradient(90deg, #00ff88, #70ffb5);
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    background: linear-gradient(90deg, #00e676, #00ff88);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.65);
   }
 
   #shieldFill {
-    background: linear-gradient(90deg, #00b4d8, #00f0ff);
-    box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    background: linear-gradient(90deg, #0091ea, #00f0ff);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.65);
   }
 
   /* 3 LIVES CONTAINER */
@@ -149,7 +155,8 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    min-width: 80px;
+    min-width: 65px;
+    flex-shrink: 0;
   }
 
   #livesIconsRow {
@@ -166,6 +173,9 @@
     align-items: center;
     text-align: center;
     pointer-events: none;
+    flex-shrink: 1;
+    max-width: 360px;
+    margin: 0 8px;
   }
 
   #sectorBadge {
@@ -309,28 +319,42 @@
     box-shadow: 0 0 16px rgba(255, 209, 102, 0.6);
   }
 
-  /* BOTTOM WEAPON ARSENAL DOCK */
+  /* BOTTOM WEAPON ARSENAL DOCK (LOCKED TO SINGLE ROW) */
   #bottomBar {
-    bottom: 12px;
-    left: 12px;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    gap: 7px;
+    gap: 6px;
     align-items: center;
-    flex-wrap: wrap;
-    max-width: calc(100vw - 24px);
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    max-width: calc(100vw - 16px);
+    padding: 4px 8px;
+    z-index: 15;
+    pointer-events: auto;
+  }
+  #bottomBar::-webkit-scrollbar {
+    display: none;
   }
 
   .weapon-card {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 6px 11px;
-    background: rgba(0, 0, 0, 0.45);
+    gap: 1px;
+    padding: 4px 8px;
+    min-width: 78px;
+    max-width: 104px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    font-size: 10px;
+    font-size: 9.5px;
     cursor: pointer;
     transition: all 0.2s ease;
+    user-select: none;
   }
 
   .weapon-card:hover {
@@ -345,40 +369,47 @@
   }
 
   .weapon-key {
-    font-size: 9px;
+    font-size: 8px;
     color: var(--accent);
     font-weight: 800;
   }
 
   .weapon-name {
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     color: #fff;
     text-transform: uppercase;
+    font-size: 9.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .weapon-sub {
-    font-size: 10px;
+    font-size: 8px;
     color: #8da4cf;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .weapon-level-badge {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 800;
     color: #ffd166;
     background: rgba(255, 209, 102, 0.15);
-    padding: 1px 5px;
+    padding: 1px 4px;
     border-radius: 3px;
     border: 1px solid rgba(255, 209, 102, 0.35);
   }
 
   .quick-upgrade-btn {
-    margin-top: 5px;
+    margin-top: 3px;
     background: linear-gradient(180deg, #ffd166, #e67e22);
     border: 1px solid #ffe082;
     color: #081024;
-    padding: 3px 8px;
-    font-size: 10px;
+    padding: 2px 5px;
+    font-size: 8.5px;
     font-weight: 800;
     border-radius: 4px;
     cursor: pointer;
@@ -568,7 +599,7 @@
 
   #controlsHint strong { color: var(--primary); }
 
-  /* Developed by Gaurav Gautam Footer */
+  /* Developed by Gaurav Gautam Footer (Non-clickable) */
   #gameFooter {
     position: absolute;
     bottom: 6px;
@@ -578,22 +609,17 @@
     letter-spacing: 0.8px;
     color: #8da4cf;
     z-index: 22;
-    pointer-events: auto;
+    pointer-events: none;
+    user-select: none;
     text-shadow: 0 0 8px rgba(0,0,0,0.9);
     background: rgba(3, 8, 20, 0.65);
     padding: 3px 10px;
     border-radius: 4px;
     border: 1px solid rgba(0, 229, 255, 0.2);
   }
-  #gameFooter a {
+  #gameFooter .dev-highlight {
     color: #00f0ff;
-    text-decoration: none;
     font-weight: 800;
-    transition: color 0.2s;
-  }
-  #gameFooter a:hover {
-    color: #ffd166;
-    text-decoration: underline;
   }
   @media (max-width: 768px) {
     #gameFooter {
@@ -1225,7 +1251,7 @@
             <span id="volumeIcon">🎵</span>
             <span id="volumeLabel">50%</span>
           </button>
-          <div id="volumePopover" class="hud-panel" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 230px; padding: 12px 14px; z-index: 120; background: rgba(8, 14, 32, 0.96); border: 1px solid #a855f7; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.85); text-align: left;">
+          <div id="volumePopover" class="hud-panel" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 235px; padding: 12px 14px; z-index: 120; background: rgba(8, 14, 32, 0.96); border: 1px solid #a855f7; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.85); text-align: left;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <span style="font-size: 11px; font-weight: 800; color: #d8b4fe;">🌌 CALM SPACE MUSIC</span>
               <span id="bgmVolumeDisplay" style="font-size: 11px; font-weight: 800; color: #fff;">50%</span>
@@ -1236,7 +1262,18 @@
               <span style="font-size: 11px; font-weight: 800; color: #00f0ff;">💥 SFX / COMBAT</span>
               <span id="sfxVolumeDisplay" style="font-size: 11px; font-weight: 800; color: #fff;">75%</span>
             </div>
-            <input type="range" id="hudSfxVolumeSlider" min="0" max="1" step="0.02" value="0.75" style="width: 100%; accent-color: #00f0ff; cursor: pointer; margin-bottom: 12px;">
+            <input type="range" id="hudSfxVolumeSlider" min="0" max="1" step="0.02" value="0.75" style="width: 100%; accent-color: #00f0ff; cursor: pointer; margin-bottom: 10px;">
+
+            <!-- Multi-Track Music Style Selector -->
+            <div style="margin-bottom: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px;">
+              <span style="font-size: 10.5px; font-weight: 800; color: #ffd166; display: block; margin-bottom: 4px;">🎼 MUSIC TRACK STYLE</span>
+              <select id="hudMusicStyleSelect" style="width: 100%; background: #0c152e; border: 1px solid #a855f7; color: #e6f0ff; padding: 4px 6px; font-size: 10.5px; border-radius: 4px; outline: none; cursor: pointer;">
+                <option value="ambient">🌌 Cosmic Ambient (Default)</option>
+                <option value="starlight">✨ Celestial Starlight (Peaceful)</option>
+                <option value="synthwave">⚡ Cybernetic Synthwave (Retro)</option>
+                <option value="odyssey">🚀 Deep Space Odyssey (Cinematic)</option>
+              </select>
+            </div>
 
             <div style="display: flex; gap: 6px;">
               <button id="quickMuteBtn" class="btn-secondary" style="flex: 1; padding: 5px; font-size: 10px; border-color: #ff3366; color: #ff8fa3;">🔇 MUTE</button>
@@ -1252,8 +1289,8 @@
       </div>
     </div>
 
-    <!-- INCOMING RADIO COMMS TERMINAL -->
-    <div id="commsBox" class="hud-panel" style="position: absolute; top: 72px; left: 16px; width: 280px; font-size: 11px; z-index: 20; display: flex; gap: 8px; align-items: center; border-left: 3px solid var(--primary); background: rgba(3, 8, 24, 0.88); transition: opacity 0.3s ease;">
+    <!-- INCOMING RADIO COMMS TERMINAL (CLEARED BELOW TOP BAR) -->
+    <div id="commsBox" class="hud-panel" style="position: absolute; top: 92px; left: 16px; width: 280px; font-size: 11px; z-index: 18; display: flex; gap: 8px; align-items: center; border-left: 3px solid var(--primary); background: rgba(3, 8, 24, 0.88); transition: opacity 0.3s ease;">
       <div style="font-size: 18px;">📡</div>
       <div style="flex: 1;">
         <div style="font-size: 9px; font-weight: 800; color: var(--primary); letter-spacing: 1px;" id="commsSource">FLEET COMMS</div>
@@ -1399,8 +1436,8 @@
       </div>
     </div>
 
-    <!-- GAME FOOTER ATTRIBUTION -->
-    <div id="gameFooter">Developed by <a href="https://github.com/ggthedeveloper" target="_blank" rel="noopener noreferrer">Gaurav Gautam</a></div>
+    <!-- GAME FOOTER ATTRIBUTION (NON-CLICKABLE) -->
+    <div id="gameFooter">Developed by <span class="dev-highlight">Gaurav Gautam</span></div>
   </div>
 
   <!-- PILOT REGISTRATION & FIGHTER BRIEFING MODAL -->
@@ -1490,9 +1527,9 @@
         <button class="btn-primary" id="enlistLaunchBtn" onclick="confirmPilotAndLaunch()" style="padding: 10px 24px; font-size: 14px; font-weight: 800; background: linear-gradient(180deg, #00ff88, #00bb66); color: #081024; border: none; box-shadow: 0 0 16px rgba(0, 255, 136, 0.5);">ENLIST & LAUNCH STARFIGHTER 🚀</button>
       </div>
 
-      <!-- Developer Credit Footer -->
-      <div style="margin-top: 14px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 10px;">
-        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong> &middot; <a href="https://github.com/ggthedeveloper" target="_blank" rel="noopener noreferrer" style="color: #ffd166; text-decoration: none; font-weight: 700;">@ggthedeveloper</a>
+      <!-- Developer Credit Footer (Non-clickable) -->
+      <div style="margin-top: 14px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 10px; user-select: none; pointer-events: none;">
+        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong>
       </div>
     </div>
   </div>
@@ -1798,10 +1835,12 @@
         <input type="range" id="bgmVolumeSlider" min="0" max="1" step="0.05" value="0.45">
       </div>
       <div class="setting-row">
-        <span>Tactical Voice Announcer</span>
-        <select id="voiceToggleSelect">
-          <option value="on">Enabled</option>
-          <option value="off">Disabled</option>
+        <span>Space Music Style</span>
+        <select id="menuMusicStyleSelect">
+          <option value="ambient">🌌 Cosmic Ambient (Serene)</option>
+          <option value="starlight">✨ Celestial Starlight (Peaceful)</option>
+          <option value="synthwave">⚡ Cybernetic Synthwave (Retro)</option>
+          <option value="odyssey">🚀 Deep Space Odyssey (Cinematic)</option>
         </select>
       </div>
       <div class="setting-row">
@@ -1828,9 +1867,9 @@
         <button class="btn-secondary" onclick="wipeSaveData()" style="color: #ff3366; border-color: rgba(255, 51, 102, 0.5);">RESET DATA</button>
       </div>
 
-      <!-- Developer Credit Footer -->
-      <div style="margin-top: 16px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 10px;">
-        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong> &middot; <a href="https://github.com/ggthedeveloper" target="_blank" rel="noopener noreferrer" style="color: #ffd166; text-decoration: none; font-weight: 700;">@ggthedeveloper</a>
+      <!-- Developer Credit Footer (Non-clickable) -->
+      <div style="margin-top: 16px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 10px; user-select: none; pointer-events: none;">
+        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong>
       </div>
     </div>
   </div>
@@ -1855,9 +1894,9 @@
         <button id="retryBtn" class="btn-primary">REDEPLOY SQUADRON</button>
       </div>
 
-      <!-- Developer Credit Footer -->
-      <div style="margin-top: 14px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 8px;">
-        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong> &middot; <a href="https://github.com/ggthedeveloper" target="_blank" rel="noopener noreferrer" style="color: #ffd166; text-decoration: none; font-weight: 700;">@ggthedeveloper</a>
+      <!-- Developer Credit Footer (Non-clickable) -->
+      <div style="margin-top: 14px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 8px; user-select: none; pointer-events: none;">
+        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong>
       </div>
     </div>
   </div>
@@ -2215,14 +2254,18 @@ class SoundEngine {
     this.engineOsc = null;
     this.engineGain = null;
     this.engineFilter = null;
-    this.voiceEnabled = true;
+    this.voiceEnabled = false; // Speaking voice narration disabled per user request
     this.bgmPlaying = false;
     this.bgmStep = 0;
     this.bgmTimer = null;
     this.chimeTimer = null;
+    this.synthTimer = null;
     this.droneOsc = null;
     this.droneGain = null;
     this.droneFilter = null;
+
+    // Multi-track procedural calm space music styles: 'ambient', 'starlight', 'synthwave', 'odyssey'
+    this.musicStyle = localStorage.getItem('alien_assault_music_style') || 'ambient';
 
     // Persistent Volume Settings
     this.bgmVolume = parseFloat(localStorage.getItem('alien_assault_bgm_vol') !== null ? localStorage.getItem('alien_assault_bgm_vol') : '0.5');
@@ -2291,15 +2334,31 @@ class SoundEngine {
   }
 
   speak(text) {
-    if (!this.voiceEnabled || !('speechSynthesis' in window)) return;
-    try {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.rate = 1.15;
-      u.pitch = 0.88;
-      u.volume = 0.8;
-      window.speechSynthesis.speak(u);
-    } catch(e) {}
+    // Speaking voice narration has been completely removed per user request.
+    // Audio telemetry chimes and visual toasts provide clean tactical feedback.
+    return;
+  }
+
+  setMusicStyle(style) {
+    const valid = ['ambient', 'starlight', 'synthwave', 'odyssey'];
+    if (!valid.includes(style)) style = 'ambient';
+    this.musicStyle = style;
+    localStorage.setItem('alien_assault_music_style', style);
+    if (this.bgmPlaying) {
+      this.stopCalmSpaceMusic();
+      this.startCalmSpaceMusic();
+    }
+  }
+
+  stopCalmSpaceMusic() {
+    this.bgmPlaying = false;
+    if (this.bgmTimer) { clearInterval(this.bgmTimer); this.bgmTimer = null; }
+    if (this.chimeTimer) { clearInterval(this.chimeTimer); this.chimeTimer = null; }
+    if (this.synthTimer) { clearInterval(this.synthTimer); this.synthTimer = null; }
+    if (this.droneOsc) {
+      try { this.droneOsc.stop(); this.droneOsc.disconnect(); } catch(e) {}
+      this.droneOsc = null;
+    }
   }
 
   startEngineDrone() {
@@ -2688,8 +2747,22 @@ class SoundEngine {
   startCalmSpaceMusic() {
     if (this.bgmPlaying || !this.ctx) return;
     this.bgmPlaying = true;
+    this.bgmStep = 0;
 
-    // 1. Deep Celestial Sub-Drone (Continuous warm ambient vacuum resonance)
+    const style = this.musicStyle || 'ambient';
+    if (style === 'starlight') {
+      this.generateCelestialStarlight();
+    } else if (style === 'synthwave') {
+      this.generateCyberneticSynthwave();
+    } else if (style === 'odyssey') {
+      this.generateDeepSpaceOdyssey();
+    } else {
+      this.generateCosmicAmbient();
+    }
+  }
+
+  generateCosmicAmbient() {
+    // 1. Deep Celestial Sub-Drone
     try {
       const t = this.ctx.currentTime;
       this.droneOsc = this.ctx.createOscillator();
@@ -2708,24 +2781,16 @@ class SoundEngine {
       this.droneOsc.start(t);
     } catch(e) {}
 
-    // 2. Calm Ambient Space Chords (Lush cinematic interstellar pads)
-    // Dreamy floating progression in D Dorian / F Lydian
+    // 2. Calm Ambient Space Chords
     const chords = [
-      // Dm9 (Deep interstellar drift)
       [73.42, 110.00, 174.61, 261.63, 329.63],
-      // BbMaj7 (Luminous cosmic nebula)
       [58.27, 116.54, 146.83, 220.00, 277.18],
-      // FMaj9 (Infinite serenity)
       [65.41, 130.81, 174.61, 220.00, 329.63],
-      // C6/9 (Floating weightlessness)
       [65.41, 98.00, 164.81, 220.00, 293.66],
-      // Gm9 (Mysterious cosmic expanse)
       [49.00, 98.00, 146.83, 174.61, 220.00],
-      // Am7(add11) (Quiet stars at the edge of the galaxy)
       [55.00, 110.00, 164.81, 196.00, 293.66]
     ];
-
-    const CHORD_DURATION = 6.8; // 6.8 seconds per chord with smooth overlapping crossfades
+    const CHORD_DURATION = 6.8;
 
     const playAmbientChord = () => {
       if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
@@ -2735,7 +2800,6 @@ class SoundEngine {
         const now = this.ctx.currentTime;
 
         chordNotes.forEach((freq, idx) => {
-          // Warm dual oscillator with slight harmonic chorus detune
           const osc1 = this.ctx.createOscillator();
           const osc2 = this.ctx.createOscillator();
           const filter = this.ctx.createBiquadFilter();
@@ -2750,13 +2814,11 @@ class SoundEngine {
           osc2.detune.setValueAtTime(3.5, now);
 
           filter.type = 'lowpass';
-          // Gentle filter sweep creates floating breathing motion in space
           filter.frequency.setValueAtTime(340 + idx * 50, now);
           filter.frequency.linearRampToValueAtTime(620 + idx * 60, now + 3.2);
           filter.frequency.exponentialRampToValueAtTime(340 + idx * 50, now + CHORD_DURATION + 1.8);
           filter.Q.setValueAtTime(1.4, now);
 
-          // Smooth lush envelope: 2.2s attack, 2.8s sustain, 3.5s release
           const maxVol = (idx === 0) ? 0.075 : 0.045 / Math.sqrt(idx);
           noteGain.gain.setValueAtTime(0.0001, now);
           noteGain.gain.linearRampToValueAtTime(maxVol, now + 2.2);
@@ -2776,22 +2838,16 @@ class SoundEngine {
           osc2.stop(stopTime);
 
           setTimeout(() => {
-            try {
-              osc1.disconnect();
-              osc2.disconnect();
-              filter.disconnect();
-              noteGain.disconnect();
-            } catch(e) {}
+            try { osc1.disconnect(); osc2.disconnect(); filter.disconnect(); noteGain.disconnect(); } catch(e) {}
           }, (CHORD_DURATION + 2.5) * 1000);
         });
       } catch(e) {}
     };
 
-    // Play initial chord immediately
     playAmbientChord();
     this.bgmTimer = setInterval(playAmbientChord, CHORD_DURATION * 1000);
 
-    // 3. Starlight Twinkle Chimes (Occasional starry high notes)
+    // 3. Starlight Twinkle Chimes
     const sparkleNotes = [587.33, 659.25, 698.46, 783.99, 880.00, 1046.50, 1174.66, 1318.51];
     const triggerStarChime = () => {
       if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
@@ -2804,7 +2860,6 @@ class SoundEngine {
 
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, now);
-
         filter.type = 'bandpass';
         filter.frequency.setValueAtTime(freq, now);
         filter.Q.setValueAtTime(3.0, now);
@@ -2832,6 +2887,333 @@ class SoundEngine {
         if (Math.random() > 0.6) setTimeout(triggerStarChime, 340);
       }
     }, 3000);
+  }
+
+  generateCelestialStarlight() {
+    // 1. Shimmer Sub-Drone (High harmonic serene drone)
+    try {
+      const t = this.ctx.currentTime;
+      this.droneOsc = this.ctx.createOscillator();
+      this.droneFilter = this.ctx.createBiquadFilter();
+      this.droneGain = this.ctx.createGain();
+
+      this.droneOsc.type = 'sine';
+      this.droneOsc.frequency.setValueAtTime(110.0, t); // A2 gentle shimmer
+      this.droneFilter.type = 'lowpass';
+      this.droneFilter.frequency.setValueAtTime(260, t);
+      this.droneGain.gain.setValueAtTime(0.045, t);
+
+      this.droneOsc.connect(this.droneFilter);
+      this.droneFilter.connect(this.droneGain);
+      this.droneGain.connect(this.bgmGain);
+      this.droneOsc.start(t);
+    } catch(e) {}
+
+    // 2. Serene Celestial Chords
+    const chords = [
+      [82.41, 164.81, 246.94, 329.63, 493.88], // EMaj9
+      [69.30, 138.59, 207.65, 329.63, 415.30], // C#m9
+      [55.00, 110.00, 164.81, 220.00, 329.63], // AMaj7
+      [61.74, 123.47, 185.00, 246.94, 370.00], // Badd9
+      [51.91, 103.83, 155.56, 207.65, 311.13], // G#m7
+      [46.25, 92.50, 138.59, 220.00, 277.18]   // F#m9
+    ];
+    const CHORD_DURATION = 6.0;
+
+    const playStarlightChord = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chordNotes = chords[this.bgmStep % chords.length];
+        this.bgmStep++;
+        const now = this.ctx.currentTime;
+
+        chordNotes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const noteGain = this.ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(500 + idx * 80, now);
+          filter.frequency.linearRampToValueAtTime(800 + idx * 90, now + 2.8);
+          filter.frequency.exponentialRampToValueAtTime(450 + idx * 70, now + CHORD_DURATION + 1.5);
+          filter.Q.setValueAtTime(1.0, now);
+
+          const maxVol = (idx === 0) ? 0.055 : 0.035 / Math.sqrt(idx);
+          noteGain.gain.setValueAtTime(0.0001, now);
+          noteGain.gain.linearRampToValueAtTime(maxVol, now + 1.8);
+          noteGain.gain.setValueAtTime(maxVol, now + 4.0);
+          noteGain.gain.exponentialRampToValueAtTime(0.0001, now + CHORD_DURATION + 1.8);
+
+          osc.connect(filter);
+          filter.connect(noteGain);
+          noteGain.connect(this.bgmGain);
+
+          osc.start(now);
+          osc.stop(now + CHORD_DURATION + 2.0);
+
+          setTimeout(() => {
+            try { osc.disconnect(); filter.disconnect(); noteGain.disconnect(); } catch(e) {}
+          }, (CHORD_DURATION + 2.2) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playStarlightChord();
+    this.bgmTimer = setInterval(playStarlightChord, CHORD_DURATION * 1000);
+
+    // 3. Crystal Bell Arpeggios
+    const bellPitches = [659.25, 830.61, 987.77, 1174.66, 1318.51, 1661.22];
+    let bellIdx = 0;
+    const triggerCrystalBell = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        const now = this.ctx.currentTime;
+        const freq = bellPitches[bellIdx % bellPitches.length];
+        bellIdx = (bellIdx + (Math.random() > 0.4 ? 1 : 2)) % bellPitches.length;
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.026, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+
+        osc.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 1.5);
+
+        setTimeout(() => {
+          try { osc.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 1600);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(triggerCrystalBell, 1400);
+  }
+
+  generateCyberneticSynthwave() {
+    // 1. Rhythmic 80s Space Synth Pulse
+    const bassChords = [
+      { root: 110.00, notes: [110.00, 164.81, 220.00, 261.63] }, // Am
+      { root: 87.31, notes: [87.31, 130.81, 174.61, 220.00] },   // F
+      { root: 98.00, notes: [98.00, 146.83, 196.00, 246.94] },   // G
+      { root: 82.41, notes: [82.41, 123.47, 164.81, 196.00] }    // Em
+    ];
+    let bassChordIndex = 0;
+    let stepCount = 0;
+    const STEP_MS = 145;
+
+    // Warm Analog Synth Pad
+    const playWarmSynthPad = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = bassChords[bassChordIndex % bassChords.length];
+        const now = this.ctx.currentTime;
+        const padDur = 4.6;
+
+        chord.notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq * 2, now);
+          osc.detune.setValueAtTime((idx % 2 === 0 ? -4 : 4), now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(450, now);
+          filter.frequency.linearRampToValueAtTime(750, now + 2.2);
+          filter.frequency.exponentialRampToValueAtTime(450, now + padDur);
+          filter.Q.setValueAtTime(1.8, now);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.028, now + 1.2);
+          gain.gain.setValueAtTime(0.028, now + 3.0);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + padDur);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.bgmGain);
+
+          osc.start(now);
+          osc.stop(now + padDur + 0.1);
+
+          setTimeout(() => {
+            try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+          }, (padDur + 0.2) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playWarmSynthPad();
+    this.bgmTimer = setInterval(playWarmSynthPad, 4600);
+
+    // Pulse Bass Step
+    const playBassStep = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = bassChords[bassChordIndex % bassChords.length];
+        stepCount++;
+        if (stepCount % 16 === 0) bassChordIndex = (bassChordIndex + 1) % bassChords.length;
+
+        const pattern = [1, 1.5, 2, 1.5];
+        const mult = pattern[stepCount % 4];
+        const freq = chord.root * mult;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(550, now);
+        filter.frequency.exponentialRampToValueAtTime(90, now + 0.12);
+        filter.Q.setValueAtTime(2.2, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.042, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 0.14);
+
+        setTimeout(() => {
+          try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 200);
+      } catch(e) {}
+    };
+
+    this.synthTimer = setInterval(playBassStep, STEP_MS);
+  }
+
+  generateDeepSpaceOdyssey() {
+    // 1. Ultra-Deep Planetary Sub Drone
+    try {
+      const t = this.ctx.currentTime;
+      this.droneOsc = this.ctx.createOscillator();
+      this.droneFilter = this.ctx.createBiquadFilter();
+      this.droneGain = this.ctx.createGain();
+
+      this.droneOsc.type = 'sine';
+      this.droneOsc.frequency.setValueAtTime(43.65, t); // F0 ultra-deep drone
+      this.droneFilter.type = 'lowpass';
+      this.droneFilter.frequency.setValueAtTime(85, t);
+      this.droneGain.gain.setValueAtTime(0.075, t);
+
+      this.droneOsc.connect(this.droneFilter);
+      this.droneFilter.connect(this.droneGain);
+      this.droneGain.connect(this.bgmGain);
+      this.droneOsc.start(t);
+    } catch(e) {}
+
+    // 2. Cinematic Deep Space Minor 9th Pads
+    const chords = [
+      [65.41, 130.81, 196.00, 233.08, 293.66, 392.00], // Cm9
+      [51.91, 103.83, 155.56, 207.65, 261.63, 392.00], // AbMaj9
+      [77.78, 155.56, 233.08, 293.66, 349.23, 440.00], // EbMaj9
+      [58.27, 116.54, 174.61, 233.08, 349.23, 466.16], // Bbsus2
+      [49.00, 98.00, 146.83, 196.00, 246.94, 311.13]   // Gm7
+    ];
+    const CHORD_DURATION = 8.2;
+
+    const playOdysseyChord = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chordNotes = chords[this.bgmStep % chords.length];
+        this.bgmStep++;
+        const now = this.ctx.currentTime;
+
+        chordNotes.forEach((freq, idx) => {
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const noteGain = this.ctx.createGain();
+
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(freq, now);
+          osc1.detune.setValueAtTime(-2.5, now);
+
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(freq, now);
+          osc2.detune.setValueAtTime(2.5, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(220 + idx * 40, now);
+          filter.frequency.linearRampToValueAtTime(540 + idx * 60, now + 4.0);
+          filter.frequency.exponentialRampToValueAtTime(200 + idx * 40, now + CHORD_DURATION + 1.8);
+          filter.Q.setValueAtTime(2.0, now);
+
+          const maxVol = (idx === 0) ? 0.07 : 0.038 / Math.sqrt(idx);
+          noteGain.gain.setValueAtTime(0.0001, now);
+          noteGain.gain.linearRampToValueAtTime(maxVol, now + 3.0);
+          noteGain.gain.setValueAtTime(maxVol, now + 5.5);
+          noteGain.gain.exponentialRampToValueAtTime(0.0001, now + CHORD_DURATION + 2.0);
+
+          osc1.connect(filter);
+          osc2.connect(filter);
+          filter.connect(noteGain);
+          noteGain.connect(this.bgmGain);
+
+          osc1.start(now);
+          osc2.start(now);
+
+          const stopTime = now + CHORD_DURATION + 2.2;
+          osc1.stop(stopTime);
+          osc2.stop(stopTime);
+
+          setTimeout(() => {
+            try { osc1.disconnect(); osc2.disconnect(); filter.disconnect(); noteGain.disconnect(); } catch(e) {}
+          }, (CHORD_DURATION + 2.5) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playOdysseyChord();
+    this.bgmTimer = setInterval(playOdysseyChord, CHORD_DURATION * 1000);
+
+    // 3. Deep Space Radar Ping
+    const triggerRadarPing = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1760, now); // A6 sonar ping
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.02, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.8);
+
+        osc.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 2.9);
+
+        setTimeout(() => {
+          try { osc.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 3000);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(triggerRadarPing, 4200);
   }
 
   // Alias for backward compatibility
@@ -3411,6 +3793,73 @@ const droneBeta = buildWingmanDroneMesh(0xff00ff);
 scene.add(droneAlpha);
 scene.add(droneBeta);
 
+// ==========================================
+// SHIP-SPECIFIC WEAPON CONFIGURATIONS
+// ==========================================
+const SHIP_WEAPON_CONFIG = {
+  valkyrie: {
+    name: "Valkyrie Interceptor",
+    cardTheme: "#00f0ff",
+    wep1: { name: "Dual Plasma", sub: "Rapid Kinetic Twin", key: "[1] PRIMARY", color: 0x00f0ff, speed: 66, dmgMult: 1.0 },
+    wep2: { name: "Cutting Laser", sub: "Sustained Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00f0ff, glowColor: 0x0088ff },
+    wep3: { name: "Micro-Flak", sub: "Shrapnel Scatter", key: "[3] SCATTER", color: 0xffaa00, pelletCount: 7 },
+    wep4: { name: "Photon Torpedo", sub: "Antimatter Blast", key: "[4] TORPEDO", color: 0x00ffff, glowColor: 0x0088ff },
+    wep5: { name: "Ion Pulse Arc", sub: "Disrupter Shock", key: "[5] TESLA", color: 0x00f0ff }
+  },
+  titan: {
+    name: "Titan Behemoth",
+    cardTheme: "#ff5500",
+    wep1: { name: "Siege Cannons", sub: "Heavy Explosive Slugs", key: "[1] PRIMARY", color: 0xff5500, speed: 52, dmgMult: 1.45, isHeavySlug: true },
+    wep2: { name: "Inferno Lance", sub: "Thermal Molten Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xff3300, glowColor: 0xff6600 },
+    wep3: { name: "Cluster Artillery", sub: "11-Shot Heavy Scatter", key: "[3] SCATTER", color: 0xff4400, pelletCount: 11 },
+    wep4: { name: "Bunkerbuster", sub: "Colossal Concussion", key: "[4] TORPEDO", color: 0xff2200, glowColor: 0xff7700 },
+    wep5: { name: "Magnetic Shock", sub: "Concussive Wave", key: "[5] TESLA", color: 0xffaa00 }
+  },
+  phantom: {
+    name: "Phantom Ghost",
+    cardTheme: "#a855f7",
+    wep1: { name: "Void Needles", sub: "Armor-Piercing Lasers", key: "[1] PRIMARY", color: 0xbf00ff, speed: 82, dmgMult: 0.95, isNeedle: true },
+    wep2: { name: "Phase Cutter", sub: "Ultraviolet Slicer", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x9333ea, glowColor: 0xc084fc },
+    wep3: { name: "Razor Shards", sub: "Obsidian Fan Spread", key: "[3] SCATTER", color: 0xd946ef, pelletCount: 8 },
+    wep4: { name: "Dark Singularity", sub: "Vortex Implosion", key: "[4] TORPEDO", color: 0x7c3aed, glowColor: 0xa855f7 },
+    wep5: { name: "Tesla Lightning", sub: "High-Voltage Arc", key: "[5] TESLA", color: 0xa855f7 }
+  },
+  phoenix: {
+    name: "Solar Phoenix",
+    cardTheme: "#ffd166",
+    wep1: { name: "Solar Flare", sub: "Sunburst Magma Orbs", key: "[1] PRIMARY", color: 0xffaa00, speed: 62, dmgMult: 1.18, isMagma: true },
+    wep2: { name: "Prominence Ray", sub: "Radiant Amber Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xffaa00, glowColor: 0xffe066 },
+    wep3: { name: "Solar Scatter", sub: "Radiance Burst", key: "[3] SCATTER", color: 0xffdd00, pelletCount: 9 },
+    wep4: { name: "Supernova Orb", sub: "Miniature Star Blast", key: "[4] TORPEDO", color: 0xff8800, glowColor: 0xffea00 },
+    wep5: { name: "Corona Storm", sub: "Solar Plasma Arcs", key: "[5] TESLA", color: 0xffcc00 }
+  },
+  reaper: {
+    name: "Void Reaper",
+    cardTheme: "#00ff88",
+    wep1: { name: "Bio-Disrupter", sub: "Antimatter Vortex", key: "[1] PRIMARY", color: 0x00ff88, speed: 72, dmgMult: 1.25, isVortex: true },
+    wep2: { name: "Void Siphon", sub: "Dark Energy Siphon", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00ff88, glowColor: 0x05ffa1 },
+    wep3: { name: "Nether Shards", sub: "Toxic Splinter Fan", key: "[3] SCATTER", color: 0x10b981, pelletCount: 8 },
+    wep4: { name: "Gravity Torpedo", sub: "Spatial Collapse", key: "[4] TORPEDO", color: 0x00ffcc, glowColor: 0x00ff88 },
+    wep5: { name: "Spectral Shock", sub: "Emerald Void Chain", key: "[5] TESLA", color: 0x00ff88 }
+  }
+};
+
+function updateWeaponDockForShip(shipType) {
+  const cfg = SHIP_WEAPON_CONFIG[shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  for (let i = 1; i <= 5; i++) {
+    const card = document.getElementById(`wep${i}Card`);
+    const wepData = cfg[`wep${i}`];
+    if (card && wepData) {
+      const keySpan = card.querySelector('.weapon-key');
+      const nameDiv = card.querySelector('.weapon-name');
+      const subDiv = card.querySelector('.weapon-sub');
+      if (keySpan) keySpan.textContent = wepData.key;
+      if (nameDiv) nameDiv.textContent = wepData.name;
+      if (subDiv) subDiv.textContent = wepData.sub;
+    }
+  }
+}
+
 let currentShipModel = null;
 function setStarship(shipType) {
   state.shipType = shipType;
@@ -3454,6 +3903,9 @@ function setStarship(shipType) {
   document.getElementById('shipCardPhantom')?.classList.toggle('active', shipType === 'phantom');
   document.getElementById('shipCardPhoenix')?.classList.toggle('active', shipType === 'phoenix');
   document.getElementById('shipCardReaper')?.classList.toggle('active', shipType === 'reaper');
+
+  // Update Weapon Arsenal Dock cards to match this starfighter's unique loadout
+  updateWeaponDockForShip(shipType);
   updateHUD();
 }
 
@@ -4253,9 +4705,34 @@ if (calmPresetBtn) {
   });
 }
 
-document.getElementById('voiceToggleSelect').addEventListener('change', e => {
-  audio.voiceEnabled = (e.target.value === 'on');
-});
+// Multi-Track Music Style Selectors
+const hudMusicStyleSelect = document.getElementById('hudMusicStyleSelect');
+const menuMusicStyleSelect = document.getElementById('menuMusicStyleSelect');
+
+function syncMusicStyleUI(style) {
+  if (hudMusicStyleSelect) hudMusicStyleSelect.value = style;
+  if (menuMusicStyleSelect) menuMusicStyleSelect.value = style;
+}
+
+if (hudMusicStyleSelect) {
+  hudMusicStyleSelect.value = audio.musicStyle;
+  hudMusicStyleSelect.addEventListener('change', (e) => {
+    audio.init();
+    audio.resume();
+    audio.setMusicStyle(e.target.value);
+    syncMusicStyleUI(e.target.value);
+  });
+}
+
+if (menuMusicStyleSelect) {
+  menuMusicStyleSelect.value = audio.musicStyle;
+  menuMusicStyleSelect.addEventListener('change', (e) => {
+    audio.init();
+    audio.resume();
+    audio.setMusicStyle(e.target.value);
+    syncMusicStyleUI(e.target.value);
+  });
+}
 document.getElementById('shakeToggleSelect').addEventListener('change', e => {
   state.screenShake = parseFloat(e.target.value);
 });
@@ -4805,9 +5282,25 @@ function fireActiveWeapon() {
 }
 
 function firePlasmaCannons() {
-  const boltGeo = new THREE.CylinderGeometry(0.1, 0.1, 1.4, 6);
-  boltGeo.rotateX(Math.PI / 2);
-  const boltMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+  const cfg = SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  const wep1 = cfg.wep1;
+
+  let boltGeo;
+  if (wep1.isHeavySlug) {
+    boltGeo = new THREE.SphereGeometry(0.25, 8, 8);
+  } else if (wep1.isNeedle) {
+    boltGeo = new THREE.CylinderGeometry(0.04, 0.05, 2.2, 6);
+    boltGeo.rotateX(Math.PI / 2);
+  } else if (wep1.isMagma) {
+    boltGeo = new THREE.SphereGeometry(0.22, 8, 8);
+  } else if (wep1.isVortex) {
+    boltGeo = new THREE.OctahedronGeometry(0.22);
+  } else {
+    boltGeo = new THREE.CylinderGeometry(0.1, 0.1, 1.4, 6);
+    boltGeo.rotateX(Math.PI / 2);
+  }
+
+  const boltMat = new THREE.MeshBasicMaterial({ color: wep1.color });
 
   const spawnBolt = (originPos) => {
     const mesh = new THREE.Mesh(boltGeo, boltMat);
@@ -4815,9 +5308,9 @@ function firePlasmaCannons() {
     const dir = aimTargetPoint.clone().sub(originPos).normalize();
     mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
     scene.add(mesh);
-    const speed = 64;
-    const dmg = 1.35 * state.damageMult * (1 + (state.plasmaTier - 1) * 0.22);
-    playerBullets.push({ mesh, vx: dir.x * speed, vy: dir.y * speed, vz: dir.z * speed, dmg });
+    const speed = wep1.speed || 64;
+    const dmg = 1.35 * state.damageMult * (1 + (state.plasmaTier - 1) * 0.22) * (wep1.dmgMult || 1.0);
+    playerBullets.push({ mesh, vx: dir.x * speed, vy: dir.y * speed, vz: dir.z * speed, dmg, impactColor: wep1.color });
   };
 
   const cannonLPos = new THREE.Vector3();
@@ -4827,7 +5320,13 @@ function firePlasmaCannons() {
 
   spawnBolt(cannonLPos);
   spawnBolt(cannonRPos);
-  audio.playLaser();
+
+  if (wep1.isHeavySlug) {
+    audio.playFlak();
+    triggerShake(1.5);
+  } else {
+    audio.playLaser();
+  }
 }
 
 function fireFusionRailgun() {
@@ -4835,11 +5334,14 @@ function fireFusionRailgun() {
   pPos.z -= 1.0;
   const dir = aimTargetPoint.clone().sub(pPos).normalize();
 
+  const cfg = SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  const beamColor = cfg.wep2.midColor || 0xff00ff;
+
   const length = 120;
   const beamRadius = 0.18 + (state.railgunTier - 1) * 0.06;
   const beamGeo = new THREE.CylinderGeometry(beamRadius, beamRadius, length, 6);
   beamGeo.rotateX(Math.PI / 2);
-  const beamMat = new THREE.MeshBasicMaterial({ color: 0xff00ff, transparent: true, opacity: 0.95 });
+  const beamMat = new THREE.MeshBasicMaterial({ color: beamColor, transparent: true, opacity: 0.95 });
   const beamMesh = new THREE.Mesh(beamGeo, beamMat);
 
   beamMesh.position.copy(pPos).addScaledVector(dir, length / 2);
@@ -4859,7 +5361,7 @@ function fireFusionRailgun() {
     ray.closestPointToPoint(e.mesh.position, closest);
     if (closest.distanceTo(e.mesh.position) < hitDist && closest.z < pPos.z) {
       damageEnemy(e, railDmg);
-      spawnExplosionFX(e.mesh.position, 0xff00ff, 8, 0.6);
+      spawnExplosionFX(e.mesh.position, beamColor, 8, 0.6);
     }
   }
 }
@@ -4871,10 +5373,13 @@ function fireFlakCannon() {
   const up = new THREE.Vector3(0, 1, 0);
   const right = new THREE.Vector3().crossVectors(baseDir, up).normalize();
 
-  const flakGeo = new THREE.SphereGeometry(0.18, 6, 6);
-  const flakMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+  const cfg = SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  const flakCfg = cfg.wep3;
 
-  const pelletCount = 7 + (state.flakTier - 1) * 2;
+  const flakGeo = new THREE.SphereGeometry(0.18, 6, 6);
+  const flakMat = new THREE.MeshBasicMaterial({ color: flakCfg.color });
+
+  const pelletCount = (flakCfg.pelletCount || 7) + (state.flakTier - 1) * 2;
   const half = Math.floor(pelletCount / 2);
   for (let i = -half; i <= half; i++) {
     const mesh = new THREE.Mesh(flakGeo, flakMat);
@@ -4882,7 +5387,7 @@ function fireFlakCannon() {
     const dir = baseDir.clone().addScaledVector(right, i * 0.07).normalize();
     scene.add(mesh);
     const speed = 52 + (Math.random() - 0.5) * 6;
-    playerBullets.push({ mesh, vx: dir.x * speed, vy: dir.y * speed, vz: dir.z * speed, dmg: 1.15 * state.damageMult });
+    playerBullets.push({ mesh, vx: dir.x * speed, vy: dir.y * speed, vz: dir.z * speed, dmg: 1.15 * state.damageMult, impactColor: flakCfg.color });
   }
   audio.playFlak();
 }
@@ -4892,12 +5397,15 @@ function firePhotonTorpedo() {
   pPos.z -= 0.8;
   const dir = aimTargetPoint.clone().sub(pPos).normalize();
 
+  const cfg = SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  const torpCfg = cfg.wep4;
+
   const torpGeo = new THREE.SphereGeometry(0.32, 12, 10);
-  const torpMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+  const torpMat = new THREE.MeshBasicMaterial({ color: torpCfg.color });
   const mesh = new THREE.Mesh(torpGeo, torpMat);
 
   const glowGeo = new THREE.SphereGeometry(0.55, 10, 8);
-  const glowMat = new THREE.MeshBasicMaterial({ color: 0x0088ff, transparent: true, opacity: 0.65, blending: THREE.AdditiveBlending });
+  const glowMat = new THREE.MeshBasicMaterial({ color: torpCfg.glowColor, transparent: true, opacity: 0.65, blending: THREE.AdditiveBlending });
   mesh.add(new THREE.Mesh(glowGeo, glowMat));
 
   mesh.position.copy(pPos);
@@ -4917,19 +5425,20 @@ function firePhotonTorpedo() {
     vz: dir.z * speed,
     dmg: baseDmg,
     isTorpedo: true,
-    blastRadius
+    blastRadius,
+    torpColor: torpCfg.color
   });
 }
 
-function detonateTorpedo(pos, blastRadius, dmg) {
-  spawnExplosionFX(pos, 0x00f0ff, 28, 2.2);
+function detonateTorpedo(pos, blastRadius, dmg, torpColor = 0x00ffff) {
+  spawnExplosionFX(pos, torpColor, 28, 2.2);
   spawnExplosionFX(pos, 0xffaa00, 18, 1.8);
   audio.playExplosion(1.5);
   triggerShake(8);
 
   const shockGeo = new THREE.RingGeometry(0.4, blastRadius, 24);
   shockGeo.rotateX(-Math.PI / 2);
-  const shockMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, side: THREE.DoubleSide, transparent: true, opacity: 0.9 });
+  const shockMat = new THREE.MeshBasicMaterial({ color: torpColor, side: THREE.DoubleSide, transparent: true, opacity: 0.9 });
   const shockMesh = new THREE.Mesh(shockGeo, shockMat);
   shockMesh.position.copy(pos);
   scene.add(shockMesh);
@@ -4941,7 +5450,7 @@ function detonateTorpedo(pos, blastRadius, dmg) {
     if (dist < blastRadius) {
       const falloff = 1 - (dist / blastRadius) * 0.4;
       damageEnemy(e, dmg * falloff);
-      spawnExplosionFX(e.mesh.position, 0x00ffff, 6, 0.5);
+      spawnExplosionFX(e.mesh.position, torpColor, 6, 0.5);
     }
   }
 
@@ -4956,6 +5465,9 @@ function detonateTorpedo(pos, blastRadius, dmg) {
 function fireTeslaLightning() {
   const pPos = player.position.clone();
   pPos.z -= 0.6;
+
+  const cfg = SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  const arcColor = cfg.wep5.color || 0xa855f7;
 
   let primaryTarget = null;
   let minD = 42;
@@ -4975,7 +5487,7 @@ function fireTeslaLightning() {
   if (primaryTarget) {
     hitTargets.push(primaryTarget);
     damageEnemy(primaryTarget, arcDmg);
-    spawnExplosionFX(primaryTarget.mesh.position, 0xa855f7, 5, 0.4);
+    spawnExplosionFX(primaryTarget.mesh.position, arcColor, 5, 0.4);
 
     let currentTarget = primaryTarget;
     while (hitTargets.length < maxChains) {
@@ -4992,7 +5504,7 @@ function fireTeslaLightning() {
       if (nextTarget) {
         hitTargets.push(nextTarget);
         damageEnemy(nextTarget, arcDmg * 0.85);
-        spawnExplosionFX(nextTarget.mesh.position, 0x00f0ff, 4, 0.35);
+        spawnExplosionFX(nextTarget.mesh.position, arcColor, 4, 0.35);
         currentTarget = nextTarget;
       } else {
         break;
@@ -5001,14 +5513,14 @@ function fireTeslaLightning() {
 
     let prevPos = pPos;
     for (const tgt of hitTargets) {
-      createLightningArc(prevPos, tgt.mesh.position, 0xa855f7);
+      createLightningArc(prevPos, tgt.mesh.position, arcColor);
       prevPos = tgt.mesh.position;
     }
     audio.playTeslaZap();
     triggerShake(3);
   } else {
     const arcEnd = aimTargetPoint.clone();
-    createLightningArc(pPos, arcEnd, 0x00f0ff);
+    createLightningArc(pPos, arcEnd, arcColor);
     audio.playTeslaZap();
   }
 }
@@ -6360,12 +6872,13 @@ function update(dt) {
 
     // Dynamic thickness & corona intensity scaling based on Power Tier & Hyper-Overcharge
     continuousBeam.userData.coreMesh.scale.set(tierScale, tierScale, beamLength);
-    continuousBeam.userData.midMesh.scale.set(tierScale, tierScale, beamLength);
-    continuousBeam.userData.glowMesh.scale.set(tierScale, tierScale, beamLength);
+    const shipBeamCfg = (SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie).wep2;
+    const isOvercharge = state.overchargeActive;
+    const beamMidColor = isOvercharge ? 0x00f0ff : shipBeamCfg.midColor;
+    const beamGlowColor = isOvercharge ? 0x0088ff : shipBeamCfg.glowColor;
 
-    const isCyan = state.overchargeActive;
-    continuousBeam.userData.midMat.color.setHex(isCyan ? 0x00f0ff : 0xff00cc);
-    continuousBeam.userData.glowMat.color.setHex(isCyan ? 0x0088ff : 0xa855f7);
+    continuousBeam.userData.midMat.color.setHex(beamMidColor);
+    continuousBeam.userData.glowMat.color.setHex(beamGlowColor);
 
     const pulse = (state.overchargeActive ? 0.85 : 0.6) + Math.sin(clock.elapsedTime * (state.overchargeActive ? 40.0 : 28.0)) * 0.15;
     continuousBeam.userData.glowMat.opacity = pulse;
@@ -6375,9 +6888,7 @@ function update(dt) {
       continuousBeam.userData.impactMesh.visible = true;
       continuousBeam.userData.impactRingMesh.visible = true;
 
-      // Position in local coordinates of continuousBeam:
-      // Since continuousBeam is at pPos looking at endPoint (+Z forward toward aliens),
-      // the impact point is at local (0, 0, beamLength)
+      // Position in local coordinates of continuousBeam
       continuousBeam.userData.impactMesh.position.set(0, 0, beamLength);
       continuousBeam.userData.impactRingMesh.position.set(0, 0, beamLength);
 
@@ -6386,12 +6897,12 @@ function update(dt) {
       continuousBeam.userData.impactRingMesh.scale.setScalar(impactScale * 1.35);
       continuousBeam.userData.impactRingMesh.rotation.z += dt * 12;
 
-      continuousBeam.userData.impactMat.color.setHex(isCyan ? 0x00ffff : 0xffffff);
-      continuousBeam.userData.impactRingMat.color.setHex(isCyan ? 0x00aaff : 0xff00ff);
+      continuousBeam.userData.impactMat.color.setHex(isOvercharge ? 0x00ffff : 0xffffff);
+      continuousBeam.userData.impactRingMat.color.setHex(beamMidColor);
 
       // Continuous sizzling sparks exploding from the alien
       if (Math.random() < 0.8) {
-        spawnExplosionFX(closestHitPos, isCyan ? 0x00f0ff : 0xff00cc, isCyan ? 5 : 3, isCyan ? 0.8 : 0.45);
+        spawnExplosionFX(closestHitPos, beamMidColor, isOvercharge ? 5 : 3, isOvercharge ? 0.8 : 0.45);
       }
       if (Math.random() < (state.overchargeActive ? 0.4 : 0.18)) {
         triggerShake(state.overchargeActive ? 4 : 2);
@@ -6430,7 +6941,7 @@ function update(dt) {
   playerBullets = playerBullets.filter(b => {
     if (b.mesh.position.z < -90 || Math.abs(b.mesh.position.x) > 35 || Math.abs(b.mesh.position.y) > 30) {
       if (b.isTorpedo) {
-        detonateTorpedo(b.mesh.position, b.blastRadius * 0.75, b.dmg * 0.6);
+        detonateTorpedo(b.mesh.position, b.blastRadius * 0.75, b.dmg * 0.6, b.torpColor || 0x00ffff);
       }
       scene.remove(b.mesh);
       return false;
@@ -6441,7 +6952,7 @@ function update(dt) {
       const a = asteroids[ai];
       if (b.mesh.position.distanceTo(a.mesh.position) < a.radius + (b.isTorpedo ? 1.0 : 0.6)) {
         if (b.isTorpedo) {
-          detonateTorpedo(b.mesh.position, b.blastRadius, b.dmg);
+          detonateTorpedo(b.mesh.position, b.blastRadius, b.dmg, b.torpColor || 0x00ffff);
         } else {
           damageAsteroid(a, b.dmg, b.mesh.position);
         }
@@ -6703,10 +7214,10 @@ function update(dt) {
       const hitDist = e.isBoss ? 4.0 : (e.isSaucer ? 1.8 : 1.2);
       if (b.mesh.position.distanceTo(e.mesh.position) < hitDist) {
         if (b.isTorpedo) {
-          detonateTorpedo(b.mesh.position, b.blastRadius, b.dmg);
+          detonateTorpedo(b.mesh.position, b.blastRadius, b.dmg, b.torpColor || 0x00ffff);
         } else {
           damageEnemy(e, b.dmg);
-          spawnExplosionFX(b.mesh.position, 0x00f0ff, 5, 0.4);
+          spawnExplosionFX(b.mesh.position, b.impactColor || 0x00f0ff, 5, 0.4);
         }
         b.mesh.position.z = -9999;
         scene.remove(b.mesh);
