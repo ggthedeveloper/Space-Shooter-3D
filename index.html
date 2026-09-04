@@ -77,19 +77,24 @@
     border: 1px solid var(--panel-border);
     border-radius: 8px;
     padding: 10px 16px;
+    box-sizing: border-box;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.65), inset 0 0 14px rgba(0, 229, 255, 0.08);
     pointer-events: auto;
   }
 
   /* TOP HUD BAR */
   #topBar {
-    top: 12px;
-    left: 14px;
-    right: 14px;
+    top: 8px;
+    left: 10px;
+    right: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    max-width: calc(100vw - 20px);
+    overflow: hidden;
     pointer-events: none;
     z-index: 25;
   }
@@ -97,26 +102,27 @@
   .hud-group {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
     pointer-events: auto;
     flex-shrink: 0;
+    box-sizing: border-box;
   }
 
   .bar-container {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    min-width: 105px;
-    width: 110px;
+    gap: 2px;
+    min-width: 85px;
+    width: 95px;
     flex-shrink: 0;
   }
 
   .bar-label {
     display: flex;
     justify-content: space-between;
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 800;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     color: #a5b9e0;
     text-transform: uppercase;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
@@ -174,25 +180,35 @@
     text-align: center;
     pointer-events: none;
     flex-shrink: 1;
-    max-width: 360px;
-    margin: 0 8px;
+    min-width: 0;
+    max-width: 320px;
+    margin: 0 4px;
+    overflow: hidden;
   }
 
   #sectorBadge {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: var(--accent);
     text-transform: uppercase;
     text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   #objectiveText {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     color: #fff;
     text-shadow: 0 0 10px var(--primary-glow);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   /* Boss Health Bar */
@@ -238,25 +254,27 @@
   /* Score, Credits & Combo */
   .score-box {
     text-align: right;
-    min-width: 120px;
+    min-width: 85px;
+    flex-shrink: 0;
   }
 
   #scoreVal {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: #fff;
-    text-shadow: 0 0 12px var(--primary-glow);
+    line-height: 1.1;
+    text-shadow: 0 0 10px var(--primary-glow);
   }
 
   #creditsRow {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
     color: var(--credits);
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 4px;
+    gap: 3px;
     text-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
   }
 
@@ -264,15 +282,15 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 6px;
-    font-size: 11px;
+    gap: 4px;
+    font-size: 10px;
     font-weight: 800;
     color: var(--accent);
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   #comboBarBg {
-    width: 45px;
+    width: 38px;
     height: 4px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 2px;
@@ -290,21 +308,50 @@
     background: rgba(0, 229, 255, 0.1);
     border: 1px solid var(--panel-border);
     color: #e6f0ff;
-    padding: 7px 12px;
-    border-radius: 6px;
-    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 11.5px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    gap: 4px;
+    height: 28px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .icon-btn:hover {
     background: rgba(0, 229, 255, 0.25);
     border-color: var(--primary);
-    box-shadow: 0 0 14px var(--primary-glow);
+    box-shadow: 0 0 12px var(--primary-glow);
+  }
+
+  .compact-hud-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .hud-window-controls {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .ctrl-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
   }
 
   #storeBtn {
@@ -599,34 +646,32 @@
 
   #controlsHint strong { color: var(--primary); }
 
-  /* Developed by Gaurav Gautam Footer (Non-clickable) */
+  /* Developed by GG Footer (Non-clickable) */
   #gameFooter {
     position: absolute;
     bottom: 6px;
-    right: 14px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    color: #8da4cf;
-    z-index: 22;
+    right: 10px;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    color: rgba(141, 164, 207, 0.55);
+    z-index: 12;
     pointer-events: none;
     user-select: none;
-    text-shadow: 0 0 8px rgba(0,0,0,0.9);
-    background: rgba(3, 8, 20, 0.65);
-    padding: 3px 10px;
-    border-radius: 4px;
-    border: 1px solid rgba(0, 229, 255, 0.2);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+    background: transparent;
+    padding: 2px 4px;
+    border: none;
   }
   #gameFooter .dev-highlight {
-    color: #00f0ff;
-    font-weight: 800;
+    color: rgba(0, 240, 255, 0.75);
+    font-weight: 700;
   }
   @media (max-width: 768px) {
     #gameFooter {
-      bottom: 2px;
+      bottom: 4px;
       right: 6px;
-      font-size: 9px;
-      padding: 2px 6px;
+      font-size: 8.5px;
     }
   }
 
@@ -959,10 +1004,68 @@
   }
 
   .ship-icon { font-size: 28px; text-align: center; }
-  .ship-title { font-size: 14px; font-weight: 800; color: #fff; }
-  .ship-role { font-size: 10px; font-weight: 800; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
-  .ship-stat-row { font-size: 11px; color: #8da4cf; display: flex; justify-content: space-between; }
+  .ship-title { font-size: 13px; font-weight: 800; color: #fff; }
+  .ship-role { font-size: 9.5px; font-weight: 800; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
+  .ship-stat-row { font-size: 10.5px; color: #8da4cf; display: flex; justify-content: space-between; align-items: center; }
   .ship-stat-val { color: #fff; font-weight: 700; }
+
+  .ship-stat-bar-bg {
+    width: 50px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-left: 6px;
+  }
+  .ship-stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+
+  .ship-action-btn {
+    margin-top: 6px;
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+  .ship-action-btn.equipped {
+    background: rgba(0, 255, 136, 0.15);
+    border-color: #00ff88;
+    color: #00ff88;
+    cursor: default;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  }
+  .ship-action-btn.equip {
+    background: rgba(0, 229, 255, 0.2);
+    border-color: var(--primary);
+    color: #fff;
+  }
+  .ship-action-btn.equip:hover {
+    background: rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 14px var(--primary-glow);
+  }
+  .ship-action-btn.buy {
+    background: linear-gradient(180deg, #ffd166, #ffaa00);
+    border-color: #ffd166;
+    color: #081024;
+  }
+  .ship-action-btn.buy:hover:not(:disabled) {
+    filter: brightness(1.15);
+    box-shadow: 0 0 14px rgba(255, 209, 102, 0.6);
+  }
+  .ship-action-btn.locked {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #7b8ea8;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 
   .stats-grid {
     display: grid;
@@ -1145,19 +1248,28 @@
     to { transform: translate(-50%, -50%) scale(1.15); }
   }
 
+  @keyframes pulseWarning {
+    from { transform: translateX(-50%) scale(1.0); box-shadow: 0 0 15px rgba(255, 0, 80, 0.6); }
+    to { transform: translateX(-50%) scale(1.04); box-shadow: 0 0 30px rgba(255, 0, 80, 1.0); }
+  }
+
   /* Responsive Styling for Mobile & Tablets */
   @media (max-width: 1024px) {
-    #bottomDock {
+    .compact-hud-btn span { display: none; }
+    .compact-hud-btn::before { content: attr(data-icon); }
+    #objectiveBanner { max-width: 220px; }
+    #sectorBadge { font-size: 9px; }
+    #objectiveText { font-size: 11px; }
+    #bottomBar {
       overflow-x: auto;
-      flex-wrap: nowrap;
+      flex-wrap: nowrap !important;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       max-width: 96vw;
       justify-content: flex-start;
-      padding: 6px 10px;
+      padding: 4px 8px;
       bottom: 8px;
     }
-    #bottomDock::-webkit-scrollbar { display: none; }
     #touchControls { display: block; }
     #touchActionButtons { bottom: 90px; right: 12px; gap: 8px; }
     #touchJoystickZone { bottom: 90px; left: 14px; width: 120px; height: 120px; }
@@ -1167,12 +1279,26 @@
 
   @media (max-width: 768px) {
     #topBar {
-      padding: 6px 8px;
-      flex-wrap: wrap;
-      gap: 6px;
+      padding: 4px 6px;
+      gap: 4px;
+      flex-wrap: nowrap !important;
+      overflow: hidden;
     }
-    .bar-container { min-width: 70px; }
-    #scoreVal { font-size: 15px; }
+    .hud-group { gap: 4px; }
+    .bar-container { min-width: 60px; width: 68px; }
+    .bar-label { font-size: 8px; }
+    .meter-bg { height: 7px; }
+    #livesContainer { min-width: 42px; }
+    #livesIconsRow { font-size: 12px; gap: 2px; }
+    #pilotBadge { max-width: 75px; padding: 2px 4px; }
+    #pilotRankVal { display: none; }
+    #objectiveBanner { display: none; }
+    .score-box { min-width: 65px; }
+    #scoreVal { font-size: 13px; }
+    #creditsRow { font-size: 9.5px; }
+    #volumeBtn { padding: 3px 5px; height: 26px; }
+    #volumeLabel { display: none; }
+    .ctrl-btn { width: 26px; height: 26px; min-width: 26px; font-size: 12px; }
     .store-grid { grid-template-columns: 1fr; }
     .ship-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
     #controlsHint { display: none; }
@@ -1181,15 +1307,13 @@
   }
 
   @media (max-width: 480px) {
-    #topBar { padding: 4px 6px; }
-    .bar-container { min-width: 58px; }
-    .bar-label { font-size: 9px; }
-    #scoreVal { font-size: 13px; }
-    #pilotBadge { font-size: 10px; padding: 2px 5px; }
-    .weapon-card { min-width: 95px; padding: 6px 8px; }
-    .weapon-name { font-size: 11px; }
-    .weapon-sub { font-size: 9px; }
-    .quick-upgrade-btn { font-size: 9px; padding: 3px 6px; }
+    #topBar { padding: 3px 4px; gap: 3px; }
+    .bar-container { min-width: 52px; width: 56px; }
+    .bar-label { font-size: 7.5px; }
+    .weapon-card { min-width: 74px; padding: 3px 5px; font-size: 8.5px; }
+    .weapon-name { font-size: 9px; }
+    .weapon-sub { font-size: 7.5px; }
+    .quick-upgrade-btn { font-size: 8px; padding: 2px 4px; }
     #touchActionButtons { bottom: 78px; right: 8px; }
     #touchJoystickZone { bottom: 78px; left: 8px; width: 105px; height: 105px; }
     .t-btn { width: 42px; height: 42px; font-size: 9px; }
@@ -1221,10 +1345,10 @@
             <span>🚀</span><span>🚀</span><span>🚀</span>
           </div>
         </div>
-        <!-- PILOT CALLSIGN BADGE -->
-        <div id="pilotBadge" style="background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.35); border-radius: 6px; padding: 4px 8px; display: flex; flex-direction: column; justify-content: center; cursor: pointer;" onclick="openPilotRegistrationModal()" title="Pilot Callsign (Click to Edit)">
-          <span style="font-size: 8px; font-weight: 800; color: #8da4cf; letter-spacing: 1px;">PILOT</span>
-          <span style="font-size: 11px; font-weight: 800; color: #ffd166; white-space: nowrap;" id="pilotNameVal">STARFIGHTER ACE</span>
+        <!-- PILOT CALLSIGN & RANK BADGE -->
+        <div id="pilotBadge" style="background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.35); border-radius: 6px; padding: 3px 6px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; max-width: 110px;" onclick="openPilotRegistrationModal()" title="Pilot Callsign & Military Rank (Click to Edit)">
+          <span style="font-size: 8px; font-weight: 800; color: #00ff88; letter-spacing: 0.8px;" id="pilotRankVal">⭐ ENSIGN</span>
+          <span style="font-size: 10.5px; font-weight: 800; color: #ffd166; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="pilotNameVal">STARFIGHTER ACE</span>
         </div>
       </div>
 
@@ -1281,12 +1405,21 @@
             </div>
           </div>
         </div>
-        <button id="tutorialBtn" class="icon-btn" title="Flight Academy & Combat Tutorial (H)" style="background: rgba(255, 209, 102, 0.15); border-color: #ffd166; color: #ffd166;"><span>📖 TUTORIAL [H]</span></button>
-        <button id="storeBtn" class="icon-btn" title="Tactical Armory Store (B)"><span>🛒 STORE [B]</span></button>
-        <button id="menuBtn" class="icon-btn" title="Command Menu (M)" style="background: rgba(0, 229, 255, 0.15); border-color: var(--primary);"><span>☰ MENU [M]</span></button>
-        <button id="pauseBtn" class="icon-btn" title="Pause Game (ESC)"><span>⏸</span></button>
-        <button id="fullscreenBtn" class="icon-btn" title="Toggle Fullscreen (F)"><span>⛶</span></button>
+        <button id="tutorialBtn" class="icon-btn compact-hud-btn" data-icon="📖" title="Flight Academy & Combat Tutorial (H)" style="background: rgba(255, 209, 102, 0.15); border-color: #ffd166; color: #ffd166;"><span>📖 TUT</span></button>
+        <button id="storeBtn" class="icon-btn compact-hud-btn" data-icon="🛒" title="Tactical Armory & Starship Hangar (B)"><span>🛒 ARMORY</span></button>
+        <button id="menuBtn" class="icon-btn compact-hud-btn" data-icon="☰" title="Command Menu & Settings (M)" style="background: rgba(0, 229, 255, 0.15); border-color: var(--primary);"><span>☰ MENU</span></button>
+        <div class="hud-window-controls">
+          <button id="pauseBtn" class="icon-btn ctrl-btn" title="Pause Game (ESC / P)"><span>⏸</span></button>
+          <button id="fullscreenBtn" class="icon-btn ctrl-btn" title="Toggle Fullscreen (F)"><span>⛶</span></button>
+        </div>
       </div>
+    </div>
+
+    <!-- IN-GAME ARMADA OVERRUN ALERT BANNER -->
+    <div id="armadaAlertBanner" style="position: absolute; top: 62px; left: 50%; transform: translateX(-50%); background: rgba(255, 0, 50, 0.92); border: 2px solid #ff0055; border-radius: 6px; padding: 6px 18px; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; z-index: 24; display: none; align-items: center; gap: 8px; box-shadow: 0 0 25px rgba(255, 0, 80, 0.85); animation: pulseWarning 0.8s infinite alternate; pointer-events: none;">
+      <span>🚨</span>
+      <span>ARMADA OVERRUN IN PROGRESS &bull; ELIMINATE FLEET COMMANDER!</span>
+      <span id="armadaCommanderHpBadge" style="background: #000; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; color: #ffd166;">100% HP</span>
     </div>
 
     <!-- INCOMING RADIO COMMS TERMINAL (CLEARED BELOW TOP BAR) -->
@@ -1437,7 +1570,7 @@
     </div>
 
     <!-- GAME FOOTER ATTRIBUTION (NON-CLICKABLE) -->
-    <div id="gameFooter">Developed by <span class="dev-highlight">Gaurav Gautam</span></div>
+    <div id="gameFooter">Developed by <span class="dev-highlight">GG</span></div>
   </div>
 
   <!-- PILOT REGISTRATION & FIGHTER BRIEFING MODAL -->
@@ -1529,7 +1662,7 @@
 
       <!-- Developer Credit Footer (Non-clickable) -->
       <div style="margin-top: 14px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 10px; user-select: none; pointer-events: none;">
-        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong>
+        Developed by <strong style="color: #00f0ff;">GG</strong>
       </div>
     </div>
   </div>
@@ -1720,58 +1853,110 @@
       </div>
 
       <!-- Tab Content: Starship Hangar -->
-      <div class="ship-grid" id="tabHangarContent" style="display: none;">
+      <div class="ship-grid" id="tabHangarContent" style="display: none; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
         <!-- Ship 1: Valkyrie -->
-        <div class="ship-card active" id="shipCardValkyrie" onclick="selectStarship('valkyrie')">
+        <div class="ship-card active" id="shipCard_valkyrie" onclick="handleHangarShipAction('valkyrie')">
           <div class="ship-icon">🚀</div>
           <div class="ship-title">Valkyrie MK-II</div>
-          <div class="ship-role">Multi-Role Fighter</div>
-          <div class="ship-stat-row"><span>Speed</span><span class="ship-stat-val">18</span></div>
-          <div class="ship-stat-row"><span>Hull</span><span class="ship-stat-val">100</span></div>
-          <div class="ship-stat-row"><span>Shield</span><span class="ship-stat-val">100</span></div>
-          <div class="ship-stat-row"><span>Handling</span><span class="ship-stat-val">Agile</span></div>
+          <div class="ship-role">Agile Interceptor</div>
+          <div class="ship-stat-row">
+            <span>Speed: 22</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 75%; background: #00e5ff;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Hull: 100</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 42%; background: #00ff88;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Shield: 100</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 45%; background: #00f0ff;"></div></div>
+          </div>
+          <div style="font-size: 9.5px; color: #ffd166; margin-top: 4px;">⚡ Dual Kinetic + Cutting Laser</div>
+          <button class="ship-action-btn equipped" id="btnHangar_valkyrie">EQUIPPED</button>
         </div>
+
         <!-- Ship 2: Titan -->
-        <div class="ship-card" id="shipCardTitan" onclick="selectStarship('titan')">
+        <div class="ship-card" id="shipCard_titan" onclick="handleHangarShipAction('titan')">
           <div class="ship-icon">🛡️</div>
           <div class="ship-title">Titan Behemoth</div>
-          <div class="ship-role">Armored Dreadnought</div>
-          <div class="ship-stat-row"><span>Speed</span><span class="ship-stat-val">13</span></div>
-          <div class="ship-stat-row"><span>Hull</span><span class="ship-stat-val">180</span></div>
-          <div class="ship-stat-row"><span>Shield</span><span class="ship-stat-val">160</span></div>
-          <div class="ship-stat-row"><span>Perk</span><span class="ship-stat-val" style="color:#ffd166;">+35% Dmg</span></div>
+          <div class="ship-role">Assault Dreadnought</div>
+          <div class="ship-stat-row">
+            <span>Speed: 14</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 48%; background: #ff5500;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Hull: 240</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 96%; background: #00ff88;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Shield: 180</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 80%; background: #00f0ff;"></div></div>
+          </div>
+          <div style="font-size: 9.5px; color: #ff7700; margin-top: 4px;">💥 Heavy Slugs (+40% Dmg)</div>
+          <button class="ship-action-btn buy" id="btnHangar_titan">BUY: 400 CR</button>
         </div>
+
         <!-- Ship 3: Phantom -->
-        <div class="ship-card" id="shipCardPhantom" onclick="selectStarship('phantom')">
+        <div class="ship-card" id="shipCard_phantom" onclick="handleHangarShipAction('phantom')">
           <div class="ship-icon">⚡</div>
           <div class="ship-title">Phantom Ghost</div>
-          <div class="ship-role">Stealth Interceptor</div>
-          <div class="ship-stat-row"><span>Speed</span><span class="ship-stat-val">24</span></div>
-          <div class="ship-stat-row"><span>Hull</span><span class="ship-stat-val">75</span></div>
-          <div class="ship-stat-row"><span>Shield</span><span class="ship-stat-val">85</span></div>
-          <div class="ship-stat-row"><span>Perk</span><span class="ship-stat-val" style="color:#00e5ff;">+25% RoF</span></div>
+          <div class="ship-role">Stealth Infiltrator</div>
+          <div class="ship-stat-row">
+            <span>Speed: 26</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 90%; background: #a855f7;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Hull: 80</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 32%; background: #00ff88;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Shield: 90</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 38%; background: #00f0ff;"></div></div>
+          </div>
+          <div style="font-size: 9.5px; color: #c084fc; margin-top: 4px;">✨ Void Needles (+25% RoF)</div>
+          <button class="ship-action-btn buy" id="btnHangar_phantom">BUY: 750 CR</button>
         </div>
+
         <!-- Ship 4: Solar Phoenix -->
-        <div class="ship-card" id="shipCardPhoenix" onclick="selectStarship('phoenix')">
+        <div class="ship-card" id="shipCard_phoenix" onclick="handleHangarShipAction('phoenix')">
           <div class="ship-icon">☀️</div>
           <div class="ship-title">Solar Phoenix</div>
-          <div class="ship-role">Vanguard Flagship</div>
-          <div class="ship-stat-row"><span>Speed</span><span class="ship-stat-val">20</span></div>
-          <div class="ship-stat-row"><span>Hull</span><span class="ship-stat-val">240</span></div>
-          <div class="ship-stat-row"><span>Shield</span><span class="ship-stat-val">200</span></div>
-          <div class="ship-stat-row"><span>Perk</span><span class="ship-stat-val" style="color:#ffd166;">Nanite Repair</span></div>
-          <div style="margin-top: 6px; font-size: 10px; font-weight: 800; color: #ffd166;" id="shipCostPhoenix">⚡ 1,000 CR</div>
+          <div class="ship-role">Heavy Cruiser</div>
+          <div class="ship-stat-row">
+            <span>Speed: 20</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 70%; background: #ffd166;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Hull: 200</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 82%; background: #00ff88;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Shield: 220</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 92%; background: #00f0ff;"></div></div>
+          </div>
+          <div style="font-size: 9.5px; color: #ffd166; margin-top: 4px;">🔥 Magma Orbs + Self-Repair</div>
+          <button class="ship-action-btn buy" id="btnHangar_phoenix">BUY: 1,200 CR</button>
         </div>
+
         <!-- Ship 5: Void Reaper -->
-        <div class="ship-card" id="shipCardReaper" onclick="selectStarship('reaper')">
+        <div class="ship-card" id="shipCard_reaper" onclick="handleHangarShipAction('reaper')">
           <div class="ship-icon">🌌</div>
           <div class="ship-title">Void Reaper</div>
-          <div class="ship-role">Bio-Hybrid Assassin</div>
-          <div class="ship-stat-row"><span>Speed</span><span class="ship-stat-val">27</span></div>
-          <div class="ship-stat-row"><span>Hull</span><span class="ship-stat-val">130</span></div>
-          <div class="ship-stat-row"><span>Shield</span><span class="ship-stat-val">170</span></div>
-          <div class="ship-stat-row"><span>Perk</span><span class="ship-stat-val" style="color:#a855f7;">+50% Crit / 2x EMP</span></div>
-          <div style="margin-top: 6px; font-size: 10px; font-weight: 800; color: #00f0ff;" id="shipCostReaper">⚡ 1,500 CR</div>
+          <div class="ship-role">Bio-Hybrid Flagship</div>
+          <div class="ship-stat-row">
+            <span>Speed: 28</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 100%; background: #00ff88;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Hull: 140</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 58%; background: #00ff88;"></div></div>
+          </div>
+          <div class="ship-stat-row">
+            <span>Shield: 190</span>
+            <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: 85%; background: #00f0ff;"></div></div>
+          </div>
+          <div style="font-size: 9.5px; color: #00ff88; margin-top: 4px;">🌀 Vortex +50% Crits & 2x EMP</div>
+          <button class="ship-action-btn buy" id="btnHangar_reaper">BUY: 2,000 CR</button>
         </div>
       </div>
 
@@ -1796,6 +1981,36 @@
           <div style="font-size: 14px; font-weight: 800; color: #ffd166;" id="menuPilotNameVal">STARFIGHTER ACE</div>
         </div>
         <button class="btn-secondary" onclick="closeMenuModal(); openPilotRegistrationModal();" style="padding: 6px 12px; font-size: 11px;">✏️ EDIT CALLSIGN</button>
+      </div>
+
+      <!-- Pilot Military Rank & XP Card -->
+      <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 8px; padding: 10px 14px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <div>
+            <div style="font-size: 8.5px; font-weight: 800; color: #a855f7; letter-spacing: 1px;">MILITARY RANK</div>
+            <div style="font-size: 13px; font-weight: 800; color: #fff;" id="menuRankTitle">⭐ ENSIGN</div>
+          </div>
+          <div style="font-size: 10px; font-weight: 700; color: #8da4cf;" id="menuRankXp">0 / 250 XP</div>
+        </div>
+        <div style="width: 100%; height: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; margin-bottom: 6px;">
+          <div id="menuRankFill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #a855f7, #00f0ff); transition: width 0.3s ease;"></div>
+        </div>
+        <div style="font-size: 9.5px; color: #00ff88; font-weight: 600;" id="menuRankPerk">Combat Perk: Standard Fleet Issue</div>
+      </div>
+
+      <!-- Active Tactical Bounty Card -->
+      <div style="background: rgba(255, 209, 102, 0.08); border: 1px solid rgba(255, 209, 102, 0.3); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <div style="font-size: 8.5px; font-weight: 800; color: #ffd166; letter-spacing: 1px;">🎯 ACTIVE TACTICAL BOUNTY</div>
+          <div style="font-size: 10px; font-weight: 800; color: #00ff88;" id="menuBountyReward">+150 CR · +100 XP</div>
+        </div>
+        <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px;" id="menuBountyDesc">Eliminate 8 Hostile Raiders</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="flex: 1; height: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden;">
+            <div id="menuBountyFill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ffd166, #ff0055); transition: width 0.3s ease;"></div>
+          </div>
+          <div style="font-size: 10px; font-weight: 700; color: #ffd166;" id="menuBountyProgress">0 / 8</div>
+        </div>
       </div>
 
       <!-- Persistent Career Stats Grid -->
@@ -1869,7 +2084,7 @@
 
       <!-- Developer Credit Footer (Non-clickable) -->
       <div style="margin-top: 16px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 10px; user-select: none; pointer-events: none;">
-        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong>
+        Developed by <strong style="color: #00f0ff;">GG</strong>
       </div>
     </div>
   </div>
@@ -1877,8 +2092,8 @@
   <!-- GAME OVER MODAL -->
   <div id="gameOverModal" class="modal-overlay">
     <div class="modal-card">
-      <h2 class="modal-title" style="color: #ff3366;">ARMADA OVERRUN</h2>
-      <p class="modal-subtitle">All reserve vessels lost. Your fighter was overrun by the alien fleet.</p>
+      <h2 class="modal-title" style="color: #ff3366;" id="gameOverTitle">MISSION FAILED</h2>
+      <p class="modal-subtitle" id="gameOverSubtitle">All reserve vessels lost. Defense perimeter compromised.</p>
       <div style="font-size: 13px; font-weight: 800; color: #ffd166; margin-bottom: 12px; letter-spacing: 1px;">
         🎖️ FALLEN PILOT: <span id="gameOverPilotName" style="color: #fff;">STARFIGHTER ACE</span>
       </div>
@@ -1896,7 +2111,7 @@
 
       <!-- Developer Credit Footer (Non-clickable) -->
       <div style="margin-top: 14px; font-size: 11px; color: #8da4cf; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 8px; user-select: none; pointer-events: none;">
-        Developed by <strong style="color: #00f0ff;">Gaurav Gautam</strong>
+        Developed by <strong style="color: #00f0ff;">GG</strong>
       </div>
     </div>
   </div>
@@ -2426,6 +2641,47 @@ class SoundEngine {
       setTimeout(() => {
         try { osc.stop(); osc.disconnect(); } catch(e) {}
       }, 70);
+    } catch(e) {}
+  }
+
+  playAlarm() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      for (let i = 0; i < 2; i++) {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        const startT = now + i * 0.22;
+        osc.frequency.setValueAtTime(650, startT);
+        osc.frequency.exponentialRampToValueAtTime(320, startT + 0.18);
+        gain.gain.setValueAtTime(0.25, startT);
+        gain.gain.exponentialRampToValueAtTime(0.001, startT + 0.19);
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+        osc.start(startT);
+        osc.stop(startT + 0.2);
+      }
+    } catch(e) {}
+  }
+
+  playPromotionFanfare() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const notes = [440, 554.37, 659.25, 880];
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        const startT = this.ctx.currentTime + idx * 0.09;
+        osc.frequency.setValueAtTime(freq, startT);
+        gain.gain.setValueAtTime(0.25, startT);
+        gain.gain.exponentialRampToValueAtTime(0.001, startT + 0.3);
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+        osc.start(startT);
+        osc.stop(startT + 0.32);
+      });
     } catch(e) {}
   }
 
@@ -4068,6 +4324,53 @@ function buildAlienBioScout() {
   return g;
 }
 
+function buildArmadaCommanderMesh() {
+  const g = new THREE.Group();
+  const hullMat = new THREE.MeshStandardMaterial({ color: 0x1f0e24, roughness: 0.3, metalness: 0.8 });
+  const armorMat = new THREE.MeshStandardMaterial({ color: 0x3d1428, roughness: 0.4, metalness: 0.9 });
+  const coreMat = new THREE.MeshBasicMaterial({ color: 0xff0055 });
+  const glowMat = new THREE.MeshBasicMaterial({ color: 0xff3300 });
+
+  // Main hull chassis
+  const body = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.9, 3.8), hullMat);
+  g.add(body);
+
+  // Command Bridge
+  const bridge = new THREE.Mesh(new THREE.ConeGeometry(0.7, 1.6, 6), armorMat);
+  bridge.rotation.x = -Math.PI / 2;
+  bridge.position.set(0, 0.45, 0.4);
+  g.add(bridge);
+
+  // Plasma Core
+  const core = new THREE.Mesh(new THREE.SphereGeometry(0.5, 10, 8), coreMat);
+  core.position.set(0, 0, -0.2);
+  g.add(core);
+
+  // Heavy Forward Prow Blades
+  const prowL = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.8, 4), armorMat);
+  prowL.rotation.set(Math.PI / 2, 0, 0.2);
+  prowL.position.set(-1.1, 0, 1.8);
+  g.add(prowL);
+
+  const prowR = prowL.clone();
+  prowR.rotation.z = -0.2;
+  prowR.position.x = 1.1;
+  g.add(prowR);
+
+  // Lateral Thrusters
+  const thrusterL = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, 0.8, 8), glowMat);
+  thrusterL.rotation.x = Math.PI / 2;
+  thrusterL.position.set(-1.3, 0, -1.9);
+  g.add(thrusterL);
+
+  const thrusterR = thrusterL.clone();
+  thrusterR.position.x = 1.3;
+  g.add(thrusterR);
+
+  g.userData.color = 0xff0055;
+  return g;
+}
+
 function buildLeviathanBoss() {
   const g = new THREE.Group();
   const carapaceMat = new THREE.MeshStandardMaterial({ color: 0x1c121e, metalness: 0.8, roughness: 0.3 });
@@ -4194,8 +4497,17 @@ const state = {
   missileCooldown: 0,
   empCharge: 100,
 
-  // Unlocked starships
-  unlockedShips: ['valkyrie', 'titan', 'phantom'],
+  // Unlocked starships (Valkyrie unlocked initially, others purchased with coins)
+  unlockedShips: ['valkyrie'],
+
+  // Military Rank, XP Progression & Tactical Bounties
+  xp: 0,
+  playerRank: 1,
+  activeBounty: { id: 'raiders', target: 8, current: 0, desc: "Eliminate 8 Hostile Raiders", rewardCredits: 150, rewardXP: 100 },
+
+  // Dynamic In-Mission Armada Overrun Event
+  armadaOverrunActive: false,
+  armadaOverrunDefeated: false,
 
   // Sector Dynamic Alien Swarm Tracking
   sectorEnemyTotal: 18,
@@ -4238,6 +4550,117 @@ const state = {
 
   screenShake: 1.0
 };
+
+// ==========================================
+// MILITARY RANKS & TACTICAL BOUNTIES
+// ==========================================
+const RANKS = [
+  { rank: 1, title: "ENSIGN", xpRequired: 0, perk: "Standard Fleet Issue" },
+  { rank: 2, title: "LIEUTENANT", xpRequired: 300, perk: "+5% Firepower Boost" },
+  { rank: 3, title: "CAPTAIN", xpRequired: 800, perk: "+10% Shield Capacity" },
+  { rank: 4, title: "MAJOR", xpRequired: 1600, perk: "+10% Flight Agility" },
+  { rank: 5, title: "COMMANDER", xpRequired: 2800, perk: "+15% Scrap Salvage" },
+  { rank: 6, title: "FLEET ADMIRAL", xpRequired: 4500, perk: "+20% Critical Strikes" }
+];
+
+function getPlayerRank(xp) {
+  let cur = RANKS[0];
+  for (const r of RANKS) {
+    if ((xp || 0) >= r.xpRequired) cur = r;
+  }
+  return cur;
+}
+
+function addPlayerXP(amount) {
+  const oldRank = getPlayerRank(state.xp || 0);
+  state.xp = (state.xp || 0) + amount;
+  const newRank = getPlayerRank(state.xp);
+
+  if (newRank.rank > oldRank.rank) {
+    state.playerRank = newRank.rank;
+    audio.playPromotionFanfare();
+    showAchievementToast(`PROMOTED TO ${newRank.title}!`, `Perk Unlocked: ${newRank.perk}`);
+    spawnFloatingText(player.position, `⭐ PROMOTED: ${newRank.title}!`, "#ffd166");
+  }
+  updateHUD();
+  saveGameData();
+}
+
+const BOUNTY_POOL = [
+  { id: 'raiders', target: 8, desc: "Eliminate 8 Hostile Raiders", rewardCredits: 150, rewardXP: 100 },
+  { id: 'asteroids', target: 3, desc: "Mine 3 Deep Space Asteroids", rewardCredits: 120, rewardXP: 80 },
+  { id: 'combo', target: 1, desc: "Achieve a 2.5x Combat Combo", rewardCredits: 160, rewardXP: 120 },
+  { id: 'emp', target: 1, desc: "Deploy Quantum EMP Singularity", rewardCredits: 140, rewardXP: 90 },
+  { id: 'armada', target: 1, desc: "Repel Hostile Armada Incursion", rewardCredits: 350, rewardXP: 250 }
+];
+
+function trackBountyProgress(type, amount = 1) {
+  if (!state.activeBounty) return;
+  if (state.activeBounty.id === type) {
+    state.activeBounty.current = Math.min(state.activeBounty.target, state.activeBounty.current + amount);
+    if (state.activeBounty.current >= state.activeBounty.target) {
+      claimActiveBounty();
+    }
+    updateBountyHUD();
+  }
+}
+
+function claimActiveBounty() {
+  const b = state.activeBounty;
+  if (!b) return;
+  state.credits += b.rewardCredits;
+  addPlayerXP(b.rewardXP);
+  audio.playPowerup();
+  spawnFloatingText(player.position, `🎯 BOUNTY CLAIMED: +${b.rewardCredits} CR / +${b.rewardXP} XP!`, "#00ff88");
+
+  const nextPool = BOUNTY_POOL.filter(item => item.id !== b.id);
+  const next = nextPool[Math.floor(Math.random() * nextPool.length)] || BOUNTY_POOL[0];
+  state.activeBounty = { id: next.id, target: next.target, current: 0, desc: next.desc, rewardCredits: next.rewardCredits, rewardXP: next.rewardXP };
+  updateBountyHUD();
+  saveGameData();
+}
+
+function updateBountyHUD() {
+  renderMenuRankAndBounty();
+}
+
+function renderMenuRankAndBounty() {
+  const rank = getPlayerRank(state.xp || 0);
+  const rankValEl = document.getElementById('menuRankTitle');
+  const rankPerkEl = document.getElementById('menuRankPerk');
+  const rankFillEl = document.getElementById('menuRankFill');
+  const rankXpEl = document.getElementById('menuRankXp');
+  
+  if (rankValEl) rankValEl.textContent = `${rank.badge} ${rank.title}`;
+  if (rankPerkEl) rankPerkEl.textContent = `Combat Perk: ${rank.perk}`;
+  
+  const currentRankIdx = RANKS.findIndex(r => r.title === rank.title);
+  const nextRank = RANKS[currentRankIdx + 1];
+  if (nextRank) {
+    const prevXP = rank.minXP;
+    const needed = nextRank.minXP - prevXP;
+    const progress = Math.max(0, Math.min(1, ((state.xp || 0) - prevXP) / needed));
+    if (rankFillEl) rankFillEl.style.width = `${Math.round(progress * 100)}%`;
+    if (rankXpEl) rankXpEl.textContent = `${state.xp || 0} / ${nextRank.minXP} XP`;
+  } else {
+    if (rankFillEl) rankFillEl.style.width = `100%`;
+    if (rankXpEl) rankXpEl.textContent = `${state.xp || 0} XP (MAX RANK)`;
+  }
+
+  const bountyDescEl = document.getElementById('menuBountyDesc');
+  const bountyProgressEl = document.getElementById('menuBountyProgress');
+  const bountyFillEl = document.getElementById('menuBountyFill');
+  const bountyRewardEl = document.getElementById('menuBountyReward');
+
+  if (state.activeBounty) {
+    const b = state.activeBounty;
+    if (bountyDescEl) bountyDescEl.textContent = b.desc;
+    if (bountyProgressEl) bountyProgressEl.textContent = `${b.current} / ${b.target}`;
+    if (bountyRewardEl) bountyRewardEl.textContent = `+${b.rewardCredits} CR · +${b.rewardXP} XP`;
+    const bPct = Math.min(100, Math.round((b.current / b.target) * 100));
+    if (bountyFillEl) bountyFillEl.style.width = `${bPct}%`;
+  }
+}
 
 const ACHIEVEMENTS_LIST = [
   { id: 'first_kill', icon: '🛸', title: 'First Contact', desc: 'Destroy your first extraterrestrial vessel.' },
@@ -4311,7 +4734,10 @@ function saveGameData() {
       flakTier: state.flakTier,
       torpedoTier: state.torpedoTier || 1,
       teslaTier: state.teslaTier || 1,
-      unlockedShips: state.unlockedShips || ['valkyrie', 'titan', 'phantom'],
+      unlockedShips: state.unlockedShips || ['valkyrie'],
+      xp: state.xp || 0,
+      playerRank: state.playerRank || 1,
+      activeBounty: state.activeBounty,
       maxHull: state.maxHull,
       shieldRechargeRate: state.shieldRechargeRate,
       magnetRange: state.magnetRange,
@@ -4341,6 +4767,9 @@ function loadGameData() {
       if (typeof data.torpedoTier === 'number') state.torpedoTier = data.torpedoTier;
       if (typeof data.teslaTier === 'number') state.teslaTier = data.teslaTier;
       if (Array.isArray(data.unlockedShips)) state.unlockedShips = data.unlockedShips;
+      if (typeof data.xp === 'number') state.xp = data.xp;
+      if (typeof data.playerRank === 'number') state.playerRank = data.playerRank;
+      if (data.activeBounty && typeof data.activeBounty === 'object') state.activeBounty = data.activeBounty;
       if (typeof data.maxHull === 'number') state.maxHull = data.maxHull;
       if (typeof data.shieldRechargeRate === 'number') state.shieldRechargeRate = data.shieldRechargeRate;
       if (typeof data.magnetRange === 'number') state.magnetRange = data.magnetRange;
@@ -4481,6 +4910,7 @@ function openMenuModal() {
   document.getElementById('menuKillsVal').textContent = state.totalAliensKilled || 0;
   document.getElementById('menuSectorVal').textContent = `Sector ${state.highestSector || state.sector}`;
   renderAchievementsMenu();
+  renderMenuRankAndBounty();
   menuModal.classList.add('active');
 }
 
@@ -4839,12 +5269,21 @@ function randomizeCallsign() {
 }
 
 function selectInitialShip(type) {
-  state.shipType = type;
+  if (!state.unlockedShips) state.unlockedShips = ['valkyrie'];
+  const costs = { valkyrie: 0, titan: 400, phantom: 750, phoenix: 1200, reaper: 2000 };
+  if (!state.unlockedShips.includes(type)) {
+    const cost = costs[type] || 500;
+    spawnFloatingText(player.position, `LOCKED - UNLOCK IN HANGAR (${cost} CR)`, "#ffd166");
+    if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
+    return;
+  }
+  setStarship(type);
   const cards = document.querySelectorAll('.ship-select-card');
   cards.forEach(c => c.classList.remove('active'));
   const target = document.getElementById(`initShip${type.charAt(0).toUpperCase() + type.slice(1)}`);
   if (target) target.classList.add('active');
   if (audio && typeof audio.playBeep === 'function') audio.playBeep();
+  saveGameData();
 }
 
 function openPilotRegistrationModal() {
@@ -5047,27 +5486,34 @@ function updateStoreItemButtons() {
     droneBetaStatusText.style.color = state.dronesUnlocked >= 2 ? '#00ff88' : 'var(--primary)';
   }
 
-  // Starship Hangar Unlocks Status
-  const costPhoenix = document.getElementById('shipCostPhoenix');
-  if (costPhoenix) {
-    if (state.unlockedShips && state.unlockedShips.includes('phoenix')) {
-      costPhoenix.textContent = 'DEPLOYED / READY';
-      costPhoenix.style.color = '#00ff88';
-    } else {
-      costPhoenix.textContent = '⚡ 1,000 CR';
-      costPhoenix.style.color = '#ffd166';
+  // Update Hangar Ship Action Buttons and Active Cards
+  const shipTypes = ['valkyrie', 'titan', 'phantom', 'phoenix', 'reaper'];
+  const costs = { valkyrie: 0, titan: 400, phantom: 750, phoenix: 1200, reaper: 2000 };
+  shipTypes.forEach(type => {
+    const card = document.getElementById(`shipCard_${type}`);
+    const btn = document.getElementById(`btnHangar_${type}`);
+    const isUnlocked = state.unlockedShips && state.unlockedShips.includes(type);
+    const isEquipped = (state.shipType === type);
+
+    if (card) card.classList.toggle('active', isEquipped);
+    if (btn) {
+      if (isEquipped) {
+        btn.className = 'ship-action-btn equipped';
+        btn.textContent = 'EQUIPPED';
+        btn.disabled = true;
+      } else if (isUnlocked) {
+        btn.className = 'ship-action-btn equip';
+        btn.textContent = 'EQUIP VESSEL';
+        btn.disabled = false;
+      } else {
+        const cost = costs[type];
+        const canAfford = (state.credits >= cost);
+        btn.className = canAfford ? 'ship-action-btn buy' : 'ship-action-btn locked';
+        btn.textContent = `BUY: ${cost} CR`;
+        btn.disabled = !canAfford;
+      }
     }
-  }
-  const costReaper = document.getElementById('shipCostReaper');
-  if (costReaper) {
-    if (state.unlockedShips && state.unlockedShips.includes('reaper')) {
-      costReaper.textContent = 'DEPLOYED / READY';
-      costReaper.style.color = '#00ff88';
-    } else {
-      costReaper.textContent = '⚡ 1,500 CR';
-      costReaper.style.color = '#00f0ff';
-    }
-  }
+  });
 }
 
 function buyWingmanDrone(slot) {
@@ -5235,29 +5681,37 @@ function buyEmpCharge() {
   }
 }
 
+function handleHangarShipAction(type) {
+  selectStarship(type);
+}
+
 function selectStarship(type) {
   audio.init(); audio.resume();
-  const costs = { phoenix: 1000, reaper: 1500 };
-  if (!state.unlockedShips) state.unlockedShips = ['valkyrie', 'titan', 'phantom'];
+  const costs = { valkyrie: 0, titan: 400, phantom: 750, phoenix: 1200, reaper: 2000 };
+  if (!state.unlockedShips) state.unlockedShips = ['valkyrie'];
+
+  if (state.shipType === type && state.unlockedShips.includes(type)) {
+    return;
+  }
 
   if (!state.unlockedShips.includes(type)) {
     const cost = costs[type] || 0;
     if (state.credits < cost) {
-      spawnFloatingText(player.position, `NEED ${cost} CR TO ACQUIRE!`, "#ff3366");
-      audio.speak("Insufficient credits for starfighter acquisition.");
+      if (typeof audio.playDeflect === 'function') audio.playDeflect();
+      spawnFloatingText(player.position, `NEED ${cost} CR TO PURCHASE!`, "#ff3366");
       return;
     }
     state.credits -= cost;
     state.unlockedShips.push(type);
     saveGameData();
-    spawnFloatingText(player.position, `${type.toUpperCase()} ACQUIRED!`, "#ffd166");
+    spawnFloatingText(player.position, `${type.toUpperCase()} PURCHASED!`, "#ffd166");
   }
 
   setStarship(type);
   saveGameData();
   updateStoreItemButtons();
   audio.playPowerup();
-  audio.speak(`${type.toUpperCase()} Starfighter ready.`);
+  spawnFloatingText(player.position, `${type.toUpperCase()} EQUIPPED!`, "#00ff88");
 }
 
 // ==========================================
@@ -5588,6 +6042,7 @@ function triggerEmp() {
     return;
   }
   state.empCharge = 0;
+  trackBountyProgress('emp', 1);
   updateHUD();
   audio.playEmpBlast();
   audio.speak("Supernova discharged");
@@ -5679,12 +6134,25 @@ function damageEnemy(enemy, dmg) {
     document.getElementById('bossHpPercent').textContent = `${pct}%`;
   }
 
+  if (enemy.isArmadaCommander) {
+    const badge = document.getElementById('armadaCommanderHpBadge');
+    if (badge) {
+      const pct = Math.max(0, Math.round((enemy.hp / enemy.maxHp) * 100));
+      badge.textContent = `${pct}% HP`;
+    }
+  }
+
   if (enemy.hp <= 0) {
     enemy.alive = false;
     scene.remove(enemy.mesh);
     state.aliensKilled++;
     state.totalAliensKilled = (state.totalAliensKilled || 0) + 1;
     unlockAchievement('first_kill');
+
+    // Industry-level XP & Dynamic Bounties
+    const xpReward = enemy.isBoss ? 200 : (enemy.isArmadaCommander ? 250 : (enemy.isElite ? 40 : 15));
+    addPlayerXP(xpReward);
+    trackBountyProgress('raiders', 1);
 
     if (state.activeWeapon === 'railgun') {
       state.laserKills = (state.laserKills || 0) + 1;
@@ -5695,18 +6163,39 @@ function damageEnemy(enemy, dmg) {
       unlockAchievement('boss_slayer');
     }
 
-    saveGameData();
-    const pts = enemy.isBoss ? 4500 : (enemy.isElite ? 1200 : (enemy.isSaucer ? 320 : 150));
-    addScore(pts);
-    audio.playExplosion(enemy.isBoss ? 2.5 : (enemy.isElite ? 1.6 : 1.0));
-    spawnExplosionFX(enemy.mesh.position, enemy.color, enemy.isBoss ? 55 : (enemy.isElite ? 35 : 20), enemy.isBoss ? 2.4 : 1.0);
-    triggerShake(enemy.isBoss ? 18 : (enemy.isElite ? 10 : 6));
+    // Armada Commander Defeat Event
+    if (enemy.isArmadaCommander) {
+      state.armadaOverrunActive = false;
+      state.armadaOverrunDefeated = true;
+      const alertBanner = document.getElementById('armadaAlertBanner');
+      if (alertBanner) alertBanner.style.display = 'none';
 
-    const scrapVal = (enemy.isBoss ? 160 : (enemy.isElite ? 85 : (enemy.isSaucer ? 25 : 14))) * (1 + (state.sector - 1) * 0.35);
+      audio.playPromotionFanfare();
+      triggerShake(18);
+      spawnExplosionFX(enemy.mesh.position, 0xff0055, 50, 2.2);
+      spawnFloatingText(player.position, "🎖️ ARMADA OVERRUN REPELLED! +400 CR · +250 XP", "#00ff88");
+      state.credits += 400;
+      addPlayerXP(250);
+      trackBountyProgress('armada', 1);
+
+      const commsSource = document.getElementById('commsSource');
+      const commsMessage = document.getElementById('commsMessage');
+      if (commsSource) commsSource.textContent = "FLEET COMMS";
+      if (commsMessage) commsMessage.textContent = "Armada Commander destroyed! Sector defense perimeter secured!";
+      updateHUD();
+    }
+
+    saveGameData();
+    const pts = enemy.isBoss ? 4500 : (enemy.isArmadaCommander ? 3000 : (enemy.isElite ? 1200 : (enemy.isSaucer ? 320 : 150)));
+    addScore(pts);
+    audio.playExplosion(enemy.isBoss ? 2.5 : (enemy.isArmadaCommander ? 2.0 : (enemy.isElite ? 1.6 : 1.0)));
+    spawnExplosionFX(enemy.mesh.position, enemy.color, enemy.isBoss ? 55 : (enemy.isArmadaCommander ? 45 : (enemy.isElite ? 35 : 20)), enemy.isBoss ? 2.4 : 1.0);
+    triggerShake(enemy.isBoss ? 18 : (enemy.isArmadaCommander ? 14 : (enemy.isElite ? 10 : 6)));
+
+    const scrapVal = (enemy.isBoss ? 160 : (enemy.isArmadaCommander ? 120 : (enemy.isElite ? 85 : (enemy.isSaucer ? 25 : 14)))) * (1 + (state.sector - 1) * 0.35);
     spawnScrapDrop(enemy.mesh.position, Math.round(scrapVal));
 
-    if (enemy.isElite) {
-      audio.speak("Elite Ace eliminated.");
+    if (enemy.isElite || enemy.isArmadaCommander) {
       spawnPowerupItem(enemy.mesh.position);
     } else if (Math.random() < 0.28) {
       spawnPowerupItem(enemy.mesh.position);
@@ -5715,14 +6204,12 @@ function damageEnemy(enemy, dmg) {
     // Void Reaper perk: 2x EMP charge gain
     const empGain = (enemy.isSaucer ? 25 : 14) * (state.shipType === 'reaper' ? 2.0 : 1.0);
     state.empCharge = Math.min(100, state.empCharge + empGain);
-    if (state.empCharge >= 100) audio.speak("Supernova ready");
 
     updateHostilesHUD();
 
     if (enemy.isBoss) {
       state.bossActive = false;
       document.getElementById('bossBarContainer').style.display = 'none';
-      audio.speak("Hostile Flagship destroyed.");
       setTimeout(sectorCompleted, 1600);
     }
   } else {
@@ -5796,7 +6283,6 @@ function damagePlayer(amount) {
     audio.playExplosion(0.8);
     spawnExplosionFX(player.position, 0xff3366, 12, 0.8);
     if (state.hull <= 30 && state.hull > 0) {
-      audio.speak("Warning: Hull integrity critical");
       spawnFloatingText(player.position, "⚠️ CRITICAL! EVASIVE ROLL [SHIFT]!", "#ff0055");
     }
   }
@@ -5815,7 +6301,6 @@ function damagePlayer(amount) {
       player.position.set(0, 0, BOUNDS.playerZ);
       state.vx = 0; state.vy = 0;
       spawnFloatingText(player.position, `RESERVE DEPLOYED! (${state.lives} SHIPS LEFT)`, "#00f0ff");
-      audio.speak(`Vessel lost. Reserve starfighter deployed. ${state.lives} remaining.`);
       updateHUD();
     } else {
       state.lives = 0;
@@ -5828,7 +6313,6 @@ function damagePlayer(amount) {
 function playerDestroyed() {
   state.running = false;
   audio.playExplosion(2.5);
-  audio.speak("Squadron destroyed. Mission failed.");
   triggerShake(22);
   spawnExplosionFX(player.position, 0x00f0ff, 60, 2.5);
   player.visible = false;
@@ -5841,6 +6325,17 @@ function playerDestroyed() {
   setTimeout(() => {
     const gop = document.getElementById('gameOverPilotName');
     if (gop) gop.textContent = state.pilotName || 'STARFIGHTER ACE';
+    const got = document.getElementById('gameOverTitle');
+    const gos = document.getElementById('gameOverSubtitle');
+    if (got && gos) {
+      if (state.armadaOverrunActive) {
+        got.textContent = "ARMADA OVERRUN";
+        gos.textContent = "Defense perimeter compromised · Vessel overwhelmed during hostile fleet incursion.";
+      } else {
+        got.textContent = "MISSION FAILED";
+        gos.textContent = "All reserve starfighters lost · Tactical combat telemetry terminated.";
+      }
+    }
     document.getElementById('finalScoreVal').textContent = state.score;
     document.getElementById('highScoreVal').textContent = state.highScore;
     document.getElementById('finalSectorVal').textContent = state.sector;
@@ -5894,6 +6389,10 @@ function startMission() {
   state.bossActive = false;
   state.warpActive = false;
   state.sectorClearing = false;
+  state.armadaOverrunActive = false;
+  state.armadaOverrunDefeated = false;
+  const alertBanner = document.getElementById('armadaAlertBanner');
+  if (alertBanner) alertBanner.style.display = 'none';
 
   setStarship(state.shipType);
   player.position.set(0, 0, BOUNDS.playerZ);
@@ -5905,6 +6404,11 @@ function startMission() {
 }
 
 function loadSector(sec) {
+  state.armadaOverrunActive = false;
+  state.armadaOverrunDefeated = false;
+  const alertBanner = document.getElementById('armadaAlertBanner');
+  if (alertBanner) alertBanner.style.display = 'none';
+
   const notice = document.getElementById('waveNotice');
   const title = document.getElementById('waveNoticeTitle');
   const sub = document.getElementById('waveNoticeSub');
@@ -6141,6 +6645,55 @@ function updateHostilesHUD() {
   }
 }
 
+function triggerArmadaOverrunEvent() {
+  if (state.armadaOverrunActive || state.armadaOverrunDefeated || state.sector < 2 || state.bossActive) return;
+  state.armadaOverrunActive = true;
+
+  if (audio.playAlarm) audio.playAlarm();
+  triggerShake(12);
+
+  const alertBanner = document.getElementById('armadaAlertBanner');
+  if (alertBanner) alertBanner.style.display = 'block';
+
+  const commsSource = document.getElementById('commsSource');
+  const commsMessage = document.getElementById('commsMessage');
+  if (commsSource) commsSource.textContent = "TACTICAL RADAR";
+  if (commsMessage) commsMessage.textContent = "EMERGENCY: Hostile Armada Commander detected jumping into sector!";
+  spawnFloatingText(player.position, "⚠️ ARMADA OVERRUN IN PROGRESS!", "#ff0055");
+
+  spawnArmadaCommander();
+}
+
+function spawnArmadaCommander() {
+  const mesh = buildArmadaCommanderMesh();
+  mesh.position.set(0, 3.5, -45);
+  scene.add(mesh);
+
+  const sec = state.sector;
+  const commanderHp = 180 + sec * 45;
+  const commanderShield = 90 + sec * 30;
+  attachAlienShield(mesh, 4.2, 0xff0055);
+
+  const commanderEntity = {
+    mesh,
+    originX: 0,
+    originY: 3.5,
+    originZ: -30,
+    alive: true,
+    hp: commanderHp,
+    maxHp: commanderHp,
+    shield: commanderShield,
+    maxShield: commanderShield,
+    isArmadaCommander: true,
+    color: 0xff0055,
+    attackTimer: 0.8
+  };
+  enemies.push(commanderEntity);
+
+  spawnReinforcementWave(4);
+  updateHostilesHUD();
+}
+
 // HYPERSPACE LEVEL CLEAR JUMP
 function sectorCompleted() {
   if (state.sectorClearing) return;
@@ -6151,9 +6704,13 @@ function sectorCompleted() {
   audio.speak(`Sector ${state.sector} cleared. Hyperspace warp jump engaged.`);
   addScore(1500 * state.sector);
   state.credits += 250 * state.sector;
+  addPlayerXP(100 * state.sector);
+  state.armadaOverrunActive = false;
+  const alertBanner = document.getElementById('armadaAlertBanner');
+  if (alertBanner) alertBanner.style.display = 'none';
   state.highestSector = Math.max(state.highestSector || 1, state.sector + 1);
   saveGameData();
-  spawnFloatingText(player.position, `SECTOR CLEARED! +${250 * state.sector} CR`, "#ffd166");
+  spawnFloatingText(player.position, `SECTOR CLEARED! +${250 * state.sector} CR · +${100 * state.sector} XP`, "#ffd166");
   updateHUD();
 }
 
@@ -6346,9 +6903,14 @@ function updateHUD() {
     if (overchargeText) overchargeText.textContent = `OVERDRIVE (${Math.floor(state.overchargeCharge)}%)`;
   }
 
-  // Pilot Callsign HUD Telemetry
+  // Pilot Callsign & Military Rank HUD Telemetry
   const pilotNameEl = document.getElementById('pilotNameVal');
   if (pilotNameEl) pilotNameEl.textContent = state.pilotName || 'STARFIGHTER ACE';
+  const pilotRankEl = document.getElementById('pilotRankVal');
+  if (pilotRankEl) {
+    const rank = getPlayerRank(state.xp || 0);
+    pilotRankEl.textContent = `${rank.badge} ${rank.title}`;
+  }
 
   // Tactical AI Auto-Aim Telemetry
   const autoAimCard = document.getElementById('autoAimCard');
@@ -6376,6 +6938,9 @@ function updateHUD() {
 function addScore(pts) {
   state.combo = Math.min(5.0, state.combo + 0.2);
   state.comboTimer = 3.5;
+  if (state.combo >= 2.5) {
+    trackBountyProgress('combo', 1);
+  }
   state.score += Math.floor(pts * state.combo);
   state.empCharge = Math.min(100, state.empCharge + pts * 0.12);
   if (!state.overchargeActive) {
@@ -6602,6 +7167,8 @@ function destroyAsteroid(ast) {
   updateHUD();
 
   state.asteroidKills = (state.asteroidKills || 0) + 1;
+  trackBountyProgress('asteroids', 1);
+  addPlayerXP(15);
   if (state.asteroidKills >= 5) {
     unlockAchievement('asteroid_miner');
   }
@@ -7121,6 +7688,23 @@ function update(dt) {
 
         e.attackTimer = Math.max(0.7, 1.3 - (sec - 3) * 0.15);
       }
+    } else if (e.isArmadaCommander) {
+      e.mesh.position.x = Math.sin(waveTime * 0.9) * 5.0;
+      e.mesh.position.y = 3.5 + Math.sin(waveTime * 1.5) * 0.8;
+      e.mesh.position.z = -30 + Math.cos(waveTime * 0.7) * 3.5;
+      e.mesh.rotation.y = Math.sin(waveTime * 0.8) * 0.2;
+      e.mesh.rotation.z = Math.sin(waveTime * 0.9) * -0.15;
+
+      e.attackTimer -= dt;
+      if (e.attackTimer <= 0) {
+        const commanderSpeed = 25;
+        enemyFire(e.mesh.position.clone().add(new THREE.Vector3(-1.2, 0, 1)), player.position, commanderSpeed, 20, 0xff0055);
+        enemyFire(e.mesh.position.clone().add(new THREE.Vector3(1.2, 0, 1)), player.position, commanderSpeed, 20, 0xff0055);
+        if (Math.random() < 0.5) {
+          enemyFireSpread(e.mesh.position, player.position, commanderSpeed + 2, 16);
+        }
+        e.attackTimer = 1.0;
+      }
     } else {
       if (e.isSaucer) {
         e.mesh.rotation.y += dt * 1.5;
@@ -7329,15 +7913,21 @@ function update(dt) {
     }
   }
 
-  // Dynamic Reinforcements Spawning
+  // Dynamic Reinforcements Spawning & Armada Overrun Incursion
   if (!state.warpActive && !state.paused && !state.sectorClearing && state.hull > 0) {
+    if (state.sector >= 2 && !state.bossActive && !state.armadaOverrunActive && !state.armadaOverrunDefeated) {
+      const activeCount = enemies.filter(e => e.alive && !e.isBoss).length;
+      if (activeCount <= 3 && Math.random() < 0.05) {
+        triggerArmadaOverrunEvent();
+      }
+    }
+
     if ((state.reinforcementsRemaining || 0) > 0) {
       const activeCount = enemies.filter(e => e.alive && !e.isBoss).length;
       if (activeCount <= 4) {
         const batch = Math.min(state.reinforcementsRemaining, 6);
         state.reinforcementsRemaining -= batch;
         spawnReinforcementWave(batch);
-        audio.speak("Hostile hyperspace signatures detected! Reinforcements arriving!");
         spawnFloatingText(player.position, "REINFORCEMENTS WARPING IN!", "#ff0055");
       }
     }
