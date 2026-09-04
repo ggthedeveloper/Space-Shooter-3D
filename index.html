@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Space Shooter 3D &mdash; Extraterrestrial Combat Campaign</title>
 <style>
   :root {
@@ -94,7 +97,7 @@
     padding: 6px 12px;
     box-sizing: border-box;
     max-width: calc(100vw - 20px);
-    overflow: hidden;
+    overflow: visible !important;
     pointer-events: none;
     z-index: 25;
   }
@@ -1282,7 +1285,7 @@
       padding: 4px 6px;
       gap: 4px;
       flex-wrap: nowrap !important;
-      overflow: hidden;
+      overflow: visible !important;
     }
     .hud-group { gap: 4px; }
     .bar-container { min-width: 60px; width: 68px; }
@@ -1370,12 +1373,12 @@
           </div>
         </div>
         <!-- CALM SPACE MUSIC & AUDIO VOLUME CONTROL -->
-        <div id="volumeWidget" style="position: relative; display: inline-flex; align-items: center;">
-          <button id="volumeBtn" class="icon-btn" title="Audio & Calm Space Music Volume" style="background: rgba(168, 85, 247, 0.18); border-color: #a855f7; color: #f3e8ff;">
+        <div id="volumeWidget" style="position: relative; display: inline-flex; align-items: center; z-index: 100000;">
+          <button id="volumeBtn" class="icon-btn" title="Audio & Calm Space Music Volume" style="background: rgba(168, 85, 247, 0.18); border-color: #a855f7; color: #f3e8ff; cursor: pointer;">
             <span id="volumeIcon">🎵</span>
             <span id="volumeLabel">50%</span>
           </button>
-          <div id="volumePopover" class="hud-panel" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 235px; padding: 12px 14px; z-index: 120; background: rgba(8, 14, 32, 0.96); border: 1px solid #a855f7; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.85); text-align: left;">
+          <div id="volumePopover" class="hud-panel" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 245px; padding: 12px 14px; z-index: 999999; background: rgba(8, 14, 32, 0.98); border: 1.5px solid #a855f7; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.95); text-align: left; pointer-events: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <span style="font-size: 11px; font-weight: 800; color: #d8b4fe;">🌌 CALM SPACE MUSIC</span>
               <span id="bgmVolumeDisplay" style="font-size: 11px; font-weight: 800; color: #fff;">50%</span>
@@ -1413,13 +1416,6 @@
           <button id="fullscreenBtn" class="icon-btn ctrl-btn" title="Toggle Fullscreen (F)"><span>⛶</span></button>
         </div>
       </div>
-    </div>
-
-    <!-- IN-GAME ARMADA OVERRUN ALERT BANNER -->
-    <div id="armadaAlertBanner" style="position: absolute; top: 62px; left: 50%; transform: translateX(-50%); background: rgba(255, 0, 50, 0.92); border: 2px solid #ff0055; border-radius: 6px; padding: 6px 18px; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; z-index: 24; display: none; align-items: center; gap: 8px; box-shadow: 0 0 25px rgba(255, 0, 80, 0.85); animation: pulseWarning 0.8s infinite alternate; pointer-events: none;">
-      <span>🚨</span>
-      <span>ARMADA OVERRUN IN PROGRESS &bull; ELIMINATE FLEET COMMANDER!</span>
-      <span id="armadaCommanderHpBadge" style="background: #000; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; color: #ffd166;">100% HP</span>
     </div>
 
     <!-- INCOMING RADIO COMMS TERMINAL (CLEARED BELOW TOP BAR) -->
@@ -2456,6 +2452,23 @@ if (typeof THREE === 'undefined') {
  * SPACE SHOOTER 3D: EXTENDED CAMPAIGN & COSMIC ENGINE
  * 3 Lives System, Hyperspace Level Transitions, Tactical Armory Store & Selectable 3D Starships.
  */
+
+// Global achievement / rank notification toast helper
+window.showAchievementToast = function(title, desc) {
+  try {
+    const toast = document.getElementById('achievementToast');
+    const toastTitle = document.getElementById('achievementToastTitle');
+    const toastDesc = document.getElementById('achievementToastDesc');
+    if (toast && toastTitle && toastDesc) {
+      toastTitle.textContent = title;
+      toastDesc.textContent = desc;
+      toast.style.transform = 'translateX(-50%) translateY(0px)';
+      setTimeout(() => {
+        toast.style.transform = 'translateX(-50%) translateY(-120px)';
+      }, 3600);
+    }
+  } catch(e) {}
+};
 
 // ==========================================
 // 1. SOUND & VOICE ENGINE
@@ -5068,8 +5081,14 @@ if (volumeBtn) {
     e.stopPropagation();
     audio.init();
     audio.resume();
-    const isVisible = volumePopover.style.display === 'block';
-    volumePopover.style.display = isVisible ? 'none' : 'block';
+    const isVisible = (volumePopover && volumePopover.style.display === 'block');
+    if (volumePopover) volumePopover.style.display = isVisible ? 'none' : 'block';
+  });
+}
+
+if (volumePopover) {
+  volumePopover.addEventListener('click', (e) => {
+    e.stopPropagation();
   });
 }
 
@@ -6174,9 +6193,6 @@ function damageEnemy(enemy, dmg) {
     if (enemy.isArmadaCommander) {
       state.armadaOverrunActive = false;
       state.armadaOverrunDefeated = true;
-      const alertBanner = document.getElementById('armadaAlertBanner');
-      if (alertBanner) alertBanner.style.display = 'none';
-
       audio.playPromotionFanfare();
       triggerShake(18);
       spawnExplosionFX(enemy.mesh.position, 0xff0055, 50, 2.2);
@@ -6335,13 +6351,8 @@ function playerDestroyed() {
     const got = document.getElementById('gameOverTitle');
     const gos = document.getElementById('gameOverSubtitle');
     if (got && gos) {
-      if (state.armadaOverrunActive) {
-        got.textContent = "ARMADA OVERRUN";
-        gos.textContent = "Defense perimeter compromised · Vessel overwhelmed during hostile fleet incursion.";
-      } else {
-        got.textContent = "MISSION FAILED";
-        gos.textContent = "All reserve starfighters lost · Tactical combat telemetry terminated.";
-      }
+      got.textContent = "MISSION FAILED";
+      gos.textContent = "All reserve starfighters lost · Defense perimeter compromised.";
     }
     document.getElementById('finalScoreVal').textContent = state.score;
     document.getElementById('highScoreVal').textContent = state.highScore;
@@ -6398,8 +6409,6 @@ function startMission() {
   state.sectorClearing = false;
   state.armadaOverrunActive = false;
   state.armadaOverrunDefeated = false;
-  const alertBanner = document.getElementById('armadaAlertBanner');
-  if (alertBanner) alertBanner.style.display = 'none';
 
   setStarship(state.shipType);
   player.position.set(0, 0, BOUNDS.playerZ);
@@ -6413,8 +6422,6 @@ function startMission() {
 function loadSector(sec) {
   state.armadaOverrunActive = false;
   state.armadaOverrunDefeated = false;
-  const alertBanner = document.getElementById('armadaAlertBanner');
-  if (alertBanner) alertBanner.style.display = 'none';
 
   const notice = document.getElementById('waveNotice');
   const title = document.getElementById('waveNoticeTitle');
@@ -6659,14 +6666,11 @@ function triggerArmadaOverrunEvent() {
   if (audio.playAlarm) audio.playAlarm();
   triggerShake(12);
 
-  const alertBanner = document.getElementById('armadaAlertBanner');
-  if (alertBanner) alertBanner.style.display = 'block';
-
   const commsSource = document.getElementById('commsSource');
   const commsMessage = document.getElementById('commsMessage');
   if (commsSource) commsSource.textContent = "TACTICAL RADAR";
   if (commsMessage) commsMessage.textContent = "EMERGENCY: Hostile Armada Commander detected jumping into sector!";
-  spawnFloatingText(player.position, "⚠️ ARMADA OVERRUN IN PROGRESS!", "#ff0055");
+  spawnFloatingText(player.position, "⚠️ HOSTILE COMMANDER WARPING IN!", "#ff0055");
 
   spawnArmadaCommander();
 }
@@ -6713,8 +6717,6 @@ function sectorCompleted() {
   state.credits += 250 * state.sector;
   addPlayerXP(100 * state.sector);
   state.armadaOverrunActive = false;
-  const alertBanner = document.getElementById('armadaAlertBanner');
-  if (alertBanner) alertBanner.style.display = 'none';
   state.highestSector = Math.max(state.highestSector || 1, state.sector + 1);
   saveGameData();
   spawnFloatingText(player.position, `SECTOR CLEARED! +${250 * state.sector} CR · +${100 * state.sector} XP`, "#ffd166");
@@ -7997,23 +7999,16 @@ function enemyFireHomingOrb(pos, targetPos, speed = 18, dmg = 24) {
 }
 
 function showOnScreenError(title, err) {
-  let el = document.getElementById('runtimeErrorBanner');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'runtimeErrorBanner';
-    el.style = 'position:fixed;top:72px;left:16px;right:16px;z-index:999999;background:rgba(220,20,60,0.95);color:#fff;padding:14px;border:2px solid #ffd166;border-radius:8px;font-family:monospace;font-size:12px;box-shadow:0 0 30px rgba(255,0,0,0.8);pointer-events:auto;';
-    document.body.appendChild(el);
-  }
-  el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;"><strong>⚠️ ${title}:</strong> <button onclick="this.closest('#runtimeErrorBanner').remove()" style="background:#222;color:#fff;border:1px solid #ffd166;padding:3px 10px;cursor:pointer;border-radius:4px;font-size:11px;font-weight:bold;">✕ DISMISS</button></div>${err ? (err.message || err) : 'Error'}<pre style="margin:4px 0 0;font-size:11px;white-space:pre-wrap;">${err && err.stack ? err.stack : ''}</pre>`;
+  console.error("Game telemetry error:", title, err);
+  const el = document.getElementById('runtimeErrorBanner');
+  if (el) el.remove();
 }
 
 window.addEventListener('error', (e) => {
-  console.error("Global window error:", e);
-  showOnScreenError("Script Error", e.error || e);
+  console.error("Global window error:", e.error || e);
 });
 window.addEventListener('unhandledrejection', (e) => {
   console.error("Unhandled Promise:", e.reason);
-  showOnScreenError("Promise Rejection", e.reason);
 });
 
 function loop() {
@@ -8021,14 +8016,12 @@ function loop() {
   try {
     update(dt);
   } catch (err) {
-    console.error("Game loop update error:", err);
-    showOnScreenError("Update Loop Error", err);
+    console.warn("Update frame non-fatal:", err);
   }
   try {
     renderer.render(scene, camera);
   } catch (err) {
-    console.error("Game loop render error:", err);
-    showOnScreenError("WebGL Render Error", err);
+    console.warn("Render frame non-fatal:", err);
   }
   requestAnimationFrame(loop);
 }
