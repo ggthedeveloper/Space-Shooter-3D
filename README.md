@@ -176,4 +176,4 @@ Launch [`index.html`](file:///Users/gg/.gemini/antigravity/scratch/alien-assault
 
 **Developed by Gaurav Gautam**
 - **GitHub**: [@ggthedeveloper](https://github.com/ggthedeveloper)
-- **Repository**: [https://github.com/ggthedeveloper/Space-Shooter-3D-](https://github.com/ggthedeveloper/Space-Shooter-3D-)
+- **Repository**: [https://github.com/ggthedeveloper/Space-Shooter-3D-](https://github.com/ggthedeveloper/Space-Shooter-3D)
