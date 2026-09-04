@@ -3,6 +3,7 @@
 An atmospheric 3D space combat simulator built with **Three.js** and **Web Audio API**, featuring **3 Lives System**, **Hyperspace Level Progression**, an interactive **Weapon & Armory Store**, and **3 Selectable 3D Starfighters**.
 
 ---
+## Live at: https://ggthedeveloper.github.io/Space-Shooter-3D-/
 
 ## 🎮 Flight, Weapon & Store Controls
 
