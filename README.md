@@ -2,7 +2,7 @@
 
 An atmospheric, industry-level 3D space combat simulator built with **Three.js** and **Web Audio API**, featuring **3 Lives System**, **Hyperspace Level Progression**, an interactive **Weapon & Armory Store**, **5 Selectable 3D Starfighters with Class-Specific Deadly Arsenals**, **Player XP & Military Ranks**, **Dynamic Tactical Bounties**, and in-game **Armada Overrun Incursion Events**.
 
-> **Developed by GG**  
+> **Developed by Gaurav Gautam**  
 > GitHub: [@ggthedeveloper](https://github.com/ggthedeveloper) · Repository: [Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)
 
 ---
@@ -149,6 +149,6 @@ Zero external audio asset dependencies, with smooth dynamic crossfades and custo
 
 ## 👨‍💻 Author & Developer
 
-**Developed by GG**
+**Developed by Gaurav Gautam**
 - **GitHub**: [@ggthedeveloper](https://github.com/ggthedeveloper)
 - **Repository**: [https://github.com/ggthedeveloper/Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)
