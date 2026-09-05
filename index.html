@@ -369,22 +369,26 @@
     box-shadow: 0 0 16px rgba(255, 209, 102, 0.6);
   }
 
-  /* BOTTOM WEAPON ARSENAL DOCK (LOCKED TO SINGLE ROW) */
+  /* BOTTOM WEAPON ARSENAL DOCK (UNIFIED NON-SCROLLABLE RECTANGULAR BAR BOX) */
   #bottomBar {
     bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 6px;
-    align-items: center;
+    gap: 5px;
+    align-items: stretch;
     flex-wrap: nowrap !important;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    max-width: min(960px, calc(100vw - 160px));
-    padding: 4px 8px;
+    overflow: visible !important;
+    width: max-content;
+    max-width: calc(100vw - 130px);
+    box-sizing: border-box;
+    padding: 5px 8px;
     z-index: 15;
     pointer-events: auto;
+    background: rgba(5, 10, 26, 0.92);
+    border: 1.5px solid rgba(0, 229, 255, 0.35);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 229, 255, 0.08);
   }
   #bottomBar::-webkit-scrollbar {
     display: none;
@@ -393,18 +397,21 @@
   .weapon-card {
     display: flex;
     flex-direction: column;
-    gap: 1px;
-    padding: 4px 8px;
-    min-width: 78px;
+    justify-content: space-between;
+    gap: 2px;
+    padding: 5px 8px;
+    min-width: 74px;
     max-width: 104px;
-    flex-shrink: 0;
-    background: rgba(0, 0, 0, 0.55);
+    min-height: 60px;
+    flex: 1 1 0px;
+    background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    font-size: 9.5px;
+    font-size: 9px;
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
+    box-sizing: border-box;
   }
 
   .weapon-card:hover {
@@ -1369,14 +1376,21 @@
     #sectorBadge { font-size: 9px; }
     #objectiveText { font-size: 11px; }
     #bottomBar {
-      overflow-x: auto;
+      overflow: visible !important;
       flex-wrap: nowrap !important;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      max-width: 96vw;
-      justify-content: flex-start;
-      padding: 4px 8px;
-      bottom: 8px;
+      width: auto;
+      max-width: calc(100vw - 110px);
+      justify-content: center;
+      padding: 4px 6px;
+      gap: 4px;
+      bottom: 6px;
+    }
+    .weapon-card {
+      min-width: 60px;
+      max-width: 88px;
+      min-height: 54px;
+      padding: 3px 5px;
+      font-size: 8px;
     }
     #touchControls { display: block; }
     #touchActionButtons { bottom: 90px; right: 12px; gap: 8px; }
@@ -1418,7 +1432,7 @@
     #topBar { padding: 3px 4px; gap: 3px; }
     .bar-container { min-width: 52px; width: 56px; }
     .bar-label { font-size: 7.5px; }
-    .weapon-card { min-width: 74px; padding: 3px 5px; font-size: 8.5px; }
+    .weapon-card { min-width: 46px; min-height: 48px; padding: 2px 3px; font-size: 7.5px; }
     .weapon-name { font-size: 9px; }
     .weapon-sub { font-size: 7.5px; }
     .quick-upgrade-btn { font-size: 8px; padding: 2px 4px; }
