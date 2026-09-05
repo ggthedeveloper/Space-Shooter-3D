@@ -1497,11 +1497,21 @@
             <div style="margin-bottom: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px;">
               <span style="font-size: 10.5px; font-weight: 800; color: #ffd166; display: block; margin-bottom: 4px;">🎼 MUSIC TRACK STYLE</span>
               <select id="hudMusicStyleSelect" style="width: 100%; background: #0c152e; border: 1px solid #a855f7; color: #e6f0ff; padding: 4px 6px; font-size: 10.5px; border-radius: 4px; outline: none; cursor: pointer;">
-                <option value="ambient">🌌 Cosmic Ambient (Default)</option>
+                <option value="auto">🔀 Auto-Rotate Playlist (Dynamic)</option>
+                <option value="interstellar">🎹 Cosmic Organ Odyssey (Interstellar)</option>
+                <option value="hyperspace">🌀 Hyperspace Drift (CS-80 Analog)</option>
+                <option value="ambient">🌌 Cosmic Ambient (Serene)</option>
                 <option value="starlight">✨ Celestial Starlight (Peaceful)</option>
                 <option value="synthwave">⚡ Cybernetic Synthwave (Retro)</option>
+                <option value="darkmatter">🌑 Dark Matter Infiltration (Tense)</option>
                 <option value="odyssey">🚀 Deep Space Odyssey (Cinematic)</option>
+                <option value="supernova">💥 Supernova Overdrive (Electro Battle)</option>
+                <option value="pulsar">🔥 Battle Pulsar (High-Energy)</option>
+                <option value="solarsun">☀️ Solar Flare Symphony (Lydian Warmth)</option>
+                <option value="andromeda">🌠 Andromeda Requiem (Celestial Choir)</option>
+                <option value="boss">⚔️ Titan Incursion (Boss Battle)</option>
               </select>
+              <button id="nextTrackBtn" class="btn-secondary" onclick="audio.init(); audio.resume(); audio.nextTrack();" style="padding: 4px 6px; font-size: 10px; margin-top: 5px; width: 100%; border-color: #ffd166; color: #ffd166; font-weight: 700;">⏭ NEXT MUSIC TRACK</button>
             </div>
 
             <div style="display: flex; gap: 6px;">
@@ -1677,7 +1687,7 @@
     </div>
 
     <!-- GAME FOOTER ATTRIBUTION (NON-CLICKABLE) -->
-    <div id="gameFooter">Developed by <span class="dev-highlight">Gaurav Gautam</span></div>
+    <div id="gameFooter">Developed by <span class="dev-highlight">GG</span></div>
   </div>
 
   <!-- PILOT REGISTRATION & FIGHTER BRIEFING MODAL -->
@@ -2203,11 +2213,16 @@
         <select id="menuMusicStyleSelect">
           <option value="auto">🔀 Auto-Rotate Playlist (Dynamic)</option>
           <option value="interstellar">🎹 Cosmic Organ Odyssey (Interstellar)</option>
+          <option value="hyperspace">🌀 Hyperspace Drift (CS-80 Analog)</option>
           <option value="ambient">🌌 Cosmic Ambient (Serene)</option>
           <option value="starlight">✨ Celestial Starlight (Peaceful)</option>
           <option value="synthwave">⚡ Cybernetic Synthwave (Retro)</option>
+          <option value="darkmatter">🌑 Dark Matter Infiltration (Tense)</option>
           <option value="odyssey">🚀 Deep Space Odyssey (Cinematic)</option>
+          <option value="supernova">💥 Supernova Overdrive (Electro Battle)</option>
           <option value="pulsar">🔥 Battle Pulsar (High-Energy)</option>
+          <option value="solarsun">☀️ Solar Flare Symphony (Lydian Warmth)</option>
+          <option value="andromeda">🌠 Andromeda Requiem (Celestial Choir)</option>
           <option value="boss">⚔️ Titan Incursion (Boss Battle)</option>
         </select>
       </div>
@@ -2751,7 +2766,11 @@ class SoundEngine {
   }
 
   setMusicStyle(style) {
-    const valid = ['ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar', 'interstellar', 'boss', 'auto'];
+    const valid = [
+      'ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar',
+      'interstellar', 'hyperspace', 'darkmatter', 'supernova',
+      'solarsun', 'andromeda', 'boss', 'auto'
+    ];
     if (!valid.includes(style)) style = 'ambient';
     this.musicStyle = style;
     localStorage.setItem('alien_assault_music_style', style);
@@ -2782,7 +2801,11 @@ class SoundEngine {
   }
 
   nextTrack() {
-    const list = ['interstellar', 'ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar', 'boss'];
+    const list = [
+      'interstellar', 'hyperspace', 'ambient', 'starlight',
+      'synthwave', 'darkmatter', 'odyssey', 'supernova',
+      'pulsar', 'solarsun', 'andromeda', 'boss'
+    ];
     let cur = (this.musicStyle === 'auto' ? this.currentAutoTrack : this.musicStyle) || 'ambient';
     let idx = list.indexOf(cur);
     let next = list[(idx + 1) % list.length];
@@ -2791,6 +2814,9 @@ class SoundEngine {
       this.crossfadeToTrack(next);
     } else {
       this.setMusicStyle(next);
+    }
+    if (typeof syncMusicStyleUI === 'function') {
+      syncMusicStyleUI(this.musicStyle === 'auto' ? this.currentAutoTrack : this.musicStyle);
     }
   }
 
@@ -3210,13 +3236,27 @@ class SoundEngine {
 
     let style = overrideStyle || this.musicStyle || 'ambient';
     if (style === 'auto') {
-      const list = ['ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar'];
+      const list = [
+        'interstellar', 'hyperspace', 'ambient', 'starlight',
+        'synthwave', 'darkmatter', 'odyssey', 'supernova',
+        'pulsar', 'solarsun', 'andromeda'
+      ];
       this.currentAutoTrack = this.currentAutoTrack || list[Math.floor(Math.random() * list.length)];
       style = this.currentAutoTrack;
     }
 
     if (style === 'interstellar') {
       this.generateInterstellarJourney();
+    } else if (style === 'hyperspace') {
+      this.generateHyperspaceDrift();
+    } else if (style === 'darkmatter') {
+      this.generateDarkMatterInfiltration();
+    } else if (style === 'supernova') {
+      this.generateSupernovaOverdrive();
+    } else if (style === 'solarsun') {
+      this.generateSolarFlareSymphony();
+    } else if (style === 'andromeda') {
+      this.generateAndromedaRequiem();
     } else if (style === 'boss') {
       this.generateTitanIncursion();
     } else if (style === 'starlight') {
@@ -4008,6 +4048,624 @@ class SoundEngine {
     this.synthTimer = setInterval(playBossBassStep, STEP_MS);
   }
 
+  generateHyperspaceDrift() {
+    // Vangelis / CS-80 Inspired Analog Hyperspace Drift
+    try {
+      const t = this.ctx.currentTime;
+      this.droneOsc = this.ctx.createOscillator();
+      this.droneFilter = this.ctx.createBiquadFilter();
+      this.droneGain = this.ctx.createGain();
+
+      this.droneOsc.type = 'sine';
+      this.droneOsc.frequency.setValueAtTime(48.99, t); // G0 deep warm root
+      this.droneFilter.type = 'lowpass';
+      this.droneFilter.frequency.setValueAtTime(105, t);
+      this.droneGain.gain.setValueAtTime(0.07, t);
+
+      this.droneOsc.connect(this.droneFilter);
+      this.droneFilter.connect(this.droneGain);
+      this.droneGain.connect(this.bgmGain);
+      this.droneOsc.start(t);
+    } catch(e) {}
+
+    // Lush CS-80 Pad Harmony (EbMaj9 -> Gm9 -> AbMaj7 -> Bb6 -> Cm9)
+    const driftChords = [
+      [77.78, 155.56, 196.00, 233.08, 293.66, 349.23], // EbMaj9
+      [49.00, 98.00, 146.83, 196.00, 233.08, 293.66],  // Gm9
+      [51.91, 103.83, 155.56, 207.65, 261.63, 311.13], // AbMaj7
+      [58.27, 116.54, 146.83, 174.61, 233.08, 293.66], // Bb6
+      [65.41, 130.81, 155.56, 196.00, 261.63, 329.63]  // Cm9
+    ];
+    const CHORD_DURATION = 7.8;
+
+    const playDriftChord = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chordNotes = driftChords[this.bgmStep % driftChords.length];
+        this.bgmStep++;
+        const now = this.ctx.currentTime;
+
+        chordNotes.forEach((freq, idx) => {
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc1.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(freq, now);
+          osc1.detune.setValueAtTime(-5.5, now);
+
+          osc2.type = 'sawtooth';
+          osc2.frequency.setValueAtTime(freq, now);
+          osc2.detune.setValueAtTime(5.5, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(260 + idx * 50, now);
+          filter.frequency.linearRampToValueAtTime(680 + idx * 75, now + 3.2);
+          filter.frequency.exponentialRampToValueAtTime(240, now + CHORD_DURATION + 1.8);
+          filter.Q.setValueAtTime(2.2, now);
+
+          const vol = (idx === 0) ? 0.048 : (0.026 / Math.sqrt(idx + 1));
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(vol, now + 2.2);
+          gain.gain.setValueAtTime(vol, now + 5.0);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + CHORD_DURATION + 1.9);
+
+          osc1.connect(filter);
+          osc2.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.bgmGain);
+
+          osc1.start(now);
+          osc2.start(now);
+
+          const stopT = now + CHORD_DURATION + 2.0;
+          osc1.stop(stopT);
+          osc2.stop(stopT);
+
+          setTimeout(() => {
+            try { osc1.disconnect(); osc2.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+          }, (CHORD_DURATION + 2.2) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playDriftChord();
+    this.bgmTimer = setInterval(playDriftChord, CHORD_DURATION * 1000);
+
+    // Warm Analog Lead Portamento Echo
+    const triggerDriftEcho = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        const leadScale = [349.23, 392.00, 466.16, 523.25, 587.33, 698.46];
+        const freq1 = leadScale[Math.floor(Math.random() * leadScale.length)];
+        const freq2 = leadScale[Math.floor(Math.random() * leadScale.length)];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq1, now);
+        osc.frequency.exponentialRampToValueAtTime(freq2, now + 0.8);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1100, now);
+        filter.Q.setValueAtTime(3.0, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.022, now + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.4);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 2.5);
+        setTimeout(() => {
+          try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 2600);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(triggerDriftEcho, 3600);
+  }
+
+  generateDarkMatterInfiltration() {
+    // Tense Void & Dark Matter Infiltration Atmospheric Soundscape
+    try {
+      const t = this.ctx.currentTime;
+      this.droneOsc = this.ctx.createOscillator();
+      this.droneFilter = this.ctx.createBiquadFilter();
+      this.droneGain = this.ctx.createGain();
+
+      this.droneOsc.type = 'sawtooth';
+      this.droneOsc.frequency.setValueAtTime(32.70, t); // C0 low sub-rumble
+      this.droneFilter.type = 'lowpass';
+      this.droneFilter.frequency.setValueAtTime(75, t);
+      this.droneGain.gain.setValueAtTime(0.08, t);
+
+      this.droneOsc.connect(this.droneFilter);
+      this.droneFilter.connect(this.droneGain);
+      this.droneGain.connect(this.bgmGain);
+      this.droneOsc.start(t);
+    } catch(e) {}
+
+    const darkChords = [
+      { root: 65.41, notes: [65.41, 130.81, 155.56, 196.00, 246.94] }, // Cm(maj7)
+      { root: 51.91, notes: [51.91, 103.83, 146.83, 185.00, 233.08] }, // Ab7b5
+      { root: 73.42, notes: [73.42, 146.83, 174.61, 207.65, 261.63] }, // Ddim7
+      { root: 49.00, notes: [49.00, 98.00, 138.59, 174.61, 220.00] }   // G7b9
+    ];
+    let darkIdx = 0;
+    let darkStep = 0;
+    const CHORD_DURATION = 6.4;
+
+    const playDarkPad = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = darkChords[darkIdx % darkChords.length];
+        darkIdx++;
+        const now = this.ctx.currentTime;
+        chord.notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.detune.setValueAtTime((idx % 2 === 0 ? -4 : 4), now);
+
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(320 + idx * 60, now);
+          filter.frequency.linearRampToValueAtTime(620, now + 2.5);
+          filter.frequency.exponentialRampToValueAtTime(280, now + CHORD_DURATION + 1.2);
+          filter.Q.setValueAtTime(3.8, now);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.032, now + 1.5);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + CHORD_DURATION + 1.5);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.bgmGain);
+
+          osc.start(now);
+          osc.stop(now + CHORD_DURATION + 1.6);
+          setTimeout(() => {
+            try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+          }, (CHORD_DURATION + 1.8) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playDarkPad();
+    this.bgmTimer = setInterval(playDarkPad, CHORD_DURATION * 1000);
+
+    // Deep Space Telemetry Chirp (Void Radar)
+    const triggerTelemetryChirp = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        const chirps = [2489, 3136, 1864, 3729];
+        const freq = chirps[Math.floor(Math.random() * chirps.length)];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+        osc.exponentialRampToValueAtTime(freq * 0.4, now + 0.08);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.015, now + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+
+        osc.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 0.14);
+        setTimeout(() => {
+          try { osc.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 200);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(triggerTelemetryChirp, 1800);
+
+    // Staccato Void Bass Pulse
+    const playDarkBass = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = darkChords[darkIdx % darkChords.length];
+        darkStep++;
+        const freqs = [chord.root, chord.root, chord.root * 1.5, chord.root];
+        const f = freqs[darkStep % freqs.length];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(f, now);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(450, now);
+        filter.frequency.exponentialRampToValueAtTime(80, now + 0.12);
+        filter.Q.setValueAtTime(4.0, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.038, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 0.16);
+        setTimeout(() => {
+          try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 220);
+      } catch(e) {}
+    };
+
+    this.synthTimer = setInterval(playDarkBass, 240);
+  }
+
+  generateSupernovaOverdrive() {
+    // 138 BPM Fast-Paced Electro Combat Anthem
+    const battleChords = [
+      { root: 73.42, notes: [146.83, 220.00, 293.66, 349.23] }, // Dm
+      { root: 87.31, notes: [174.61, 261.63, 349.23, 440.00] }, // F
+      { root: 58.27, notes: [116.54, 174.61, 233.08, 293.66] }, // Bb
+      { root: 65.41, notes: [130.81, 196.00, 261.63, 329.63] }  // C
+    ];
+    let chordIdx = 0;
+    let seqStep = 0;
+    const STEP_MS = 108; // 138 BPM 16th notes
+
+    // Power Stab Synth Chords
+    const playStab = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = battleChords[chordIdx % battleChords.length];
+        const now = this.ctx.currentTime;
+        const dur = 1.6;
+        chord.notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.detune.setValueAtTime(idx % 2 === 0 ? -8 : 8, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(1400, now);
+          filter.frequency.exponentialRampToValueAtTime(450, now + dur);
+          filter.Q.setValueAtTime(3.0, now);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.035, now + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.bgmGain);
+
+          osc.start(now);
+          osc.stop(now + dur + 0.05);
+          setTimeout(() => {
+            try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+          }, (dur + 0.1) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playStab();
+    this.bgmTimer = setInterval(playStab, 1728);
+
+    // Driving 16th-Note Electro Bass Sequence
+    const playSequenceStep = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = battleChords[chordIdx % battleChords.length];
+        seqStep++;
+        if (seqStep % 16 === 0) chordIdx = (chordIdx + 1) % battleChords.length;
+
+        const octaves = [1, 1, 2, 1, 1, 2, 1.5, 2, 1, 1, 2, 1, 1.5, 2, 1.25, 2];
+        const freq = chord.root * octaves[seqStep % octaves.length];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(950, now);
+        filter.frequency.exponentialRampToValueAtTime(110, now + 0.09);
+        filter.Q.setValueAtTime(4.0, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.042, now + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 0.10);
+        setTimeout(() => {
+          try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 130);
+      } catch(e) {}
+    };
+
+    this.synthTimer = setInterval(playSequenceStep, STEP_MS);
+
+    // Off-Beat Hi-Hat White Noise Energy
+    const playHat = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        const now = this.ctx.currentTime;
+        const bufferSize = Math.floor(this.ctx.sampleRate * 0.04);
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(6500, now);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.018, now + 0.004);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.038);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.bgmGain);
+
+        noise.start(now);
+        setTimeout(() => {
+          try { noise.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 60);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(playHat, 216);
+  }
+
+  generateSolarFlareSymphony() {
+    // Uplifting Neo-Classical Solar Flare Symphony (D Lydian)
+    try {
+      const t = this.ctx.currentTime;
+      this.droneOsc = this.ctx.createOscillator();
+      this.droneFilter = this.ctx.createBiquadFilter();
+      this.droneGain = this.ctx.createGain();
+
+      this.droneOsc.type = 'triangle';
+      this.droneOsc.frequency.setValueAtTime(73.42, t); // D1 root
+      this.droneFilter.type = 'lowpass';
+      this.droneFilter.frequency.setValueAtTime(140, t);
+      this.droneGain.gain.setValueAtTime(0.065, t);
+
+      this.droneOsc.connect(this.droneFilter);
+      this.droneFilter.connect(this.droneGain);
+      this.droneGain.connect(this.bgmGain);
+      this.droneOsc.start(t);
+    } catch(e) {}
+
+    const solarChords = [
+      [73.42, 146.83, 220.00, 277.18, 329.63, 440.00], // DMaj9
+      [98.00, 196.00, 246.94, 293.66, 369.99, 440.00], // GMaj7#11
+      [110.00, 220.00, 277.18, 329.63, 440.00, 493.88],// Aadd9
+      [123.47, 246.94, 293.66, 369.99, 440.00, 587.33] // Bm7
+    ];
+    let solarIdx = 0;
+    const CHORD_DURATION = 6.0;
+
+    const playSolarPad = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chordNotes = solarChords[solarIdx % solarChords.length];
+        solarIdx++;
+        const now = this.ctx.currentTime;
+        chordNotes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(350 + idx * 60, now);
+          filter.frequency.linearRampToValueAtTime(780, now + 2.5);
+          filter.frequency.exponentialRampToValueAtTime(320, now + CHORD_DURATION + 1.2);
+          filter.Q.setValueAtTime(1.8, now);
+
+          const vol = (idx === 0) ? 0.045 : (0.024 / Math.sqrt(idx + 1));
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(vol, now + 1.8);
+          gain.gain.setValueAtTime(vol, now + 4.2);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + CHORD_DURATION + 1.4);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.bgmGain);
+
+          osc.start(now);
+          osc.stop(now + CHORD_DURATION + 1.5);
+          setTimeout(() => {
+            try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+          }, (CHORD_DURATION + 1.6) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playSolarPad();
+    this.bgmTimer = setInterval(playSolarPad, CHORD_DURATION * 1000);
+
+    // Shimmering High Bell Waterfall Arpeggios
+    let arpIdx = 0;
+    const bells = [880.00, 1108.73, 1318.51, 1661.22, 1760.00, 2217.46, 2637.02];
+    const playBell = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        arpIdx++;
+        const freq = bells[arpIdx % bells.length];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.016, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
+
+        osc.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 0.9);
+        setTimeout(() => {
+          try { osc.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 950);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(playBell, 420);
+  }
+
+  generateAndromedaRequiem() {
+    // Ethereal Space Cathedral Vocal Choir & Andromeda Galaxy Requiem
+    try {
+      const t = this.ctx.currentTime;
+      this.droneOsc = this.ctx.createOscillator();
+      this.droneFilter = this.ctx.createBiquadFilter();
+      this.droneGain = this.ctx.createGain();
+
+      this.droneOsc.type = 'sine';
+      this.droneOsc.frequency.setValueAtTime(55.00, t); // A1 choir root
+      this.droneFilter.type = 'lowpass';
+      this.droneFilter.frequency.setValueAtTime(110, t);
+      this.droneGain.gain.setValueAtTime(0.07, t);
+
+      this.droneOsc.connect(this.droneFilter);
+      this.droneFilter.connect(this.droneGain);
+      this.droneGain.connect(this.bgmGain);
+      this.droneOsc.start(t);
+    } catch(e) {}
+
+    // Sacred Minor-Major Celestial Progressions (Am -> Em -> F -> C -> Dm -> E)
+    const choirChords = [
+      [110.00, 164.81, 220.00, 261.63, 329.63], // Am
+      [82.41, 123.47, 164.81, 246.94, 329.63],  // Em
+      [87.31, 130.81, 174.61, 261.63, 349.23],  // F
+      [65.41, 130.81, 196.00, 261.63, 329.63],  // C
+      [73.42, 110.00, 146.83, 220.00, 293.66],  // Dm
+      [82.41, 123.47, 164.81, 207.65, 329.63]   // E
+    ];
+    const CHORD_DURATION = 8.5;
+
+    const playChoirChord = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chordNotes = choirChords[this.bgmStep % choirChords.length];
+        this.bgmStep++;
+        const now = this.ctx.currentTime;
+
+        // Vowel Formant Filters mimicking human voices ('Oh' / 'Ah')
+        chordNotes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const formant1 = this.ctx.createBiquadFilter();
+          const formant2 = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.detune.setValueAtTime((idx % 2 === 0 ? -3 : 3), now);
+
+          formant1.type = 'bandpass';
+          formant1.frequency.setValueAtTime(550, now); // F1 ~ 550Hz vowel
+          formant1.Q.setValueAtTime(4.5, now);
+
+          formant2.type = 'bandpass';
+          formant2.frequency.setValueAtTime(1050, now); // F2 ~ 1050Hz vowel
+          formant2.Q.setValueAtTime(5.0, now);
+
+          const vol = (idx === 0) ? 0.038 : (0.022 / Math.sqrt(idx + 1));
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(vol, now + 3.0); // Slow breathing swell
+          gain.gain.setValueAtTime(vol, now + 5.5);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + CHORD_DURATION + 2.0);
+
+          osc.connect(formant1);
+          osc.connect(formant2);
+          formant1.connect(gain);
+          formant2.connect(gain);
+          gain.connect(this.bgmGain);
+
+          osc.start(now);
+          const stopT = now + CHORD_DURATION + 2.2;
+          osc.stop(stopT);
+
+          setTimeout(() => {
+            try {
+              osc.disconnect(); formant1.disconnect(); formant2.disconnect(); gain.disconnect();
+            } catch(e) {}
+          }, (CHORD_DURATION + 2.4) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playChoirChord();
+    this.bgmTimer = setInterval(playChoirChord, CHORD_DURATION * 1000);
+
+    // Ethereal Glass Harmonica Overtones
+    const triggerGlassChime = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        const glassNotes = [1318.51, 1567.98, 1760.00, 2093.00, 2637.02];
+        const freq = glassNotes[Math.floor(Math.random() * glassNotes.length)];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.016, now + 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.5);
+
+        osc.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 3.6);
+        setTimeout(() => {
+          try { osc.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 3800);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(triggerGlassChime, 4500);
+  }
+
   playCategoryMusic(category) {
     if (this.currentCategory === category && this.bgmPlaying) return;
     this.currentCategory = category;
@@ -4019,13 +4677,17 @@ class SoundEngine {
 
     let track = 'ambient';
     if (category === 'MENU') {
-      track = 'ambient';
+      const menuPool = ['ambient', 'hyperspace', 'andromeda', 'starlight'];
+      track = menuPool[Math.floor(Math.random() * menuPool.length)];
     } else if (category === 'NORMAL_BATTLE') {
-      track = (Math.random() > 0.5) ? 'synthwave' : 'interstellar';
+      const normalPool = ['synthwave', 'interstellar', 'solarsun', 'pulsar'];
+      track = normalPool[Math.floor(Math.random() * normalPool.length)];
     } else if (category === 'DEEP_SPACE') {
-      track = 'interstellar';
+      const deepPool = ['interstellar', 'hyperspace', 'odyssey', 'andromeda', 'darkmatter'];
+      track = deepPool[Math.floor(Math.random() * deepPool.length)];
     } else if (category === 'HIGH_SECTOR') {
-      track = (Math.random() > 0.5) ? 'pulsar' : 'interstellar';
+      const highPool = ['supernova', 'darkmatter', 'pulsar', 'interstellar'];
+      track = highPool[Math.floor(Math.random() * highPool.length)];
     } else if (category === 'BOSS_BATTLE') {
       track = 'boss';
     }

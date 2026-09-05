@@ -101,10 +101,15 @@ When your vessel's hull integrity drops to **20% or below**, an emergency combat
 
 ---
 
-## 🎼 4. Interstellar-Inspired Procedural Cinematic Soundtrack
+## 🎼 4. Interstellar-Inspired Procedural Cinematic Soundtrack (12 Tracks)
 
-100% Web Audio API procedural synthesizer engine with dynamic category routing:
+100% Web Audio API procedural synthesizer engine with dynamic category routing and in-game track cycling:
 - **🎹 Cosmic Organ Odyssey (Interstellar)**: Cathedral space organ synthesis with multi-oscillator detuned drawbars, deep 43.65Hz gravitational sub-bass pedal, slow majestic swelling chords, and clockwork time-dilation ticks.
+- **🌀 Hyperspace Drift**: Vangelis / Blade Runner CS-80 inspired lush analog brass swells, warm 48.99Hz sub-drone, and emotional portamento echoes.
+- **🌑 Dark Matter Infiltration**: Tense void infiltration soundscape, C0 32.7Hz sub-rumble, minor-augmented chromatic pads, and cosmic telemetry radar pings.
+- **💥 Supernova Overdrive**: 138 BPM fast-paced electro combat anthem with driving 16th-note sequenced bass, punchy power stabs, and white-noise off-beat hats.
+- **☀️ Solar Flare Symphony**: Uplifting neo-classical D Lydian space synth with cascading crystalline bell arpeggios and radiant pads.
+- **🌠 Andromeda Requiem**: Haunting celestial vocal choir using formant-filtered synthesis ('Ah'/'Oh' vowels) and ethereal glass harmonica harmonics.
 - **⚔️ Titan Incursion (Boss Battle)**: Dramatic brass-synth chords, aggressive 16th-note battle bass pulses, and tense cinematic swells.
 - **🌌 Cosmic Ambient**: Deep sub-drone, floating D Dorian / F Lydian space pads, and starlight chimes.
 - **✨ Celestial Starlight**: Peaceful crystal bell arpeggios, gentle high serene pads, and tranquil harmonics.
@@ -112,6 +117,7 @@ When your vessel's hull integrity drops to **20% or below**, an emergency combat
 - **🚀 Deep Space Odyssey**: Planetary minor 9th cinematic pads and deep radar telemetry pings.
 - **🔥 Battle Pulsar**: High-octane driving pulse basslines and resonant saw leads.
 - **Dynamic Category Router**: Automatically matches music to context (`MENU`, `NORMAL_BATTLE`, `DEEP_SPACE`, `HIGH_SECTOR`, `BOSS_BATTLE`, `VICTORY`, `GAME_OVER`).
+- **In-Game Cycling**: Convenient `⏭ NEXT MUSIC TRACK` button right in the HUD volume popover.
 - **Pristine Audio Design**: Repetitive "pi pi" and "ping" sounds are completely removed.
 
 ---
