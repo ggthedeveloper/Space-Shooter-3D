@@ -1,0 +1,122 @@
+/* ===================================================
+   ALIEN ASSAULT 3D: STARSHIP SELECTION & STATS
+   Ship cards, hangar showcase grids, weapon specs
+   =================================================== */
+
+  /* SHIP SELECTION CARDS */
+  .ship-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+
+  .ship-card {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+
+  .ship-card:hover {
+    border-color: var(--primary);
+    background: rgba(0, 229, 255, 0.08);
+  }
+
+  .ship-card.active {
+    border-color: var(--primary);
+    background: rgba(0, 229, 255, 0.2);
+    box-shadow: 0 0 16px var(--primary-glow);
+  }
+
+  .ship-icon { font-size: 28px; text-align: center; }
+  .ship-title { font-size: 13px; font-weight: 800; color: #fff; }
+  .ship-role { font-size: 9.5px; font-weight: 800; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
+  .ship-stat-row { font-size: 10.5px; color: #8da4cf; display: flex; justify-content: space-between; align-items: center; }
+  .ship-stat-val { color: #fff; font-weight: 700; }
+
+  .ship-stat-bar-bg {
+    width: 50px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-left: 6px;
+  }
+  .ship-stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+
+  .ship-action-btn {
+    margin-top: 6px;
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+  .ship-action-btn.equipped {
+    background: rgba(0, 255, 136, 0.15);
+    border-color: #00ff88;
+    color: #00ff88;
+    cursor: default;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  }
+  .ship-action-btn.equip {
+    background: rgba(0, 229, 255, 0.2);
+    border-color: var(--primary);
+    color: #fff;
+  }
+  .ship-action-btn.equip:hover {
+    background: rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 14px var(--primary-glow);
+  }
+  .ship-action-btn.buy {
+    background: linear-gradient(180deg, #ffd166, #ffaa00);
+    border-color: #ffd166;
+    color: #081024;
+  }
+  .ship-action-btn.buy:hover:not(:disabled) {
+    filter: brightness(1.15);
+    box-shadow: 0 0 14px rgba(255, 209, 102, 0.6);
+  }
+  .ship-action-btn.locked {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #7b8ea8;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+
+  /* Ship Selection Cards */
+  .ship-select-card {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(6, 12, 28, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .ship-select-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .ship-select-card.active {
+    border-color: #00ff88 !important;
+    background: rgba(0, 255, 136, 0.12) !important;
+    box-shadow: 0 0 14px rgba(0, 255, 136, 0.4);
+  }
+

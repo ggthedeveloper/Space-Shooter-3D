@@ -1,0 +1,136 @@
+/* ===================================================
+   ALIEN ASSAULT 3D: IN-GAME COMBAT VFX & OVERLAYS
+   Floating combat text, wave toasts, critical hull popup
+   =================================================== */
+
+  /* Floating Damage Numbers */
+  #combatTextLayer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 15;
+  }
+
+  .combat-text {
+    position: absolute;
+    font-weight: 800;
+    letter-spacing: 1px;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: floatFade 0.85s ease-out forwards;
+    white-space: nowrap;
+    text-shadow: 0 0 8px rgba(0,0,0,0.9);
+  }
+
+  @keyframes floatFade {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+    100% { opacity: 0; transform: translate(-50%, -130%) scale(0.85); }
+  }
+
+  /* Wave Toast */
+  #waveNotice {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 30;
+  }
+
+  #waveNotice.show { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+
+  #waveNoticeTitle {
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-shadow: 0 0 25px rgba(255, 209, 102, 0.8);
+    margin: 0;
+  }
+
+  #waveNoticeSub {
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #fff;
+    margin-top: 6px;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+  }
+
+
+  /* Auto-Aim Reticle Glow */
+  #aimReticle.locked-auto .reticle-ring {
+    border-color: #ffd166;
+    box-shadow: 0 0 18px #ffd166;
+    animation: autoAimPulse 0.8s infinite alternate ease-in-out;
+  }
+  #aimReticle.locked-auto .reticle-dot {
+    background: #ffd166;
+    box-shadow: 0 0 10px #ffd166;
+  }
+  #aimReticle.locked-auto .reticle-tick {
+    background: #ffd166;
+    box-shadow: 0 0 10px #ffd166;
+  }
+  #aimReticle.locked-auto #aimReticleText {
+    color: #ffd166;
+    font-weight: 800;
+    text-shadow: 0 0 8px #ffd166;
+  }
+  @keyframes autoAimPulse {
+    from { transform: translate(-50%, -50%) scale(1.0); }
+    to { transform: translate(-50%, -50%) scale(1.15); }
+  }
+
+  @keyframes pulseWarning {
+    from { transform: translateX(-50%) scale(1.0); box-shadow: 0 0 15px rgba(255, 0, 80, 0.6); }
+    to { transform: translateX(-50%) scale(1.04); box-shadow: 0 0 30px rgba(255, 0, 80, 1.0); }
+  }
+
+
+  /* CRITICAL HULL FLOATING BOTTOM-LEFT POPUP */
+  .critical-hull-toast {
+    position: absolute;
+    left: 20px;
+    bottom: 80px;
+    z-index: 99999;
+    background: rgba(12, 18, 38, 0.96);
+    border: 1.5px solid #ff3366;
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-shadow: 0 0 24px rgba(255, 51, 102, 0.55), inset 0 0 12px rgba(255, 51, 102, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+    animation: criticalHullFloatUp 7s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .critical-hull-toast:hover {
+    transform: scale(1.04) translateY(-2px);
+    border-color: #00ff88;
+    box-shadow: 0 0 28px rgba(0, 255, 136, 0.6);
+  }
+  @keyframes criticalHullFloatUp {
+    0% {
+      opacity: 0;
+      transform: translateY(40px) scale(0.92);
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    75% {
+      opacity: 1;
+      transform: translateY(-20px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-50px) scale(0.92);
+    }
+  }

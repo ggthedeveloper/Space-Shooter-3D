@@ -1,0 +1,143 @@
+/* ===================================================
+   ALIEN ASSAULT 3D: RESPONSIVE & TOUCH CONTROLS
+   Touch joysticks, action buttons, viewport media queries
+   =================================================== */
+
+  /* Mobile Touch Controls */
+  #touchControls {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+    z-index: 25;
+  }
+
+  #touchJoystickZone {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    width: 130px;
+    height: 130px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 2px solid rgba(0, 229, 255, 0.25);
+    border-radius: 50%;
+    pointer-events: auto;
+    touch-action: none;
+  }
+
+  #touchJoystickKnob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    background: rgba(0, 229, 255, 0.35);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  #touchActionButtons {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: auto;
+  }
+
+  .touch-btn-row { display: flex; gap: 12px; justify-content: flex-end; }
+  .t-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+  }
+  .t-btn.fire { width: 66px; height: 66px; background: rgba(255, 51, 102, 0.35); border-color: #ff3366; }
+  .t-btn.boost { background: rgba(0, 229, 255, 0.25); border-color: var(--primary); }
+
+
+  /* Responsive Styling for Mobile & Tablets */
+  @media (max-width: 1024px) {
+    .compact-hud-btn span { display: none; }
+    .compact-hud-btn::before { content: attr(data-icon); }
+    #objectiveBanner { max-width: 220px; }
+    #sectorBadge { font-size: 9px; }
+    #objectiveText { font-size: 11px; }
+    #bottomBar {
+      overflow: visible !important;
+      flex-wrap: nowrap !important;
+      width: auto;
+      max-width: calc(100vw - 110px);
+      justify-content: center;
+      padding: 4px 6px;
+      gap: 4px;
+      bottom: 6px;
+    }
+    .weapon-card {
+      min-width: 60px;
+      max-width: 88px;
+      min-height: 54px;
+      padding: 3px 5px;
+      font-size: 8px;
+    }
+    #touchControls { display: block; }
+    #touchActionButtons { bottom: 90px; right: 12px; gap: 8px; }
+    #touchJoystickZone { bottom: 90px; left: 14px; width: 120px; height: 120px; }
+    .t-btn { width: 48px; height: 48px; font-size: 10px; }
+    .t-btn.fire { width: 56px; height: 56px; }
+  }
+
+  @media (max-width: 768px) {
+    #topBar {
+      padding: 4px 6px;
+      gap: 4px;
+      flex-wrap: nowrap !important;
+      overflow: visible !important;
+    }
+    .hud-group { gap: 4px; }
+    .bar-container { min-width: 60px; width: 68px; }
+    .bar-label { font-size: 8px; }
+    .meter-bg { height: 7px; }
+    #livesContainer { min-width: 42px; }
+    #livesIconsRow { font-size: 12px; gap: 2px; }
+    #pilotBadge { max-width: 75px; padding: 2px 4px; }
+    #pilotRankVal { display: none; }
+    #objectiveBanner { display: none; }
+    .score-box { min-width: 65px; }
+    #scoreVal { font-size: 13px; }
+    #creditsRow { font-size: 9.5px; }
+    #volumeBtn { padding: 3px 5px; height: 26px; }
+    #volumeLabel { display: none; }
+    .ctrl-btn { width: 26px; height: 26px; min-width: 26px; font-size: 12px; }
+    .store-grid { grid-template-columns: 1fr; }
+    .ship-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    #controlsHint { display: none; }
+    #commsBox { display: none !important; }
+    .modal-card { width: min(94vw, 560px); padding: 14px; }
+  }
+
+  @media (max-width: 480px) {
+    #topBar { padding: 3px 4px; gap: 3px; }
+    .bar-container { min-width: 52px; width: 56px; }
+    .bar-label { font-size: 7.5px; }
+    .weapon-card { min-width: 46px; min-height: 48px; padding: 2px 3px; font-size: 7.5px; }
+    .weapon-name { font-size: 9px; }
+    .weapon-sub { font-size: 7.5px; }
+    .quick-upgrade-btn { font-size: 8px; padding: 2px 4px; }
+    #touchActionButtons { bottom: 78px; right: 8px; }
+    #touchJoystickZone { bottom: 78px; left: 8px; width: 105px; height: 105px; }
+    .t-btn { width: 42px; height: 42px; font-size: 9px; }
+  }
+

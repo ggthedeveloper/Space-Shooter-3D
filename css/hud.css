@@ -1,0 +1,621 @@
+/* ===================================================
+   ALIEN ASSAULT 3D: HUD & INTERFACE DOCK
+   Top HUD Bar, Bottom Arsenal Dock, Crosshair & Footer
+   =================================================== */
+
+  /* TOP HUD BAR */
+  #topBar {
+    top: 8px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    max-width: calc(100vw - 20px);
+    overflow: visible !important;
+    pointer-events: none;
+    z-index: 25;
+  }
+
+  .hud-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: auto;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  .bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 85px;
+    width: 95px;
+    flex-shrink: 0;
+  }
+
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #a5b9e0;
+    text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  }
+
+  .meter-bg {
+    width: 100%;
+    height: 9px;
+    background: rgba(2, 6, 20, 0.75);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.9);
+  }
+
+  .meter-fill {
+    height: 100%;
+    width: 100%;
+    transition: width 0.12s ease;
+    border-radius: 3px;
+  }
+
+  #hullFill {
+    background: linear-gradient(90deg, #00e676, #00ff88);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.65);
+  }
+
+  #shieldFill {
+    background: linear-gradient(90deg, #0091ea, #00f0ff);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.65);
+  }
+
+  /* 3 LIVES CONTAINER */
+  #livesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 65px;
+    flex-shrink: 0;
+  }
+
+  #livesIconsRow {
+    display: flex;
+    gap: 4px;
+    font-size: 15px;
+    filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.8));
+  }
+
+  /* Center Objective */
+  #objectiveBanner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    pointer-events: none;
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 320px;
+    margin: 0 4px;
+    overflow: hidden;
+  }
+
+  #sectorBadge {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  #objectiveText {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 0 10px var(--primary-glow);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  /* Boss Health Bar */
+  #bossBarContainer {
+    position: absolute;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(520px, 85vw);
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  #bossLabelRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ff3366;
+    text-shadow: 0 0 10px rgba(255, 51, 102, 0.8);
+  }
+
+  #bossMeterBg {
+    height: 12px;
+    background: rgba(255, 0, 80, 0.15);
+    border: 1px solid #ff3366;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 16px rgba(255, 51, 102, 0.35);
+  }
+
+  #bossMeterFill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff0055, #ff6b8b);
+    transition: width 0.1s ease;
+  }
+
+  /* Score, Credits & Combo */
+  .score-box {
+    text-align: right;
+    min-width: 85px;
+    flex-shrink: 0;
+  }
+
+  #scoreVal {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #fff;
+    line-height: 1.1;
+    text-shadow: 0 0 10px var(--primary-glow);
+  }
+
+  #creditsRow {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--credits);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+    text-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
+  }
+
+  #comboRow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-top: 1px;
+  }
+
+  #comboBarBg {
+    width: 38px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  #comboBarFill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.05s linear;
+  }
+
+  .icon-btn {
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid var(--panel-border);
+    color: #e6f0ff;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 28px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .icon-btn:hover {
+    background: rgba(0, 229, 255, 0.25);
+    border-color: var(--primary);
+    box-shadow: 0 0 12px var(--primary-glow);
+  }
+
+  .compact-hud-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .hud-window-controls {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .ctrl-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+
+  #storeBtn {
+    background: rgba(255, 209, 102, 0.15);
+    border-color: rgba(255, 209, 102, 0.4);
+    color: var(--credits);
+    font-weight: 800;
+  }
+  #storeBtn:hover {
+    background: rgba(255, 209, 102, 0.3);
+    border-color: var(--credits);
+    box-shadow: 0 0 16px rgba(255, 209, 102, 0.6);
+  }
+
+  /* BOTTOM WEAPON ARSENAL DOCK (UNIFIED NON-SCROLLABLE RECTANGULAR BAR BOX) */
+  #bottomBar {
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    align-items: stretch;
+    flex-wrap: nowrap !important;
+    overflow: visible !important;
+    width: max-content;
+    max-width: calc(100vw - 130px);
+    box-sizing: border-box;
+    padding: 5px 8px;
+    z-index: 15;
+    pointer-events: auto;
+    background: rgba(5, 10, 26, 0.92);
+    border: 1.5px solid rgba(0, 229, 255, 0.35);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 229, 255, 0.08);
+  }
+  #bottomBar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .weapon-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2px;
+    padding: 5px 8px;
+    min-width: 74px;
+    max-width: 104px;
+    min-height: 60px;
+    flex: 1 1 0px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    font-size: 9px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    box-sizing: border-box;
+  }
+
+  .weapon-card:hover {
+    border-color: var(--primary);
+    background: rgba(0, 229, 255, 0.1);
+  }
+
+  .weapon-card.active {
+    border-color: var(--primary);
+    background: rgba(0, 229, 255, 0.2);
+    box-shadow: 0 0 12px var(--primary-glow);
+  }
+
+  .weapon-key {
+    font-size: 8px;
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  .weapon-name {
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 9.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .weapon-sub {
+    font-size: 8px;
+    color: #8da4cf;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .weapon-level-badge {
+    font-size: 8px;
+    font-weight: 800;
+    color: #ffd166;
+    background: rgba(255, 209, 102, 0.15);
+    padding: 1px 4px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 209, 102, 0.35);
+  }
+
+  .quick-upgrade-btn {
+    margin-top: 3px;
+    background: linear-gradient(180deg, #ffd166, #e67e22);
+    border: 1px solid #ffe082;
+    color: #081024;
+    padding: 2px 5px;
+    font-size: 8.5px;
+    font-weight: 800;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .quick-upgrade-btn:hover:not(:disabled) {
+    background: #ffe082;
+    box-shadow: 0 0 12px rgba(255, 209, 102, 0.85);
+    transform: translateY(-1px);
+  }
+
+  .quick-upgrade-btn:disabled {
+    opacity: 0.45;
+    background: #2a2e3d;
+    border-color: #444b5d;
+    color: #8892b0;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  #empCard.charged {
+    border-color: #ffd166;
+    background: rgba(255, 209, 102, 0.2);
+    box-shadow: 0 0 18px rgba(255, 209, 102, 0.7);
+    animation: empPulse 1.2s infinite alternate;
+  }
+
+  @keyframes empPulse {
+    from { border-color: #ffd166; }
+    to { border-color: #ff9e00; box-shadow: 0 0 24px rgba(255, 158, 0, 0.9); }
+  }
+
+  #overchargeCard.ready {
+    border-color: #00f0ff;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(255, 0, 255, 0.25));
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7);
+    animation: overchargeGlow 1.0s infinite alternate;
+  }
+  @keyframes overchargeGlow {
+    from { box-shadow: 0 0 16px rgba(0, 240, 255, 0.6); }
+    to { box-shadow: 0 0 26px rgba(255, 0, 255, 0.85); }
+  }
+
+  .achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .achievement-item.unlocked {
+    border-color: #ffd166;
+    background: rgba(255, 209, 102, 0.08);
+  }
+  .achievement-icon { font-size: 20px; }
+  .achievement-title { font-size: 12px; font-weight: 800; color: #fff; }
+  .achievement-item.unlocked .achievement-title { color: #ffd166; }
+  .achievement-desc { font-size: 10px; color: #8da4cf; }
+
+  /* CLASSIC FIGHTER CROSSHAIR (CIRCLE WITH PLUS SIGN) */
+  #aimReticle {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 25;
+  }
+
+  #aimReticle .reticle-ring {
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--primary-glow);
+  }
+
+  #aimReticle .reticle-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 6px #fff;
+  }
+
+  /* Plus Sign Crosshair Ticks */
+  #aimReticle .reticle-tick {
+    position: absolute;
+    background: var(--primary);
+    box-shadow: 0 0 6px var(--primary-glow);
+  }
+
+  #aimReticle .reticle-tick.top {
+    left: 50%;
+    top: -6px;
+    width: 1.5px;
+    height: 14px;
+    transform: translateX(-50%);
+  }
+
+  #aimReticle .reticle-tick.bottom {
+    left: 50%;
+    bottom: -6px;
+    width: 1.5px;
+    height: 14px;
+    transform: translateX(-50%);
+  }
+
+  #aimReticle .reticle-tick.left {
+    top: 50%;
+    left: -6px;
+    width: 14px;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+
+  #aimReticle .reticle-tick.right {
+    top: 50%;
+    right: -6px;
+    width: 14px;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+
+  /* Locked on Hostile Target */
+  #aimReticle.locked .reticle-ring {
+    border-color: #ff3366;
+    box-shadow: 0 0 14px rgba(255, 51, 102, 0.85);
+  }
+
+  #aimReticle.locked .reticle-dot {
+    background: #ff3366;
+    box-shadow: 0 0 10px #ff3366;
+  }
+
+  #aimReticle.locked .reticle-tick {
+    background: #ff3366;
+    box-shadow: 0 0 8px rgba(255, 51, 102, 0.85);
+  }
+
+  #aimReticleText {
+    position: absolute;
+    top: 44px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--primary);
+    white-space: nowrap;
+    text-shadow: 0 0 6px rgba(0,0,0,0.9);
+  }
+
+  #aimReticle.locked #aimReticleText {
+    color: #ff3366;
+    text-shadow: 0 0 8px rgba(255, 51, 102, 0.9);
+  }
+
+  /* Quick Controls Legend Bar */
+  #controlsHint {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(3, 7, 20, 0.75);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 12px;
+    color: #8da4cf;
+    pointer-events: none;
+    z-index: 15;
+    letter-spacing: 1px;
+    transition: opacity 1s ease;
+  }
+
+  #controlsHint strong { color: var(--primary); }
+
+  /* Developed by GG Footer (Non-clickable, shifted right clear of weapons dock) */
+  #gameFooter {
+    position: absolute;
+    bottom: 6px;
+    right: 4px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(141, 164, 207, 0.8);
+    z-index: 30;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.95);
+    background: rgba(6, 12, 28, 0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    white-space: nowrap;
+  }
+  #gameFooter .dev-highlight {
+    color: rgba(0, 240, 255, 0.9);
+    font-weight: 800;
+  }
+  @media (max-width: 768px) {
+    #gameFooter {
+      bottom: 2px;
+      right: 2px;
+      font-size: 8px;
+      padding: 1px 4px;
+    }
+  }
+
+
+  /* ABILITY CARD IN DOCK */
+  #abilityCard.ready {
+    border-color: #00ff88 !important;
+    background: rgba(0, 255, 136, 0.18) !important;
+    box-shadow: 0 0 16px rgba(0, 255, 136, 0.5) !important;
+    animation: abilityPulseGlow 1.2s infinite alternate;
+  }
+  @keyframes abilityPulseGlow {
+    from { box-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
+    to { box-shadow: 0 0 22px rgba(0, 255, 136, 0.85); }
+  }
+

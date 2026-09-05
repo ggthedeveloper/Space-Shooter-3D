@@ -1,0 +1,19 @@
+{
+  "name": "space-battle-game",
+  "version": "1.0.0",
+  "description": "Alien Assault 3D - Epic Sci-Fi Space Shooter Game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "space-shooter",
+    "threejs",
+    "webgl",
+    "modular",
+    "arcade"
+  ],
+  "author": "Gaurav Gautam (GG)",
+  "license": "MIT",
+  "type": "module"
+}

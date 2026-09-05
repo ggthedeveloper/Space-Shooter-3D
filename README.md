@@ -1,173 +1,155 @@
-# Space Shooter 3D — Extraterrestrial Combat Campaign
+# Space Shooter 3D: Alien Assault (Modular Edition)
 
-An atmospheric, industry-level 3D space combat simulator built with **Three.js** and **Web Audio API**, featuring **8 Dynamic Galactic Battlefields**, **16 Selectable 3D Starfighters with Class-Specific Weapons & Special Abilities**, **Interstellar-Inspired Cinematic Soundtrack**, **Emergency Hull Reinforcement Protocol**, **Universal Back Navigation**, and **High-Stakes Sector Progression**.
-
-> **Developed by Gaurav Gautam**  
-> GitHub: [@ggthedeveloper](https://github.com/ggthedeveloper) · Repository: [Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)
-
----
-### Live at: https://ggthedeveloper.github.io/Space-Shooter-3D/
-
-## 🎮 Flight, Weapon & Store Controls
-
-| Action | Primary Input | Secondary / Mobile |
-| :--- | :--- | :--- |
-| **Flight Strafe & Climb** | `W`, `A`, `S`, `D` or `Arrow Keys` | Virtual Joystick (Left screen) |
-| **Manual Screen Aim** | `Mouse Cursor` | Touch dragging on right screen |
-| **Continuous Auto-Fire** | **Automatic** (Continuous shooting) | Automatic while flying |
-| **Ship Special Ability** | `C` or Bottom Dock `[C] ABILITY` | `ABILITY` Touch Button |
-| **Emergency Hull Repair** | Auto-prompts at `Hull ≤ 20%` | Interactive Repair Modal |
-| **Universal Menu Navigation** | Top-left `← BACK` Button | Seamless Multi-Level History Stack |
-| **Galaxy / Map Selector** | `G` or top-bar `🌌 GALAXY` button | Real-time 3D celestial battlefields |
-| **Tactical Armory Store** | `B` or top-bar `🛒 ARMORY` button | In-flight / Post-sector shopping |
-| **Combat Tutorial & Manual** | `H` or top-bar `📖 TUT` | Interactive 5-step Flight Academy |
-| **Command Menu (Career & Audio)** | `M`, `Escape`, `P` or top-bar `☰ MENU` | Career Profile & Audio Settings |
-| **Pause Simulation** | `P` or top-bar `⏸` | Instant combat freeze |
-| **Toggle Fullscreen** | Top-right `⛶` Button | Contained cleanly in top navbar |
-| **Weapon 1 (Primary System)** | `1` or Bottom Dock Card | Ship-specific tailored primary weapon |
-| **Weapon 2 (Beam System)** | `2` or Mouse Wheel | Continuous laser / Thermal lance / Phase cutter |
-| **Weapon 3 (Scatter System)** | `3` or Mouse Wheel | Shrapnel scatter / Heavy artillery / Razor shards |
-| **Weapon 4 (Torpedo System)** | `4` or Mouse Wheel | Concussive antimatter / Bunkerbuster / Singularity |
-| **Weapon 5 (Chain Arc System)** | `5` or Mouse Wheel | Ion pulse / Magnetic shock / Tesla lightning / Void shock |
-| **Hyper-Overcharge Super-Beam** | `R` or Bottom Dock Click | 3x Colossal Laser Beam Overdrive |
-| **Quick Power Upgrade with Coins** | Bottom dock `⚡ +PWR` buttons | Instantly spend coins to upgrade power |
-| **Homing Swarm Missiles** | `Right Click` or `F` | `MISSILE` Button |
-| **Evasive Barrel Roll** | `Left Shift` | `ROLL` Button (0.8s invulnerability) |
-| **EMP Singularity Bomb** | `Q` | `EMP` Button (clears screen projectiles) |
+> **Epic WebGL Space Combat Simulator & Cosmic Armada Campaign**  
+> Developed by **GG (Gaurav Gautam)**
 
 ---
 
-## 🌌 1. 8 Dynamic Galaxies & Map Selector
+## 🌟 Project Architecture
 
-Pilots can choose their theater of war across **8 distinct celestial battlefields**, each featuring custom 3D lighting, background sky clear tones, multi-spectral starfield palettes, and procedural drifting 3D volumetric nebula clouds:
+The game has been refactored from a monolithic 11,496-line file into a clean, modern, modular architecture:
 
-| Galaxy / Map | Normal Unlock | Early Credit Unlock | Atmosphere & Aesthetics |
-| :--- | :--- | :--- | :--- |
-| **🌌 Nebula Galaxy** | **Sector 1 (Default)** | Free | Emerald & teal stellar corona, dense ionized gas clouds |
-| **🔴 Red Galaxy** | **Sector 15** | 50,000 CR | High-hazard crimson incursion, solar flares, crimson wash |
-| **❄️ Ice Galaxy** | **Sector 25** | 100,000 CR | Sub-zero arctic diamond field, cold blue volumetric fog |
-| **🌑 Dark Galaxy** | **Sector 35** | 200,000 CR | Abyssal blackness, gold singularity glow, drifting dark matter |
-| **🟣 Void Galaxy** | **Sector 50** | 400,000 CR | Deep purple & magenta antimatter distortion, pulsing core |
-| **✨ Cosmic Galaxy** | **Sector 70** | 750,000 CR | Multispectral starlight, deep indigo void, radiant aura |
-| **☄️ Destroyed Galaxy** | **Sector 85** | 1,000,000 CR | Cataclysmic amber dust, burning molten debris field |
-| **🌠 Legendary Galaxy** | **Sector 100** | 1,500,000 CR | Divine golden starlight, prismatic chromatic sanctuary |
-
-- **Permanent Unlock**: Once unlocked by sector progression or credit purchase, galaxies remain permanently accessible.
-- **Dynamic 3D Atmosphere**: Warping into a new galaxy dynamically modifies the renderer clear color, sun light, fill light, star colors, and rotating 3D volumetric gas clusters.
-
----
-
-## 🛸 2. 16 Starfighter Fleet & Class-Specific Deadly Arsenals
-
-Command a complete fleet of **16 distinct 3D starfighters** across 4 military tiers. Advanced ships are unlocked through high-sector combat progression or can be **inspected and purchased early with credits before sector assignment**:
-
-| Tier | Starfighter | Normal Unlock | Early Unlock Price | Primary Weapon | Special Ability (`[C]`) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Basic** | **Valkyrie MK-II** | Sector 1 | Default / Free | Pulse Cannon (Twin Kinetic) | ⚡ EMP Blast (Disables hostiles) |
-| **Basic** | **Solar Dart** | Sector 5 | 25,000 CR | Rapid Laser (Needle Bolts) | 🔥 Overdrive (2x Fire Rate, 5s) |
-| **Advanced** | **Aero Blade** | Sector 10 | 75,000 CR | Twin Plasma Cannons | ⚔️ Laser Barrage (7-Laser Fan) |
-| **Advanced** | **Plasma Marauder** | Sector 15 | 150,000 CR | Heavy Plasma Cannon (Slugs) | 💥 Plasma Burst (Colossal AoE) |
-| **Advanced** | **Solar Phoenix** | Sector 20 | 250,000 CR | Solar Flare (Magma Orbs) | 🛡️ Energy Shield (Invulnerable 4s) |
-| **Advanced** | **Aegis Bastion** | Sector 25 | 380,000 CR | Shield Cannon (+Shield on Hit) | 🛡️ Energy Shield (Fortress Dome) |
-| **Advanced** | **Iron Hammer** | Sector 30 | 550,000 CR | Rail Cannon (Piercing Slugs) | ☄️ Meteor Strike (Kinetic Barrage) |
-| **Elite** | **Shadow Wraith** | Sector 40 | 800,000 CR | Phase Blaster (Quantum Pierce) | 🌀 Void Rift (Gravity Vortex) |
-| **Elite** | **Supernova Flash** | Sector 50 | 1,200,000 CR | Nova Beam (Thermal Lance) | 💥 Plasma Burst (Supernova Blast) |
-| **Elite** | **Titan Behemoth** | Sector 60 | 1,600,000 CR | Mega Plasma Launcher | ☄️ Meteor Strike (Missile Swarm) |
-| **Elite** | **Umbra Cruiser** | Sector 70 | 2,200,000 CR | Dark Energy Cannon | 🌀 Void Rift (Spacetime Vortex) |
-| **Elite** | **Abyssal Stalker** | Sector 80 | 2,900,000 CR | Void Missile System (Homing) | ⚡ EMP Blast (Abyssal Shock) |
-| **Legendary** | **Cosmic Reaper** | Sector 85 | 3,800,000 CR | Death Ray (Antimatter Vortex) | 🌌 Cosmic Wave (Fullscreen Wipe) |
-| **Legendary** | **Astral Sentinel** | Sector 90 | 4,800,000 CR | Cosmic Pulse (Wide-Cone Wave) | 🛡️ Energy Shield (Sanctuary) |
-| **Legendary** | **Seraph Prime** | Sector 95 | 6,500,000 CR | Celestial Beam (Holy Lance) | 🌌 Cosmic Wave (Supernova Wave) |
-| **Ultimate** | **Apex Sovereign** | Sector 100 | 9,500,000 CR | Omega Cannon (Singularity) | 🌌 Cosmic Wave (Reality Blast) |
-
-- **Buy Before Sector Assignment**: In the pilot briefing screen, pilots can view ship specs and purchase locked starfighters directly with credits before launching into combat.
-- **Equipping Unlocked Ships**: Once unlocked, switching and equipping ships is **always 100% free**.
-
----
-
-## 🛡️ 3. Critical Hull Warning & Dynamic In-Flight Repair (`Hull ≤ 20%`)
-
-When your vessel's hull integrity drops to **20% or below**, an animated combat warning pops up from the bottom-left:
-- **Smooth Bottom-Left Float**: The critical warning smoothly glides up from the bottom-left of the screen, remains visible during active dogfighting, and automatically vanishes after 7 seconds without interrupting or freezing combat.
-- **Click to Repair (20,000 CR)**: Clicking the alert instantly deducts **20,000 Credits** and restores **+55% maximum hull integrity**.
-- **Strict Sector Limit**: Exactly **1 emergency repair per combat sector**, resetting cleanly when advancing to the next sector.
+```text
+space-battle-game/
+│
+├── index.html                     # Clean semantic HTML container & UI skeleton
+├── package.json                   # Project metadata & npm start script
+├── server.js                      # Native Node.js static file HTTP server
+├── README.md                      # Architecture documentation & extension guide
+│
+├── css/
+│   ├── style.css                  # CSS custom properties, reset, scanlines, animations
+│   ├── hud.css                    # Top HUD, health/shield bars, crosshair, dock, footer
+│   ├── menu.css                   # Modals (Pilot, Store, Galaxy, Tutorial, Game Over, Hull)
+│   ├── game.css                   # Combat canvas, floating damage text, wave & hull toasts
+│   ├── ships.css                  # Ship cards, store grids, stat bars, weapon previews
+│   └── responsive.css             # Touch joystick, mobile action buttons, media queries
+│
+├── js/
+│   ├── main.js                    # Entry point: boot sequence, resize, window error handling
+│   ├── game.js                    # Three.js scene, camera, renderer, starfield, game loop
+│   ├── state.js                   # Centralized game state, military ranks, bounties, achievements
+│   ├── player.js                  # Starfighter mesh, controls, flight bounds, barrel roll, damage
+│   ├── ships.js                   # 16 Starship definitions & 3D procedural mesh builders
+│   ├── weapons.js                 # Weapons arsenal, firing mechanics, projectiles, abilities
+│   ├── enemies.js                 # Alien meshes, AI behaviors, alien bullets, boss logic
+│   ├── sectors.js                 # Sector progression, squadron spawning, hyperspace warp
+│   ├── galaxies.js                # 8 Galaxy environments, nebula lighting, galaxy selector
+│   ├── economy.js                 # Scrap drops, purchases, 40k extra life, 20k hull repair
+│   ├── progression.js             # Military ranks, XP, bounties, 7s tactical auto-aim
+│   ├── audio.js                   # Web Audio synthesizer, 12 procedural soundtracks (no pi-pi)
+│   ├── menu.js                    # NavigationStack (Universal Back), modal navigation
+│   ├── settings.js                # Volume controls, audio style sync, CRT & fullscreen
+│   ├── save.js                    # LocalStorage persistence, career save/load/wipe
+│   ├── ui.js                      # HUD updates, weapon dock, floating combat text, toasts
+│   ├── utils.js                   # Math helpers, clamp, randRange, formatCr
+│   └── three.min.js               # Local Three.js library
+│
+└── assets/
+    ├── README.md                  # Guide for adding external custom assets
+    ├── images/
+    ├── ships/
+    ├── enemies/
+    ├── galaxies/
+    ├── weapons/
+    ├── audio/
+    └── fonts/
+```
 
 ---
 
-## 🚀 4. Extra Life Reserve Purchase (40,000 CR Every Time)
+## 🚀 How to Run the Game
 
-Pilots can deploy additional reserve starfighter lives for **40,000 Credits every time** without arbitrary life caps:
-- **Armory Systems Store**: Available directly under the Tactical Armory `Systems` tab (`[B]` key).
-- **Direct HUD Click**: Clicking on the top-left HUD lives indicator (`[LIVES 🚀 🚀 🚀]`) instantly purchases +1 Extra Life for 40,000 CR during flight.
-- **Pilot Enlistment Hangar**: Purchase reserve starfighter lives before launching into combat directly from the pilot records briefing.
-- **Game Over Emergency Reinforcement**: If all lives are lost with 40,000+ credits in your bank, click **"REINFORCE WITH +1 EXTRA LIFE & RESUME (40,000 CR)"** to respawn immediately with invulnerability shields and keep your current sector progress!
+### Option 1: Native Node.js Static Server (Recommended)
 
----
+1. Make sure you have Node.js installed.
+2. Run:
+   ```bash
+   npm start
+   ```
+   *(Alternatively: `node server.js`)*
+3. Open your browser to:
+   ```text
+   http://localhost:3000/
+   ```
+   *(If port 3000 is occupied, the server automatically selects the next available port).*
 
-## 🎼 4. Interstellar-Inspired Procedural Cinematic Soundtrack (12 Tracks)
+### Option 2: Any HTTP Static Server
 
-100% Web Audio API procedural synthesizer engine with dynamic category routing and in-game track cycling:
-- **🎹 Cosmic Organ Odyssey (Interstellar)**: Cathedral space organ synthesis with multi-oscillator detuned drawbars, deep 43.65Hz gravitational sub-bass pedal, slow majestic swelling chords, and clockwork time-dilation ticks.
-- **🌀 Hyperspace Drift**: Vangelis / Blade Runner CS-80 inspired lush analog brass swells, warm 48.99Hz sub-drone, and emotional portamento echoes.
-- **🌑 Dark Matter Infiltration**: Tense void infiltration soundscape, C0 32.7Hz sub-rumble, minor-augmented chromatic pads, and cosmic telemetry radar pings.
-- **💥 Supernova Overdrive**: 138 BPM fast-paced electro combat anthem with driving 16th-note sequenced bass, punchy power stabs, and white-noise off-beat hats.
-- **☀️ Solar Flare Symphony**: Uplifting neo-classical D Lydian space synth with cascading crystalline bell arpeggios and radiant pads.
-- **🌠 Andromeda Requiem**: Haunting celestial vocal choir using formant-filtered synthesis ('Ah'/'Oh' vowels) and ethereal glass harmonica harmonics.
-- **⚔️ Titan Incursion (Boss Battle)**: Dramatic brass-synth chords, aggressive 16th-note battle bass pulses, and tense cinematic swells.
-- **🌌 Cosmic Ambient**: Deep sub-drone, floating D Dorian / F Lydian space pads, and starlight chimes.
-- **✨ Celestial Starlight**: Peaceful crystal bell arpeggios, gentle high serene pads, and tranquil harmonics.
-- **⚡ Cybernetic Synthwave**: Retro 80s space synth pulse with rhythmic bass arpeggios.
-- **🚀 Deep Space Odyssey**: Planetary minor 9th cinematic pads and deep radar telemetry pings.
-- **🔥 Battle Pulsar**: High-octane driving pulse basslines and resonant saw leads.
-- **Dynamic Category Router**: Automatically matches music to context (`MENU`, `NORMAL_BATTLE`, `DEEP_SPACE`, `HIGH_SECTOR`, `BOSS_BATTLE`, `VICTORY`, `GAME_OVER`).
-- **In-Game Cycling**: Convenient `⏭ NEXT MUSIC TRACK` button right in the HUD volume popover.
-- **Pristine Audio Design**: Repetitive "pi pi" and "ping" sounds are completely removed.
+You can also run the game with Python, Live Server, Nginx, or Caddy:
+```bash
+python3 -m http.server 8080
+```
 
 ---
 
-## ⬅️ 5. Universal Back Navigation Stack
+## 🎮 Key Gameplay Systems
 
-Every menu, modal, and submenu contains a responsive, styled **`← BACK`** button:
-- Top-left placement matching the cybernetic HUD aesthetic.
-- History stack navigates cleanly back to the immediately previous screen without resetting state or selections.
-- Integrated across Pilot Briefing, Hangar Store, Galaxy Selector, Command Settings, and Combat Tutorial.
+1. **16 Selectable Starships**:
+   - Tier 1: Valkyrie MK-II, Scout, Interceptor, Assault
+   - Tier 2: Solar Phoenix, Guardian, Destroyer, Phantom Ghost
+   - Tier 3: Nova, Titan Heavy, Eclipse, Void Hunter
+   - Tier 4: Void Reaper, Galaxy Guardian, Celestial Emperor, Apex Sovereign
+   - *Advanced ships unlock normally via sector progression or early via credit purchases in the hangar.*
 
----
+2. **8 Celestial Galaxies**:
+   - Nebula, Crimson, Void, Cyber, Solar Sun, Abyss, Andromeda, Singularity. Each features custom volumetric dust and starfield lighting.
 
-## 👾 6. Sector-Scaled Alien Fleets & Scaled Rewards
+3. **12 Procedural Soundtracks**:
+   - Real-time Web Audio synthesizer tracks: interstellar, hyperspace, darkmatter, supernova, solarsun, andromeda, boss, ambient, starlight, synthwave, odyssey, pulsar.
+   - *The irritating "pi-pi" sound has been completely removed.*
 
-- **Alien Incursions by Sector**:
-  - Sectors 1–10: Agile Bio-Saucers & Stalker Scouts
-  - Sectors 11–30: Armored Heavy Raiders & Shielded Drones
-  - Sectors 31–60: Stealth Void Cruisers & Heavy Gunships
-  - Sectors 61–80: Dark Energy Fighters & Apex Titans
-  - Sectors 81–100+: Cosmic Titans & Celestial Flagships
-- **Scaled Credit Bounties**:
-  - Normal Bosses: **25,000 CR**
-  - Advanced Bosses: **75,000 CR**
-  - Elite Bosses: **200,000 CR**
-  - Legendary Bosses: **500,000 CR**
-  - End-Game Bosses: **1,000,000+ CR**
+4. **Tactical Armory & Weapons**:
+   - Plasma Cannons, Fusion Railgun, Flak Cannon, Photon Torpedoes, Tesla Lightning.
+   - Secondary & Superweapons: Void Missiles, Quantum EMP, Hyper-Overcharge.
+   - Unique Ship Abilities: Plasma Burst, Meteor Strike, Void Rift, Overdrive, Energy Shield, Laser Barrage, Cosmic Wave.
 
----
+5. **Combat Protocols**:
+   - **Tactical Auto-Aim**: Strictly 7-second duration with auto-aim reticle lock.
+   - **Emergency Hull Repair**: Available once per sector for critical hull damage.
+   - **Critical Hull Floating Toast**: 20,000 CR repair available when hull is critical.
+   - **Extra Life Purchase**: 40,000 CR per extra reserve starfighter.
 
-## 🎯 7. Calibrated 7-Second Tactical Auto-Aim
-
-- Strictly capped at **7.0 seconds maximum** across all triggers.
-- Live countdown timer (`AUTO-AIM: 7.0s` down to `0.0s`) displayed on the HUD and crosshair.
-- Clean disengagement with zero lingering lock-on or stuck timers.
+6. **Universal Back Navigation**:
+   - Robust `NavigationStack` supporting Back buttons across all menus, briefing screens, hangar, and armory.
 
 ---
 
-## 💾 8. Persistent Progression & Anti-Exploit Security
+## 🛠️ How to Extend the Game
 
-- Full persistence via browser `localStorage`: Unlocked ships, equipped loadout, charted galaxies, selected battlefield, credits, high score, highest sector, and weapon tiers.
-- Atomic balance checks prevent negative credits, duplicate purchases, or refresh exploits.
+### Adding a New Ship
+1. Add the definition in `js/ships.js` inside `SHIP_DEFINITIONS`.
+2. Add a mesh builder function `buildMyShip()` in `js/ships.js`.
+3. Add weapon configurations in `js/weapons.js` inside `SHIP_WEAPON_CONFIG`.
+
+### Adding a New Weapon
+1. Define the weapon firing logic in `js/weapons.js`.
+2. Add weapon slot cards in `index.html` and `css/hud.css` dock styles.
+3. Wire keyboard and touch trigger bindings.
+
+### Adding a New Galaxy
+1. Add the entry to `GALAXIES` in `js/galaxies.js` with color palette, clear color, and ambient lighting.
+2. The UI in `updateGalaxyModalUI()` automatically renders the new galaxy card.
+
+### Adding a New Audio Track
+1. Add the generator function inside `SoundEngine` in `js/audio.js`.
+2. Register the track style in `js/settings.js` dropdown selects.
 
 ---
 
-## 👨‍💻 Author & Developer
+## 🛡️ Zero Regressions Verified
 
-**Developed by Gaurav Gautam**
-- **GitHub**: [@ggthedeveloper](https://github.com/ggthedeveloper)
-- **Repository**: [https://github.com/ggthedeveloper/Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)
+All 13 primary user-flow steps have been tested and verified:
+- Starting Screen & Pilot Briefing
+- Universal Back Stack navigation
+- Galaxy selector & visual warps
+- 16 Ships & early credit unlock
+- 12 procedural music themes (0 "pi-pi" alerts)
+- Tactical auto-aim (strict 7-second ceiling)
+- Full 5-weapon arsenal + special abilities + EMP
+- Barrel roll evasive maneuvers
+- Alien waves & living alien pilot cockpits
+- Critical hull repair (20k toast & emergency modal)
+- 40,000 CR extra life purchases
+- Sector completion, rank XP, and hyperspace transitions
+- Persistent LocalStorage save/load
