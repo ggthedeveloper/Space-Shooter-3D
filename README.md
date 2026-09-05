@@ -59,45 +59,38 @@ Pilots can choose their theater of war across **8 distinct celestial battlefield
 
 ## 🛸 2. 16 Starfighter Fleet & Class-Specific Deadly Arsenals
 
-Command a complete fleet of **16 distinct 3D starfighters** across 4 military tiers. Advanced ships (Sector 30+) are initially locked but can be unlocked through sector progression or **equipped early using credits whenever the player wants**:
+Command a complete fleet of **16 distinct 3D starfighters** across 4 military tiers. Advanced ships are unlocked through high-sector combat progression or can be **inspected and purchased early with credits before sector assignment**:
 
-| Tier | Starfighter | Normal Unlock | Early Unlock | Primary Weapon | Special Ability (`[C]`) |
+| Tier | Starfighter | Normal Unlock | Early Unlock Price | Primary Weapon | Special Ability (`[C]`) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Basic** | **Valkyrie MK-II** | Sector 1 | Default | Pulse Cannon (Twin Kinetic) | ⚡ EMP Blast (Disables hostiles) |
-| **Basic** | **Solar Dart** | Sector 5 | 12,000 CR | Rapid Laser (Needle Bolts) | 🔥 Overdrive (2x Fire Rate, 5s) |
-| **Advanced** | **Aero Blade** | Sector 10 | 35,000 CR | Twin Plasma Cannons | ⚔️ Laser Barrage (7-Laser Fan) |
-| **Advanced** | **Plasma Marauder** | Sector 15 | 55,000 CR | Heavy Plasma Cannon (Slugs) | 💥 Plasma Burst (Colossal AoE) |
-| **Advanced** | **Solar Phoenix** | Sector 20 | 80,000 CR | Solar Flare (Magma Orbs) | 🛡️ Energy Shield (Invulnerable 4s) |
-| **Advanced** | **Aegis Bastion** | Sector 25 | 110,000 CR | Shield Cannon (+Shield on Hit) | 🛡️ Energy Shield (Fortress Dome) |
-| **Advanced** | **Iron Hammer** | Sector 30 | 150,000 CR | Rail Cannon (Piercing Slugs) | ☄️ Meteor Strike (Kinetic Barrage) |
-| **Elite** | **Shadow Wraith** | Sector 35 | 200,000 CR | Phase Blaster (Quantum Pierce) | 🌀 Void Rift (Gravity Vortex) |
-| **Elite** | **Supernova Flash** | Sector 40 | 260,000 CR | Nova Beam (Thermal Lance) | 💥 Plasma Burst (Supernova Blast) |
-| **Elite** | **Titan Behemoth** | Sector 45 | 330,000 CR | Mega Plasma Launcher | ☄️ Meteor Strike (Missile Swarm) |
-| **Elite** | **Umbra Cruiser** | Sector 50 | 420,000 CR | Dark Energy Cannon | 🌀 Void Rift (Spacetime Vortex) |
-| **Elite** | **Abyssal Stalker** | Sector 55 | 520,000 CR | Void Missile System (Homing) | ⚡ EMP Blast (Abyssal Shock) |
-| **Legendary** | **Cosmic Reaper** | Sector 65 | 650,000 CR | Death Ray (Antimatter Vortex) | 🌌 Cosmic Wave (Fullscreen Wipe) |
-| **Legendary** | **Astral Sentinel** | Sector 75 | 850,000 CR | Cosmic Pulse (Wide-Cone Wave) | 🛡️ Energy Shield (Sanctuary) |
-| **Legendary** | **Seraph Prime** | Sector 85 | 1,100,000 CR | Celestial Beam (Holy Lance) | 🌌 Cosmic Wave (Supernova Wave) |
-| **Ultimate** | **Apex Sovereign** | Sector 100 | 1,500,000 CR | Omega Cannon (Singularity) | 🌌 Cosmic Wave (Reality Blast) |
+| **Basic** | **Valkyrie MK-II** | Sector 1 | Default / Free | Pulse Cannon (Twin Kinetic) | ⚡ EMP Blast (Disables hostiles) |
+| **Basic** | **Solar Dart** | Sector 5 | 25,000 CR | Rapid Laser (Needle Bolts) | 🔥 Overdrive (2x Fire Rate, 5s) |
+| **Advanced** | **Aero Blade** | Sector 10 | 75,000 CR | Twin Plasma Cannons | ⚔️ Laser Barrage (7-Laser Fan) |
+| **Advanced** | **Plasma Marauder** | Sector 15 | 150,000 CR | Heavy Plasma Cannon (Slugs) | 💥 Plasma Burst (Colossal AoE) |
+| **Advanced** | **Solar Phoenix** | Sector 20 | 250,000 CR | Solar Flare (Magma Orbs) | 🛡️ Energy Shield (Invulnerable 4s) |
+| **Advanced** | **Aegis Bastion** | Sector 25 | 380,000 CR | Shield Cannon (+Shield on Hit) | 🛡️ Energy Shield (Fortress Dome) |
+| **Advanced** | **Iron Hammer** | Sector 30 | 550,000 CR | Rail Cannon (Piercing Slugs) | ☄️ Meteor Strike (Kinetic Barrage) |
+| **Elite** | **Shadow Wraith** | Sector 40 | 800,000 CR | Phase Blaster (Quantum Pierce) | 🌀 Void Rift (Gravity Vortex) |
+| **Elite** | **Supernova Flash** | Sector 50 | 1,200,000 CR | Nova Beam (Thermal Lance) | 💥 Plasma Burst (Supernova Blast) |
+| **Elite** | **Titan Behemoth** | Sector 60 | 1,600,000 CR | Mega Plasma Launcher | ☄️ Meteor Strike (Missile Swarm) |
+| **Elite** | **Umbra Cruiser** | Sector 70 | 2,200,000 CR | Dark Energy Cannon | 🌀 Void Rift (Spacetime Vortex) |
+| **Elite** | **Abyssal Stalker** | Sector 80 | 2,900,000 CR | Void Missile System (Homing) | ⚡ EMP Blast (Abyssal Shock) |
+| **Legendary** | **Cosmic Reaper** | Sector 85 | 3,800,000 CR | Death Ray (Antimatter Vortex) | 🌌 Cosmic Wave (Fullscreen Wipe) |
+| **Legendary** | **Astral Sentinel** | Sector 90 | 4,800,000 CR | Cosmic Pulse (Wide-Cone Wave) | 🛡️ Energy Shield (Sanctuary) |
+| **Legendary** | **Seraph Prime** | Sector 95 | 6,500,000 CR | Celestial Beam (Holy Lance) | 🌌 Cosmic Wave (Supernova Wave) |
+| **Ultimate** | **Apex Sovereign** | Sector 100 | 9,500,000 CR | Omega Cannon (Singularity) | 🌌 Cosmic Wave (Reality Blast) |
 
+- **Buy Before Sector Assignment**: In the pilot briefing screen, pilots can view ship specs and purchase locked starfighters directly with credits before launching into combat.
 - **Equipping Unlocked Ships**: Once unlocked, switching and equipping ships is **always 100% free**.
 
 ---
 
-## 🛡️ 3. Emergency Hull Reinforcement Protocol (`Hull ≤ 20%`)
+## 🛡️ 3. Critical Hull Warning & Dynamic In-Flight Repair (`Hull ≤ 20%`)
 
-When your vessel's hull integrity drops to **20% or below**, an emergency combat warning activates:
-- **Tactical Decision Window**: The game enters bullet-time slow motion (or safe window) so the pilot can decide without being destroyed while the interface appears.
-- **Nanite Reinforcement**: Restores **+55% maximum hull points**.
-- **Dynamic Sector Pricing**:
-  - Sectors 1–10: 10,000 CR
-  - Sectors 11–20: 25,000 CR
-  - Sectors 21–30: 50,000 CR
-  - Sectors 31–50: 100,000 CR
-  - Sectors 51–75: 200,000 CR
-  - Sectors 76–100: 350,000 CR
-  - Sectors 100+: 500,000+ CR
-- **Strict Limit**: Exactly **1 emergency repair per combat sector**. Automatically resets when warping into the next sector.
+When your vessel's hull integrity drops to **20% or below**, an animated combat warning pops up from the bottom-left:
+- **Smooth Bottom-Left Float**: The critical warning smoothly glides up from the bottom-left of the screen, remains visible during active dogfighting, and automatically vanishes after 7 seconds without interrupting or freezing combat.
+- **Click to Repair (20,000 CR)**: Clicking the alert instantly deducts **20,000 Credits** and restores **+55% maximum hull integrity**.
+- **Strict Sector Limit**: Exactly **1 emergency repair per combat sector**, resetting cleanly when advancing to the next sector.
 
 ---
 

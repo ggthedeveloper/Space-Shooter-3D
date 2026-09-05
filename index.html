@@ -381,7 +381,7 @@
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    max-width: calc(100vw - 16px);
+    max-width: min(960px, calc(100vw - 160px));
     padding: 4px 8px;
     z-index: 15;
     pointer-events: auto;
@@ -649,32 +649,35 @@
 
   #controlsHint strong { color: var(--primary); }
 
-  /* Developed by GG Footer (Non-clickable) */
+  /* Developed by GG Footer (Non-clickable, shifted right clear of weapons dock) */
   #gameFooter {
     position: absolute;
     bottom: 6px;
-    right: 10px;
+    right: 4px;
     font-size: 9.5px;
-    font-weight: 600;
-    letter-spacing: 0.6px;
-    color: rgba(141, 164, 207, 0.55);
-    z-index: 12;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(141, 164, 207, 0.8);
+    z-index: 30;
     pointer-events: none;
     user-select: none;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.9);
-    background: transparent;
-    padding: 2px 4px;
-    border: none;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.95);
+    background: rgba(6, 12, 28, 0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    white-space: nowrap;
   }
   #gameFooter .dev-highlight {
-    color: rgba(0, 240, 255, 0.75);
-    font-weight: 700;
+    color: rgba(0, 240, 255, 0.9);
+    font-weight: 800;
   }
   @media (max-width: 768px) {
     #gameFooter {
-      bottom: 4px;
-      right: 6px;
-      font-size: 8.5px;
+      bottom: 2px;
+      right: 2px;
+      font-size: 8px;
+      padding: 1px 4px;
     }
   }
 
@@ -1423,6 +1426,51 @@
     #touchJoystickZone { bottom: 78px; left: 8px; width: 105px; height: 105px; }
     .t-btn { width: 42px; height: 42px; font-size: 9px; }
   }
+
+  /* CRITICAL HULL FLOATING BOTTOM-LEFT POPUP */
+  .critical-hull-toast {
+    position: absolute;
+    left: 20px;
+    bottom: 80px;
+    z-index: 99999;
+    background: rgba(12, 18, 38, 0.96);
+    border: 1.5px solid #ff3366;
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-shadow: 0 0 24px rgba(255, 51, 102, 0.55), inset 0 0 12px rgba(255, 51, 102, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+    animation: criticalHullFloatUp 7s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .critical-hull-toast:hover {
+    transform: scale(1.04) translateY(-2px);
+    border-color: #00ff88;
+    box-shadow: 0 0 28px rgba(0, 255, 136, 0.6);
+  }
+  @keyframes criticalHullFloatUp {
+    0% {
+      opacity: 0;
+      transform: translateY(40px) scale(0.92);
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    75% {
+      opacity: 1;
+      transform: translateY(-20px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-50px) scale(0.92);
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -1718,36 +1766,9 @@
       <div style="text-align: left; margin-bottom: 14px;">
         <div style="font-size: 11px; font-weight: 800; color: #00f0ff; letter-spacing: 1.5px; margin-bottom: 8px;">SELECT INITIAL COMBAT STARFIGHTER:</div>
         <div class="ship-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;" id="pilotShipSelectGrid">
-          <div class="store-card ship-select-card active" id="initShipValkyrie" onclick="selectInitialShip('valkyrie')">
-            <div style="font-size: 24px; margin-bottom: 2px;">🚀</div>
-            <div style="font-weight: 800; font-size: 12px; color: #00e5ff;">VALKYRIE</div>
-            <div style="font-size: 10px; color: #9db2d9;">Multi-Role Interceptor</div>
-          </div>
-          <div class="store-card ship-select-card" id="initShipTitan" onclick="selectInitialShip('titan')">
-            <div style="font-size: 24px; margin-bottom: 2px;">🛡️</div>
-            <div style="font-weight: 800; font-size: 12px; color: #ffd166;">TITAN</div>
-            <div style="font-size: 10px; color: #9db2d9;">Heavy Armor (+35% Dmg)</div>
-          </div>
-          <div class="store-card ship-select-card" id="initShipPhantom" onclick="selectInitialShip('phantom')">
-            <div style="font-size: 24px; margin-bottom: 2px;">⚡</div>
-            <div style="font-weight: 800; font-size: 12px; color: #a855f7;">PHANTOM</div>
-            <div style="font-size: 10px; color: #9db2d9;">Stealth Speed (+25% RoF)</div>
-          </div>
-          <div class="store-card ship-select-card" id="initShipPhoenix" onclick="selectInitialShip('phoenix')">
-            <div style="font-size: 24px; margin-bottom: 2px;">☀️</div>
-            <div style="font-weight: 800; font-size: 12px; color: #ffaa00;">SOLAR PHOENIX</div>
-            <div style="font-size: 10px; color: #9db2d9;">Nanite Self-Repair (+3/s)</div>
-          </div>
-          <div class="store-card ship-select-card" id="initShipReaper" onclick="selectInitialShip('reaper')">
-            <div style="font-size: 24px; margin-bottom: 2px;">🌌</div>
-            <div style="font-weight: 800; font-size: 12px; color: #d946ef;">VOID REAPER</div>
-            <div style="font-size: 10px; color: #9db2d9;">+50% Crits & 2x EMP</div>
-          </div>
-          <div class="store-card ship-select-card" id="initShipApex" onclick="selectInitialShip('apex')">
-            <div style="font-size: 24px; margin-bottom: 2px;">👑</div>
-            <div style="font-weight: 800; font-size: 12px; color: #ffd166;">APEX SOVEREIGN</div>
-            <div style="font-size: 10px; color: #9db2d9;">Chrono-Overdrive Flagship</div>
-          </div>
+        </div>
+        <!-- Dedicated Starfighter Inspection & Credit Purchase Card Before Sector Assignment -->
+        <div id="pilotShipDetailCard" style="background: rgba(0, 229, 255, 0.05); border: 1.5px solid rgba(0, 229, 255, 0.35); border-radius: 8px; padding: 12px 14px; margin-top: 10px; text-align: left;">
         </div>
       </div>
 
@@ -7695,11 +7716,11 @@ const SHIP_DEFINITIONS = {
     role: 'Recon Scout',
     tier: 'Basic',
     unlockSector: 5,
-    cost: 12000,
+    cost: 25000,
     speed: 24,
-    hull: 70,
-    shield: 80,
-    damage: 85,
+    hull: 80,
+    shield: 90,
+    damage: 95,
     fireRate: 'Ultra Fast',
     primaryWeapon: 'Rapid Laser',
     specialAbility: 'Overdrive',
@@ -7713,11 +7734,11 @@ const SHIP_DEFINITIONS = {
     role: 'Strike Interceptor',
     tier: 'Advanced',
     unlockSector: 10,
-    cost: 35000,
+    cost: 75000,
     speed: 22,
-    hull: 90,
-    shield: 110,
-    damage: 115,
+    hull: 110,
+    shield: 120,
+    damage: 125,
     fireRate: 'High',
     primaryWeapon: 'Twin Plasma Cannons',
     specialAbility: 'Laser Barrage',
@@ -7729,11 +7750,11 @@ const SHIP_DEFINITIONS = {
     role: 'Heavy Assault Fighter',
     tier: 'Advanced',
     unlockSector: 15,
-    cost: 55000,
+    cost: 150000,
     speed: 16,
-    hull: 140,
-    shield: 130,
-    damage: 135,
+    hull: 160,
+    shield: 150,
+    damage: 150,
     fireRate: 'Medium',
     primaryWeapon: 'Heavy Plasma Cannon',
     specialAbility: 'Plasma Burst',
@@ -7745,11 +7766,11 @@ const SHIP_DEFINITIONS = {
     role: 'Chrono-Vanguard',
     tier: 'Advanced',
     unlockSector: 20,
-    cost: 80000,
+    cost: 250000,
     speed: 20,
-    hull: 200,
-    shield: 220,
-    damage: 140,
+    hull: 220,
+    shield: 240,
+    damage: 160,
     fireRate: 'High',
     primaryWeapon: 'Solar Flare',
     specialAbility: 'Energy Shield',
@@ -7761,11 +7782,11 @@ const SHIP_DEFINITIONS = {
     role: 'Fortress Gunship',
     tier: 'Advanced',
     unlockSector: 25,
-    cost: 110000,
+    cost: 380000,
     speed: 15,
-    hull: 220,
-    shield: 240,
-    damage: 130,
+    hull: 260,
+    shield: 280,
+    damage: 155,
     fireRate: 'Medium',
     primaryWeapon: 'Shield Cannon',
     specialAbility: 'Energy Shield',
@@ -7777,11 +7798,11 @@ const SHIP_DEFINITIONS = {
     role: 'Siege Destroyer',
     tier: 'Advanced',
     unlockSector: 30,
-    cost: 150000,
+    cost: 550000,
     speed: 14,
-    hull: 260,
-    shield: 190,
-    damage: 160,
+    hull: 300,
+    shield: 240,
+    damage: 190,
     fireRate: 'Slow',
     primaryWeapon: 'Rail Cannon',
     specialAbility: 'Meteor Strike',
@@ -7794,12 +7815,12 @@ const SHIP_DEFINITIONS = {
     name: 'Shadow Wraith',
     role: 'Stealth Infiltrator',
     tier: 'Elite',
-    unlockSector: 35,
-    cost: 200000,
+    unlockSector: 40,
+    cost: 800000,
     speed: 26,
-    hull: 80,
-    shield: 90,
-    damage: 150,
+    hull: 160,
+    shield: 180,
+    damage: 210,
     fireRate: 'Extreme',
     primaryWeapon: 'Phase Blaster',
     specialAbility: 'Void Rift',
@@ -7810,12 +7831,12 @@ const SHIP_DEFINITIONS = {
     name: 'Supernova Flash',
     role: 'Energy Skirmisher',
     tier: 'Elite',
-    unlockSector: 40,
-    cost: 260000,
+    unlockSector: 50,
+    cost: 1200000,
     speed: 23,
-    hull: 150,
-    shield: 180,
-    damage: 165,
+    hull: 240,
+    shield: 260,
+    damage: 235,
     fireRate: 'High',
     primaryWeapon: 'Nova Beam',
     specialAbility: 'Plasma Burst',
@@ -7826,12 +7847,12 @@ const SHIP_DEFINITIONS = {
     name: 'Titan Behemoth',
     role: 'Assault Dreadnought',
     tier: 'Elite',
-    unlockSector: 45,
-    cost: 330000,
+    unlockSector: 60,
+    cost: 1600000,
     speed: 13,
-    hull: 280,
-    shield: 220,
-    damage: 180,
+    hull: 380,
+    shield: 320,
+    damage: 260,
     fireRate: 'Heavy',
     primaryWeapon: 'Mega Plasma Launcher',
     specialAbility: 'Meteor Strike',
@@ -7842,12 +7863,12 @@ const SHIP_DEFINITIONS = {
     name: 'Umbra Cruiser',
     role: 'Dark Matter Battlecruiser',
     tier: 'Elite',
-    unlockSector: 50,
-    cost: 420000,
+    unlockSector: 70,
+    cost: 2200000,
     speed: 21,
-    hull: 190,
-    shield: 240,
-    damage: 185,
+    hull: 320,
+    shield: 350,
+    damage: 285,
     fireRate: 'High',
     primaryWeapon: 'Dark Energy Cannon',
     specialAbility: 'Void Rift',
@@ -7858,12 +7879,12 @@ const SHIP_DEFINITIONS = {
     name: 'Abyssal Stalker',
     role: 'Bio-Hunter',
     tier: 'Elite',
-    unlockSector: 55,
-    cost: 520000,
+    unlockSector: 80,
+    cost: 2900000,
     speed: 27,
-    hull: 140,
-    shield: 200,
-    damage: 195,
+    hull: 280,
+    shield: 320,
+    damage: 310,
     fireRate: 'High',
     primaryWeapon: 'Void Missile System',
     specialAbility: 'EMP Blast',
@@ -7876,12 +7897,12 @@ const SHIP_DEFINITIONS = {
     name: 'Cosmic Reaper',
     role: 'Antimatter Assassin',
     tier: 'Legendary',
-    unlockSector: 65,
-    cost: 650000,
+    unlockSector: 85,
+    cost: 3800000,
     speed: 28,
-    hull: 160,
-    shield: 220,
-    damage: 220,
+    hull: 350,
+    shield: 380,
+    damage: 350,
     fireRate: 'Ultra',
     primaryWeapon: 'Death Ray',
     specialAbility: 'Cosmic Wave',
@@ -7892,12 +7913,12 @@ const SHIP_DEFINITIONS = {
     name: 'Astral Sentinel',
     role: 'Cosmic Bastion',
     tier: 'Legendary',
-    unlockSector: 75,
-    cost: 850000,
+    unlockSector: 90,
+    cost: 4800000,
     speed: 22,
-    hull: 280,
-    shield: 280,
-    damage: 230,
+    hull: 420,
+    shield: 440,
+    damage: 380,
     fireRate: 'High',
     primaryWeapon: 'Cosmic Pulse',
     specialAbility: 'Energy Shield',
@@ -7908,12 +7929,12 @@ const SHIP_DEFINITIONS = {
     name: 'Seraph Prime',
     role: 'Divine Flagship',
     tier: 'Legendary',
-    unlockSector: 85,
-    cost: 1100000,
+    unlockSector: 95,
+    cost: 6500000,
     speed: 29,
-    hull: 260,
-    shield: 300,
-    damage: 260,
+    hull: 460,
+    shield: 480,
+    damage: 440,
     fireRate: 'Max',
     primaryWeapon: 'Celestial Beam',
     specialAbility: 'Cosmic Wave',
@@ -7925,11 +7946,11 @@ const SHIP_DEFINITIONS = {
     role: 'Omega Dreadnought',
     tier: 'Ultimate',
     unlockSector: 100,
-    cost: 1500000,
+    cost: 9500000,
     speed: 32,
-    hull: 350,
-    shield: 350,
-    damage: 300,
+    hull: 600,
+    shield: 600,
+    damage: 550,
     fireRate: 'Supreme',
     primaryWeapon: 'Omega Cannon',
     specialAbility: 'Cosmic Wave',
@@ -8063,22 +8084,172 @@ function updateGalaxyModalUI() {
   });
 }
 
+let pilotInspectedShip = null;
+
+function updatePilotShipDetailUI(shipId) {
+  const container = document.getElementById('pilotShipDetailCard');
+  if (!container) return;
+  pilotInspectedShip = shipId || pilotInspectedShip || state.shipType || 'valkyrie';
+  const ship = SHIP_DEFINITIONS[pilotInspectedShip] || SHIP_DEFINITIONS.valkyrie;
+  const isUnlocked = state.unlockedShips && state.unlockedShips.includes(ship.id);
+  const isEquipped = (state.shipType === ship.id);
+  const canAfford = ((state.credits || 0) >= ship.cost);
+
+  let icon = '🚀';
+  if (ship.id === 'scout') icon = '⚡';
+  else if (ship.id === 'interceptor') icon = '🗡️';
+  else if (ship.id === 'assault') icon = '💥';
+  else if (ship.id === 'phoenix') icon = '☀️';
+  else if (ship.id === 'guardian') icon = '🛡️';
+  else if (ship.id === 'destroyer') icon = '🔨';
+  else if (ship.id === 'phantom') icon = '👻';
+  else if (ship.id === 'nova') icon = '🌟';
+  else if (ship.id === 'titan') icon = '🗿';
+  else if (ship.id === 'eclipse') icon = '🌑';
+  else if (ship.id === 'void_hunter') icon = '👾';
+  else if (ship.id === 'reaper') icon = '🌌';
+  else if (ship.id === 'galaxy_guardian') icon = '🌠';
+  else if (ship.id === 'celestial') icon = '✨';
+  else if (ship.id === 'apex') icon = '👑';
+
+  let actionHtml = '';
+  if (isEquipped) {
+    actionHtml = `<div style="padding: 8px 16px; background: rgba(0,255,136,0.15); border: 1px solid #00ff88; color: #00ff88; border-radius: 6px; font-weight: 800; font-size: 11px; text-align: center;">⭐ CURRENTLY EQUIPPED FOR LAUNCH</div>`;
+  } else if (isUnlocked) {
+    actionHtml = `<button class="btn-primary" onclick="equipPilotShip('${ship.id}')" style="width: 100%; padding: 8px 16px; font-size: 11px; font-weight: 800; background: linear-gradient(180deg, #00f0ff, #0088cc); color: #081024; border: none; border-radius: 6px; cursor: pointer;">EQUIP STARFIGHTER (FREE) 🚀</button>`;
+  } else {
+    actionHtml = `
+      <div style="display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+        <div style="font-size: 10.5px; color: #ffd166; font-weight: 700;">
+          🔒 UNLOCKS AT SECTOR ${ship.unlockSector} OR PURCHASE EARLY:
+        </div>
+        <button class="btn-primary" onclick="buyAndEquipPilotShip('${ship.id}')" ${canAfford ? '' : 'disabled'}
+          style="padding: 8px 18px; font-size: 11px; font-weight: 800; background: ${canAfford ? 'linear-gradient(180deg, #ffd166, #ffaa00)' : '#334155'}; color: ${canAfford ? '#081024' : '#94a3b8'}; border: none; border-radius: 6px; cursor: ${canAfford ? 'pointer' : 'not-allowed'}; box-shadow: ${canAfford ? '0 0 14px rgba(255,209,102,0.5)' : 'none'};">
+          ${canAfford ? `BUY & EQUIP NOW (${ship.cost.toLocaleString()} CR) 💳` : `NEED ${(ship.cost - (state.credits || 0)).toLocaleString()} CR MORE`}
+        </button>
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 28px;">${icon}</span>
+        <div>
+          <div style="font-size: 13px; font-weight: 800; color: #00f0ff;">${ship.name} <span style="font-size: 9.5px; color: #ffd166; border: 1px solid rgba(255,209,102,0.4); padding: 1px 5px; border-radius: 3px;">${ship.tier}</span></div>
+          <div style="font-size: 10px; color: #94a3b8;">${ship.role} &middot; <span style="color: #ffd166;">Primary: ${ship.primaryWeapon}</span> &middot; <span style="color: #00ff88;">Ability [C]: ${ship.specialAbility}</span></div>
+        </div>
+      </div>
+      <div style="font-size: 11px; font-weight: 800; color: ${isUnlocked ? '#00ff88' : '#ffd166'};">
+        ${isEquipped ? '⭐ EQUIPPED' : (isUnlocked ? '🟢 READY' : `🔒 SECTOR ${ship.unlockSector} / ${ship.cost.toLocaleString()} CR`)}
+      </div>
+    </div>
+    <div style="font-size: 10px; color: #cbd5e1; line-height: 1.4; margin-bottom: 8px;">${ship.desc}</div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; font-size: 9.5px; margin-bottom: 10px; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 4px;">
+      <div><span style="color: #64748b;">HULL:</span> <strong style="color: #00ff88;">${ship.hull}</strong></div>
+      <div><span style="color: #64748b;">SHIELD:</span> <strong style="color: #00e5ff;">${ship.shield}</strong></div>
+      <div><span style="color: #64748b;">DMG:</span> <strong style="color: #ff3366;">${ship.damage}%</strong></div>
+      <div><span style="color: #64748b;">SPEED:</span> <strong style="color: #ffd166;">${ship.speed}</strong></div>
+    </div>
+    ${actionHtml}
+  `;
+}
+
 function selectInitialShip(type) {
   if (!state.unlockedShips) state.unlockedShips = ['valkyrie'];
   checkProgressionUnlocks();
+  pilotInspectedShip = type;
   const def = SHIP_DEFINITIONS[type] || SHIP_DEFINITIONS.valkyrie;
-  if (!state.unlockedShips.includes(type)) {
-    spawnFloatingText(player.position, `LOCKED - REACH SECTOR ${def.unlockSector} TO UNLOCK`, "#ffd166");
+  
+  if (state.unlockedShips.includes(type)) {
+    setStarship(type);
+    if (audio && typeof audio.playBeep === 'function') audio.playBeep();
+    saveGameData();
+  }
+
+  // Highlight selected card
+  const cards = document.querySelectorAll('.ship-select-card');
+  cards.forEach(c => c.classList.remove('active'));
+  const target = document.getElementById(`initShip_${type}`);
+  if (target) target.classList.add('active');
+
+  updatePilotShipDetailUI(type);
+}
+
+function equipPilotShip(shipId) {
+  setStarship(shipId);
+  saveGameData();
+  if (audio && typeof audio.playBeep === 'function') audio.playBeep();
+  renderPilotShipSelectionGrid();
+  updatePilotShipDetailUI(shipId);
+}
+
+function buyAndEquipPilotShip(shipId) {
+  const ship = SHIP_DEFINITIONS[shipId];
+  if (!ship) return;
+  if ((state.credits || 0) < ship.cost) {
     if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
     return;
   }
-  setStarship(type);
-  const cards = document.querySelectorAll('.ship-select-card');
-  cards.forEach(c => c.classList.remove('active'));
-  const target = document.getElementById(`initShip${type.charAt(0).toUpperCase() + type.slice(1)}`);
-  if (target) target.classList.add('active');
-  if (audio && typeof audio.playBeep === 'function') audio.playBeep();
+  state.credits -= ship.cost;
+  if (!state.unlockedShips) state.unlockedShips = ['valkyrie'];
+  if (!state.unlockedShips.includes(shipId)) {
+    state.unlockedShips.push(shipId);
+  }
+  setStarship(shipId);
   saveGameData();
+  if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
+  
+  const credsEl = document.getElementById('pilotRecCredits');
+  if (credsEl) credsEl.textContent = `${state.credits || 0} CR`;
+  
+  renderPilotShipSelectionGrid();
+  updatePilotShipDetailUI(shipId);
+  updateHUD();
+}
+
+function renderPilotShipSelectionGrid() {
+  const pilotGrid = document.getElementById('pilotShipSelectGrid');
+  if (!pilotGrid) return;
+  pilotGrid.innerHTML = '';
+  Object.values(SHIP_DEFINITIONS).forEach(ship => {
+    const isUnlocked = state.unlockedShips && state.unlockedShips.includes(ship.id);
+    const isEquipped = (state.shipType === ship.id);
+    const isInspected = (pilotInspectedShip === ship.id);
+    const card = document.createElement('div');
+    card.className = `store-card ship-select-card ${isEquipped || isInspected ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
+    card.id = `initShip_${ship.id}`;
+    card.onclick = () => { selectInitialShip(ship.id); };
+
+    let icon = '🚀';
+    if (ship.id === 'scout') icon = '⚡';
+    else if (ship.id === 'interceptor') icon = '🗡️';
+    else if (ship.id === 'assault') icon = '💥';
+    else if (ship.id === 'phoenix') icon = '☀️';
+    else if (ship.id === 'guardian') icon = '🛡️';
+    else if (ship.id === 'destroyer') icon = '🔨';
+    else if (ship.id === 'phantom') icon = '👻';
+    else if (ship.id === 'nova') icon = '🌟';
+    else if (ship.id === 'titan') icon = '🗿';
+    else if (ship.id === 'eclipse') icon = '🌑';
+    else if (ship.id === 'void_hunter') icon = '👾';
+    else if (ship.id === 'reaper') icon = '🌌';
+    else if (ship.id === 'galaxy_guardian') icon = '🌠';
+    else if (ship.id === 'celestial') icon = '✨';
+    else if (ship.id === 'apex') icon = '👑';
+
+    const priceLabel = ship.cost >= 1000000 ? (ship.cost / 1000000).toFixed(1) + 'M' : (ship.cost / 1000) + 'K';
+
+    card.innerHTML = `
+      <div style="font-size: 22px; margin-bottom: 2px;">${icon}</div>
+      <div style="font-weight: 800; font-size: 11px; color: #00e5ff;">${ship.name}</div>
+      <div style="font-size: 9px; color: #9db2d9;">${ship.role}</div>
+      <div style="font-size: 8.5px; color: ${isUnlocked ? '#00ff88' : '#ffd166'}; margin-top: 3px; font-weight: 700;">
+        ${isEquipped ? '⭐ EQUIPPED' : (isUnlocked ? '🟢 READY' : `🔒 S${ship.unlockSector} | ${priceLabel} CR`)}
+      </div>
+    `;
+    pilotGrid.appendChild(card);
+  });
 }
 
 function openPilotRegistrationModal(isBack = false) {
@@ -8096,49 +8267,12 @@ function openPilotRegistrationModal(isBack = false) {
   if (hsEl) hsEl.textContent = state.highScore || 0;
   if (killsEl) killsEl.textContent = state.totalAliensKilled || 0;
   if (secEl) secEl.textContent = `Sector ${state.highestSector || 1}`;
-  if (credsEl) credsEl.textContent = `${state.credits || 0} CR`;
+  if (credsEl) credsEl.textContent = `${(state.credits || 0).toLocaleString()} CR`;
 
-    // Populate pilotShipSelectGrid with full 16-ship fleet
-  const pilotGrid = document.getElementById('pilotShipSelectGrid');
-  if (pilotGrid) {
-    pilotGrid.innerHTML = '';
-    Object.values(SHIP_DEFINITIONS).forEach(ship => {
-      const isUnlocked = state.unlockedShips && state.unlockedShips.includes(ship.id);
-      const isEquipped = (state.shipType === ship.id);
-      const card = document.createElement('div');
-      card.className = `store-card ship-select-card ${isEquipped ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
-      card.id = `initShip_${ship.id}`;
-      card.onclick = () => { selectInitialShip(ship.id); };
+  pilotInspectedShip = state.shipType || 'valkyrie';
+  renderPilotShipSelectionGrid();
+  updatePilotShipDetailUI(pilotInspectedShip);
 
-      let icon = '🚀';
-      if (ship.id === 'scout') icon = '⚡';
-      else if (ship.id === 'interceptor') icon = '🗡️';
-      else if (ship.id === 'assault') icon = '💥';
-      else if (ship.id === 'phoenix') icon = '☀️';
-      else if (ship.id === 'guardian') icon = '🛡️';
-      else if (ship.id === 'destroyer') icon = '🔨';
-      else if (ship.id === 'phantom') icon = '👻';
-      else if (ship.id === 'nova') icon = '🌟';
-      else if (ship.id === 'titan') icon = '🗿';
-      else if (ship.id === 'eclipse') icon = '🌑';
-      else if (ship.id === 'void_hunter') icon = '👾';
-      else if (ship.id === 'reaper') icon = '🌌';
-      else if (ship.id === 'galaxy_guardian') icon = '🌠';
-      else if (ship.id === 'celestial') icon = '✨';
-      else if (ship.id === 'apex') icon = '👑';
-
-      card.innerHTML = `
-        <div style="font-size: 22px; margin-bottom: 2px;">${icon}</div>
-        <div style="font-weight: 800; font-size: 11px; color: #00e5ff;">${ship.name}</div>
-        <div style="font-size: 9px; color: #9db2d9;">${ship.role}</div>
-        <div style="font-size: 9px; color: ${isUnlocked ? '#00ff88' : '#ffd166'}; margin-top: 3px; font-weight: 700;">
-          ${isEquipped ? '⭐ EQUIPPED' : (isUnlocked ? '🟢 READY' : `🔒 SEC ${ship.unlockSector}`)}
-        </div>
-      `;
-      pilotGrid.appendChild(card);
-    });
-  }
-  selectInitialShip(state.shipType || 'valkyrie');
   const pilotGalaxyEl = document.getElementById('pilotGalaxyName');
   const curG = GALAXIES[state.selectedGalaxy || 'cosmic'] || GALAXIES.cosmic;
   if (pilotGalaxyEl) pilotGalaxyEl.textContent = `${curG.icon} ${curG.name}`;
@@ -8387,15 +8521,15 @@ function updateStoreItemButtons() {
         <div class="ship-role">${ship.role} <span style="font-size: 8.5px; color: #ffd166;">(${ship.tier})</span></div>
         <div class="ship-stat-row">
           <span>Spd: ${ship.speed}</span>
-          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.speed / 32) * 100)}%; background: #00e5ff;"></div></div>
+          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.speed / 34) * 100)}%; background: #00e5ff;"></div></div>
         </div>
         <div class="ship-stat-row">
           <span>Hull: ${ship.hull}</span>
-          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.hull / 350) * 100)}%; background: #00ff88;"></div></div>
+          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.hull / 600) * 100)}%; background: #00ff88;"></div></div>
         </div>
         <div class="ship-stat-row">
           <span>Shd: ${ship.shield}</span>
-          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.shield / 350) * 100)}%; background: #00f0ff;"></div></div>
+          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.shield / 600) * 100)}%; background: #00f0ff;"></div></div>
         </div>
         <div style="font-size: 9.5px; color: #00f0ff; margin-top: 4px; font-weight: 700;">🔫 ${ship.primaryWeapon}</div>
         <div style="font-size: 9.0px; color: #ffd166; margin-top: 2px;">✨ ${ship.specialAbility}</div>
@@ -8808,51 +8942,73 @@ function getEmergencyRepairCost() {
 }
 
 function triggerEmergencyHullProtocol() {
-  if (state.emergencyHullUsed || state.emergencyModalOpen || state.hull <= 0) return;
-  state.emergencyModalOpen = true;
-  state.invulnTimer = Math.max(state.invulnTimer, 6.0); // Safety window while deciding
-  state.timeScale = 0.05; // Tactical bullet-time slow-mo
+  if (state.emergencyHullUsed || state.hull <= 0) return;
+  const existingToast = document.getElementById('criticalHullToast');
+  if (existingToast) return;
 
-  const cost = getEmergencyRepairCost();
-  const costEl = document.getElementById('emergencyRepairCostVal');
-  const credsEl = document.getElementById('emergencyCurrentCreditsVal');
-  const buyBtn = document.getElementById('btnBuyEmergencyHull');
-
-  if (costEl) costEl.textContent = `${cost.toLocaleString()} CR`;
-  if (credsEl) credsEl.textContent = `${(state.credits || 0).toLocaleString()} CR`;
-  if (buyBtn) {
-    buyBtn.disabled = (state.credits < cost);
-    buyBtn.style.opacity = (state.credits < cost) ? '0.5' : '1.0';
-    buyBtn.textContent = (state.credits >= cost) ? 'REPAIR HULL (+55%) 🛡️' : 'INSUFFICIENT CREDITS';
-  }
-
-  const modal = document.getElementById('emergencyHullModal');
-  if (modal) modal.classList.add('active');
   if (audio && typeof audio.playAlarm === 'function') audio.playAlarm();
+
+  const toast = document.createElement('div');
+  toast.id = 'criticalHullToast';
+  toast.className = 'critical-hull-toast';
+  toast.title = 'Click to repair hull for 20,000 credits';
+  toast.innerHTML = `
+    <div style="font-size: 26px; line-height: 1; animation: pulse 0.8s infinite;">🚨</div>
+    <div style="display: flex; flex-direction: column; text-align: left;">
+      <div style="font-size: 11px; font-weight: 800; color: #ff3366; letter-spacing: 1px;">⚠️ CRITICAL HULL (≤ 20%)</div>
+      <div style="font-size: 10px; color: #fff; font-weight: 700; margin: 1px 0;">CLICK TO REPAIR: <span style="color: #00ff88;">+55% HP</span></div>
+      <div style="font-size: 9.5px; color: #ffd166; font-weight: 800;">PRICE: 20,000 CR</div>
+    </div>
+    <button style="background: linear-gradient(180deg, #00ff88, #00bb66); color: #081024; font-weight: 800; border: none; padding: 6px 12px; border-radius: 4px; font-size: 10.5px; cursor: pointer; box-shadow: 0 0 10px rgba(0,255,136,0.5); pointer-events: none;">REPAIR 🛡️</button>
+  `;
+
+  toast.onclick = () => {
+    confirmCriticalHullRepair20k();
+  };
+
+  const container = document.getElementById('ui-overlay') || document.body;
+  container.appendChild(toast);
+
+  // Automatically vanish and remove after animation finishes (7 seconds)
+  setTimeout(() => {
+    if (toast && toast.parentNode) {
+      toast.remove();
+    }
+  }, 7000);
 }
 
-function confirmEmergencyHullRepair() {
-  const cost = getEmergencyRepairCost();
-  if (state.credits < cost) {
+function confirmCriticalHullRepair20k() {
+  const toast = document.getElementById('criticalHullToast');
+  const COST = 20000;
+  if ((state.credits || 0) < COST) {
     if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
+    spawnFloatingText(player.position, `INSUFFICIENT CREDITS (NEED 20,000 CR)!`, "#ff3366");
+    if (toast) {
+      toast.style.borderColor = '#ff3366';
+      toast.style.boxShadow = '0 0 24px rgba(255,51,102,0.9)';
+    }
     return;
   }
 
-  state.credits -= cost;
+  state.credits -= COST;
   state.emergencyHullUsed = true;
-  const healAmount = Math.round(state.maxHull * 0.55);
-  state.hull = Math.min(state.maxHull, state.hull + healAmount);
+  const heal = Math.round(state.maxHull * 0.55);
+  state.hull = Math.min(state.maxHull, state.hull + heal);
 
-  dismissEmergencyHullModal();
+  if (toast && toast.parentNode) toast.remove();
   if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
-  spawnFloatingText(player.position, `EMERGENCY HULL REINFORCED (+${healAmount} HP)!`, "#00ff88");
+  spawnFloatingText(player.position, `HULL RESTORED (+${heal} HP)! -20,000 CR`, "#00ff88");
   saveGameData();
   updateHUD();
 }
 
+function confirmEmergencyHullRepair() {
+  confirmCriticalHullRepair20k();
+}
+
 function dismissEmergencyHullModal() {
-  state.emergencyModalOpen = false;
-  state.timeScale = 1.0;
+  const toast = document.getElementById('criticalHullToast');
+  if (toast && toast.parentNode) toast.remove();
   const modal = document.getElementById('emergencyHullModal');
   if (modal) modal.classList.remove('active');
 }
