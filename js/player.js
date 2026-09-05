@@ -179,6 +179,15 @@ function damagePlayer(amount) {
 }
 
 
+let playerDeathTimeout = null;
+
+function cancelPlayerDeathTimeout() {
+  if (playerDeathTimeout) {
+    clearTimeout(playerDeathTimeout);
+    playerDeathTimeout = null;
+  }
+}
+
 function playerDestroyed() {
   state.running = false;
   audio.playExplosion(2.5);
@@ -191,7 +200,11 @@ function playerDestroyed() {
   }
   saveGameData();
 
-  setTimeout(() => {
+  cancelPlayerDeathTimeout();
+  playerDeathTimeout = setTimeout(() => {
+    // If player already revived or mission resumed, do not open game over modal!
+    if (state.running || (state.lives > 0 && state.hull > 0)) return;
+
     const gop = document.getElementById('gameOverPilotName');
     if (gop) gop.textContent = state.pilotName || 'STARFIGHTER ACE';
     const got = document.getElementById('gameOverTitle');
@@ -203,7 +216,7 @@ function playerDestroyed() {
     document.getElementById('finalScoreVal').textContent = state.score;
     document.getElementById('highScoreVal').textContent = state.highScore;
     document.getElementById('finalSectorVal').textContent = state.sector;
-    document.getElementById('finalCreditsVal').textContent = `${state.credits} CR`;
+    document.getElementById('finalCreditsVal').textContent = `${(state.credits || 0).toLocaleString()} CR`;
     const buyLifeGameOverBtn = document.getElementById('buyLifeGameOverBtn');
     if (buyLifeGameOverBtn) {
       const canAfford = ((state.credits || 0) >= 40000);
@@ -231,7 +244,8 @@ export {
   isTouchDevice,
   triggerBarrelRoll,
   damagePlayer,
-  playerDestroyed
+  playerDestroyed,
+  cancelPlayerDeathTimeout
 };
 
 if (typeof window !== 'undefined') {
@@ -239,4 +253,5 @@ if (typeof window !== 'undefined') {
   window.playerPointLight = playerPointLight;
   window.triggerBarrelRoll = triggerBarrelRoll;
   window.damagePlayer = damagePlayer;
+  window.cancelPlayerDeathTimeout = cancelPlayerDeathTimeout;
 }

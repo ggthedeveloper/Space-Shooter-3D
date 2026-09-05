@@ -5,12 +5,13 @@
 
 import { state } from "./state.js";
 import { audio } from "./audio.js";
-import { scene, scrapDrops, powerups } from "./game.js";
-import { spawnExplosionFX, spawnFloatingText, updateHUD, updateStoreItemButtons, renderPilotShipSelectionGrid, updatePilotShipDetailUI } from "./ui.js";
-import { player } from "./player.js";
+import { scene, scrapDrops, powerups, enemyBullets } from "./game.js";
+import { spawnExplosionFX, spawnFloatingText, updateHUD, updateStoreItemButtons, renderPilotShipSelectionGrid, updatePilotShipDetailUI, triggerShake } from "./ui.js";
+import { player, BOUNDS, cancelPlayerDeathTimeout } from "./player.js";
 import { activateAutoAim, unlockAchievement, checkProgressionUnlocks } from "./progression.js";
 import { saveGameData } from "./save.js";
 import { SHIP_DEFINITIONS, setStarship } from "./ships.js";
+import { clamp } from "./utils.js";
 
 function spawnScrapDrop(pos, val) {
   const geo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
@@ -155,6 +156,72 @@ function quickUpgrade(type) {
 }
 
 
+function resumeGameWherePlayerDied() {
+  if (typeof cancelPlayerDeathTimeout === 'function') {
+    cancelPlayerDeathTimeout();
+  }
+
+  state.running = true;
+  state.paused = false;
+  state.hull = state.maxHull;
+  state.shield = state.maxShield;
+  state.invulnTimer = 5.0; // Generous 5s invulnerability bubble
+  state.emergencyHullUsed = false;
+  state.emergencyModalOpen = false;
+  state.vx = 0;
+  state.vy = 0;
+
+  if (player) {
+    player.visible = true;
+    const b = BOUNDS || { minX: -11.5, maxX: 11.5, minY: -3.5, maxY: 6.5, playerZ: 10 };
+    const clampFn = typeof clamp === 'function' ? clamp : (v, min, max) => Math.max(min, Math.min(max, v));
+    player.position.x = clampFn(player.position.x, b.minX, b.maxX);
+    player.position.y = clampFn(player.position.y, b.minY, b.maxY);
+    player.position.z = b.playerZ;
+    player.rotation.set(0, 0, 0);
+
+    if (player.userData && player.userData.shieldMat) {
+      player.userData.shieldMat.opacity = 0.85;
+    }
+  }
+
+  if (typeof setStarship === 'function') {
+    setStarship(state.shipType || 'valkyrie');
+  }
+
+  // Clear hostile enemy projectiles near player so they have a clean chance to engage
+  if (enemyBullets && scene) {
+    for (const b of enemyBullets) {
+      if (b.mesh) scene.remove(b.mesh);
+    }
+    enemyBullets.length = 0;
+  }
+
+  const gameOverModal = document.getElementById('gameOverModal');
+  if (gameOverModal) gameOverModal.classList.remove('active');
+
+  const storeModal = document.getElementById('storeModal');
+  if (storeModal && storeModal.classList.contains('active')) {
+    storeModal.classList.remove('active');
+  }
+
+  if (audio) {
+    if (typeof audio.playPowerup === 'function') audio.playPowerup();
+    if (typeof audio.speak === 'function') audio.speak("Emergency reserve starfighter deployed. Sector mission resumed.");
+    if (typeof audio.playCategoryMusic === 'function') {
+      const isBoss = (state.sector % 3 === 0);
+      audio.playCategoryMusic(isBoss ? 'BOSS_BATTLE' : 'NORMAL_BATTLE');
+    }
+  }
+
+  if (typeof triggerShake === 'function') triggerShake(8);
+  spawnFloatingText(player ? player.position : { x: 0, y: 0, z: 0 }, `🚀 SECTOR ${state.sector} RESUMED! (+1 LIFE)`, "#00ff88");
+
+  saveGameData();
+  updateStoreItemButtons();
+  updateHUD();
+}
+
 function buyExtraLife() {
   const LIFE_COST = 40000;
   if ((state.credits || 0) < LIFE_COST) {
@@ -163,17 +230,22 @@ function buyExtraLife() {
     return;
   }
 
+  const wasDead = (!state.running || (state.lives || 0) <= 0 || (state.hull || 0) <= 0 || (document.getElementById('gameOverModal') && document.getElementById('gameOverModal').classList.contains('active')));
+
   state.credits -= LIFE_COST;
   state.lives = (state.lives || 0) + 1;
   state.maxLives = Math.max(state.maxLives || 5, state.lives);
 
-  if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
-  if (audio && typeof audio.speak === 'function') audio.speak("Reserve starfighter deployed to fleet reserves.");
-  spawnFloatingText(player ? player.position : { x: 0, y: 0, z: 0 }, `+1 EXTRA LIFE ACQUIRED! (${state.lives} TOTAL)`, "#00ff88");
-
-  saveGameData();
-  updateStoreItemButtons();
-  updateHUD();
+  if (wasDead) {
+    resumeGameWherePlayerDied();
+  } else {
+    if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
+    if (audio && typeof audio.speak === 'function') audio.speak("Reserve starfighter deployed to fleet reserves.");
+    spawnFloatingText(player ? player.position : { x: 0, y: 0, z: 0 }, `+1 EXTRA LIFE ACQUIRED! (${state.lives} TOTAL)`, "#00ff88");
+    saveGameData();
+    updateStoreItemButtons();
+    updateHUD();
+  }
 
   const pilotRecLives = document.getElementById('pilotRecLives');
   if (pilotRecLives) pilotRecLives.textContent = state.lives;
@@ -198,20 +270,8 @@ function buyLifeAndContinueFromGameOver() {
   state.credits -= LIFE_COST;
   state.lives = 1;
   state.maxLives = Math.max(state.maxLives || 5, state.lives);
-  state.hull = state.maxHull;
-  state.shield = state.maxShield;
-  state.invulnTimer = 4.0;
-  state.paused = false;
 
-  const gameOverModal = document.getElementById('gameOverModal');
-  if (gameOverModal) gameOverModal.classList.remove('active');
-
-  if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
-  if (audio && typeof audio.playCategoryMusic === 'function') audio.playCategoryMusic('NORMAL_BATTLE');
-
-  spawnFloatingText(player ? player.position : { x: 0, y: 0, z: 0 }, "EMERGENCY STARFIGHTER DEPLOYED (+1 LIFE)! -40,000 CR", "#00ff88");
-  saveGameData();
-  updateHUD();
+  resumeGameWherePlayerDied();
 }
 
 
@@ -456,6 +516,7 @@ export {
   buyExtraLife,
   buyExtraLifeFromPilotModal,
   buyLifeAndContinueFromGameOver,
+  resumeGameWherePlayerDied,
   buyHullUpgrade,
   buyShieldUpgrade,
   buyMagnetUpgrade,
@@ -480,6 +541,7 @@ if (typeof window !== 'undefined') {
   window.buyExtraLife = buyExtraLife;
   window.buyExtraLifeFromPilotModal = buyExtraLifeFromPilotModal;
   window.buyLifeAndContinueFromGameOver = buyLifeAndContinueFromGameOver;
+  window.resumeGameWherePlayerDied = resumeGameWherePlayerDied;
   window.buyWeaponUpgrade = buyWeaponUpgrade;
   window.quickUpgrade = quickUpgrade;
   window.buyHullUpgrade = buyHullUpgrade;
