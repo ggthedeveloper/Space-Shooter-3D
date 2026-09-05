@@ -1,8 +1,8 @@
 # Space Shooter 3D — Extraterrestrial Combat Campaign
 
-An atmospheric, industry-level 3D space combat simulator built with **Three.js** and **Web Audio API**, featuring **5 Dynamic Galactic Battlefields**, **Hyperspace Level Progression**, an interactive **Weapon & Armory Store**, **6 Selectable 3D Starfighters with Class-Specific Arsenals**, **Sector-Scaled Alien Fleets**, **Dynamic Tactical Bounties**, and in-game **Armada Overrun Incursion Events**.
+An atmospheric, industry-level 3D space combat simulator built with **Three.js** and **Web Audio API**, featuring **8 Dynamic Galactic Battlefields**, **16 Selectable 3D Starfighters with Class-Specific Weapons & Special Abilities**, **Interstellar-Inspired Cinematic Soundtrack**, **Emergency Hull Reinforcement Protocol**, **Universal Back Navigation**, and **High-Stakes Sector Progression**.
 
-> **Developed by Gaurav Gautam (GG)**
+> **Developed by Gaurav Gautam**  
 > GitHub: [@ggthedeveloper](https://github.com/ggthedeveloper) · Repository: [Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)
 
 ---
@@ -14,14 +14,17 @@ An atmospheric, industry-level 3D space combat simulator built with **Three.js**
 | :--- | :--- | :--- |
 | **Flight Strafe & Climb** | `W`, `A`, `S`, `D` or `Arrow Keys` | Virtual Joystick (Left screen) |
 | **Manual Screen Aim** | `Mouse Cursor` | Touch dragging on right screen |
-| **Continuous Auto-Fire** | **Automatic** (Hands-free continuous shooting) | Continuous while flying |
-| **Combat Tutorial & Manual** | `H` or top-bar `📖 TUT` | Interactive 5-step Flight Academy |
-| **Command Menu (Career & Audio)** | `M`, `Escape`, `P` or top-bar `☰ MENU` | Career Profile & Reset Save |
+| **Continuous Auto-Fire** | **Automatic** (Continuous shooting) | Automatic while flying |
+| **Ship Special Ability** | `C` or Bottom Dock `[C] ABILITY` | `ABILITY` Touch Button |
+| **Emergency Hull Repair** | Auto-prompts at `Hull ≤ 20%` | Interactive Repair Modal |
+| **Universal Menu Navigation** | Top-left `← BACK` Button | Seamless Multi-Level History Stack |
 | **Galaxy / Map Selector** | `G` or top-bar `🌌 GALAXY` button | Real-time 3D celestial battlefields |
 | **Tactical Armory Store** | `B` or top-bar `🛒 ARMORY` button | In-flight / Post-sector shopping |
+| **Combat Tutorial & Manual** | `H` or top-bar `📖 TUT` | Interactive 5-step Flight Academy |
+| **Command Menu (Career & Audio)** | `M`, `Escape`, `P` or top-bar `☰ MENU` | Career Profile & Audio Settings |
 | **Pause Simulation** | `P` or top-bar `⏸` | Instant combat freeze |
 | **Toggle Fullscreen** | Top-right `⛶` Button | Contained cleanly in top navbar |
-| **Weapon 1 (Primary System)** | `1` or Bottom Dock Card | Rapid kinetic bolts / Heavy slugs / Void needles |
+| **Weapon 1 (Primary System)** | `1` or Bottom Dock Card | Ship-specific tailored primary weapon |
 | **Weapon 2 (Beam System)** | `2` or Mouse Wheel | Continuous laser / Thermal lance / Phase cutter |
 | **Weapon 3 (Scatter System)** | `3` or Mouse Wheel | Shrapnel scatter / Heavy artillery / Razor shards |
 | **Weapon 4 (Torpedo System)** | `4` or Mouse Wheel | Concussive antimatter / Bunkerbuster / Singularity |
@@ -34,137 +37,128 @@ An atmospheric, industry-level 3D space combat simulator built with **Three.js**
 
 ---
 
-## 🌌 1. Dynamic Galaxy & Map Selector
+## 🌌 1. 8 Dynamic Galaxies & Map Selector
 
-Pilots can choose their theater of war across **5 distinct galactic sectors**, each featuring custom 3D lighting, background tones, starfield multi-spectral palettes, and procedural drifting 3D volumetric nebula clouds:
+Pilots can choose their theater of war across **8 distinct celestial battlefields**, each featuring custom 3D lighting, background sky clear tones, multi-spectral starfield palettes, and procedural drifting 3D volumetric nebula clouds:
 
-| Galaxy / Map | Sector Requirement | Environment Aesthetic | Visual Characteristics |
+| Galaxy / Map | Normal Unlock | Early Credit Unlock | Atmosphere & Aesthetics |
 | :--- | :--- | :--- | :--- |
-| **Cosmic Void** | **Sector 1 (Unlocked)** | Deep Indigo / Violet | Balanced starfield, cool cyan sun, soft purple volumetric drift |
-| **Nebula Drift** | **Sector 3** | Emerald & Teal Corona | Bioluminescent green starlight, warm lime rim lighting, dense gas clouds |
-| **Red Alert Sector** | **Sector 5** | High-Hazard Crimson | Pulsing scarlet flares, intense deep-red directional wash, warning aura |
-| **Cryo Asteroid Belt**| **Sector 7** | Sub-Zero Cyan Ice | High-glare arctic blue sun, freezing azure nebulae, sparkling white field |
-| **Void Dark Core** | **Sector 10** | Abyssal Obsidian & Gold | Monolithic blackness, eerie gold-amber singularity, drifting dark matter |
+| **🌌 Nebula Galaxy** | **Sector 1 (Default)** | Free | Emerald & teal stellar corona, dense ionized gas clouds |
+| **🔴 Red Galaxy** | **Sector 15** | 50,000 CR | High-hazard crimson incursion, solar flares, crimson wash |
+| **❄️ Ice Galaxy** | **Sector 25** | 100,000 CR | Sub-zero arctic diamond field, cold blue volumetric fog |
+| **🌑 Dark Galaxy** | **Sector 35** | 200,000 CR | Abyssal blackness, gold singularity glow, drifting dark matter |
+| **🟣 Void Galaxy** | **Sector 50** | 400,000 CR | Deep purple & magenta antimatter distortion, pulsing core |
+| **✨ Cosmic Galaxy** | **Sector 70** | 750,000 CR | Multispectral starlight, deep indigo void, radiant aura |
+| **☄️ Destroyed Galaxy** | **Sector 85** | 1,000,000 CR | Cataclysmic amber dust, burning molten debris field |
+| **🌠 Legendary Galaxy** | **Sector 100** | 1,500,000 CR | Divine golden starlight, prismatic chromatic sanctuary |
 
-- **Sector Unlocks**: Galaxies automatically unlock as your highest sector record progresses.
-- **Dynamic 3D Atmosphere**: Switching galaxies immediately repaints space lighting, sky fog/clear color, star colors, and generates rotating 3D volumetric gas clusters.
-
----
-
-## 🛸 2. Starfighter Fleet & Hangar Store Progression
-
-Players earn persistent scrap credits (`CR`) from destroyed hostiles, asteroid mining, and sector completions to acquire and equip distinct starfighter archetypes in the **Hangar Store**:
-
-| Starfighter | Class & Archetype | Unlock Requirement | Armor / Shields | Combat Trait & Deadly Weapons |
-| :--- | :--- | :--- | :--- | :--- |
-| **Valkyrie MK-II** | Balanced Interceptor | **Sector 1 (Default)** | `100 Hull / 100 Shield` | Dual Hyper-Plasma, Cutting Laser, Micro-Flak, Photon Torpedo, Ion Pulse Arc |
-| **Titan Behemoth** | Armored Dreadnought | **Sector 3** or `400 CR` | `180 Hull / 160 Shield` | +35% Heavy Damage · Siege Autocannons, Inferno Lance, Cluster Artillery, Bunkerbuster, Magnetic Shock |
-| **Phantom Ghost** | Stealth Interceptor | **Sector 5** or `750 CR` | `75 Hull / 85 Shield` | +25% Fire Rate, +40% Crit · Void Needles, Phase Cutter, Razor Shards, Dark Singularity, Tesla Lightning |
-| **Solar Phoenix** | Chrono-Vanguard | **Sector 7** or `1,200 CR` | `240 Hull / 200 Shield` | Nanite Hull Regen (+3 HP/s) · Solar Flare, Prominence Ray, Solar Scatter, Supernova Orb, Corona Storm |
-| **Void Reaper** | Bio-Hybrid Assassin | **Sector 10** or `2,000 CR` | `130 Hull / 170 Shield` | +50% Crit Mult & 2x EMP Recharge · Bio-Disrupter, Void Siphon, Nether Shards, Gravity Torpedo, Spectral Shock |
-| **Apex Sovereign** | Dreadnought Titan Flagship | **Sector 15** or `3,500 CR` | `300 Hull / 300 Shield` | Quantum Singularity Drive & Quad Heavy Plasma · Sovereign Cannons, Omega Lance, Quantum Flak, Antimatter Torpedo, Void Chain |
-
-- **Hangar Store UI**: Visual stat bars (Speed, Hull, Shield) and explicit states (`EQUIPPED`, `EQUIP VESSEL`, `🔒 COMPLETE SECTOR X TO UNLOCK`).
-- **Persistent Ownership**: Acquired starfighters and current loadout persist in browser `localStorage`.
+- **Permanent Unlock**: Once unlocked by sector progression or credit purchase, galaxies remain permanently accessible.
+- **Dynamic 3D Atmosphere**: Warping into a new galaxy dynamically modifies the renderer clear color, sun light, fill light, star colors, and rotating 3D volumetric gas clusters.
 
 ---
 
-## 👾 3. Sector-Scaled Alien Fleets
+## 🛸 2. 16 Starfighter Fleet & Class-Specific Deadly Arsenals
 
-Hostile incursions evolve dynamically as pilots advance deeper into alien-controlled space:
+Command a complete fleet of **16 distinct 3D starfighters** across 4 military tiers. Advanced ships (Sector 30+) are initially locked but can be unlocked through sector progression or **equipped early using credits whenever the player wants**:
 
-| Threat Tier | Sectors Active | Alien Class & Silhouette | Combat Role & Visual Design |
-| :--- | :--- | :--- | :--- |
-| **Tier 1: Scouts** | Sectors 1–3 | **Bio-Saucer & Stalker Scout** | Agile skirmishers, rotating alien rings, pulsating core drives |
-| **Tier 2: Raiders** | Sectors 4–6 | **Armored Heavy Raider** | Heavy forward hull plating, twin outrigger pods, menacing prow spikes |
-| **Tier 3: Cruisers**| Sectors 7–9 | **Void Cruiser** | Stealth delta-hull chassis, floating alien void core, lethal wing blades |
-| **Tier 4: Titans** | Sectors 10+ | **Apex Titan Dreadnought** | Multi-segmented alien carapace, dual singularity pods, pulsing dreadnought eye |
+| Tier | Starfighter | Normal Unlock | Early Unlock | Primary Weapon | Special Ability (`[C]`) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Basic** | **Valkyrie MK-II** | Sector 1 | Default | Pulse Cannon (Twin Kinetic) | ⚡ EMP Blast (Disables hostiles) |
+| **Basic** | **Solar Dart** | Sector 5 | 12,000 CR | Rapid Laser (Needle Bolts) | 🔥 Overdrive (2x Fire Rate, 5s) |
+| **Advanced** | **Aero Blade** | Sector 10 | 35,000 CR | Twin Plasma Cannons | ⚔️ Laser Barrage (7-Laser Fan) |
+| **Advanced** | **Plasma Marauder** | Sector 15 | 55,000 CR | Heavy Plasma Cannon (Slugs) | 💥 Plasma Burst (Colossal AoE) |
+| **Advanced** | **Solar Phoenix** | Sector 20 | 80,000 CR | Solar Flare (Magma Orbs) | 🛡️ Energy Shield (Invulnerable 4s) |
+| **Advanced** | **Aegis Bastion** | Sector 25 | 110,000 CR | Shield Cannon (+Shield on Hit) | 🛡️ Energy Shield (Fortress Dome) |
+| **Advanced** | **Iron Hammer** | Sector 30 | 150,000 CR | Rail Cannon (Piercing Slugs) | ☄️ Meteor Strike (Kinetic Barrage) |
+| **Elite** | **Shadow Wraith** | Sector 35 | 200,000 CR | Phase Blaster (Quantum Pierce) | 🌀 Void Rift (Gravity Vortex) |
+| **Elite** | **Supernova Flash** | Sector 40 | 260,000 CR | Nova Beam (Thermal Lance) | 💥 Plasma Burst (Supernova Blast) |
+| **Elite** | **Titan Behemoth** | Sector 45 | 330,000 CR | Mega Plasma Launcher | ☄️ Meteor Strike (Missile Swarm) |
+| **Elite** | **Umbra Cruiser** | Sector 50 | 420,000 CR | Dark Energy Cannon | 🌀 Void Rift (Spacetime Vortex) |
+| **Elite** | **Abyssal Stalker** | Sector 55 | 520,000 CR | Void Missile System (Homing) | ⚡ EMP Blast (Abyssal Shock) |
+| **Legendary** | **Cosmic Reaper** | Sector 65 | 650,000 CR | Death Ray (Antimatter Vortex) | 🌌 Cosmic Wave (Fullscreen Wipe) |
+| **Legendary** | **Astral Sentinel** | Sector 75 | 850,000 CR | Cosmic Pulse (Wide-Cone Wave) | 🛡️ Energy Shield (Sanctuary) |
+| **Legendary** | **Seraph Prime** | Sector 85 | 1,100,000 CR | Celestial Beam (Holy Lance) | 🌌 Cosmic Wave (Supernova Wave) |
+| **Ultimate** | **Apex Sovereign** | Sector 100 | 1,500,000 CR | Omega Cannon (Singularity) | 🌌 Cosmic Wave (Reality Blast) |
 
----
-
-## 🎯 4. Calibrated 7-Second Tactical Auto-Aim
-
-- **Strict 7.0-Second Duration**: Targeting chips and tactical overdrives now lock onto hostiles for exactly 7.0 seconds.
-- **Dynamic Reticle & Countdown**: The targeting computer displays a live countdown timer (`AUTO-AIM: 7.0s` down to `0.0s`) on the HUD and crosshair.
-- **Clean Disengagement**: Once the 7 seconds expire, the targeting computer cleanly powers down and returns full manual control to the pilot.
-
----
-
-## 🚨 5. Dynamic "Armada Overrun" Incursion Event
-
-Instead of a generic game-over text, **Armada Overrun** is an in-game dynamic emergency combat incursion in Sector 2+:
-- **Emergency Sirens & Red Alert**: Warning siren procedural alarm SFX, pulsing crimson alert banner, and intercepted tactical radar comms.
-- **Armada Commander Flagship**: Armored frigate chassis with forward prow blades and plasma core flanked by 4 heavy interceptor escorts.
-- **Victory Rewards**: Defeating the Armada Commander repels the overrun, awarding **+400 CR**, **+250 XP**, and completing the Armada Bounty.
-- **Contextual Game Over**: If the player is destroyed during an active incursion, the game-over screen displays `ARMADA OVERRUN: Vessel overwhelmed during hostile fleet incursion.`
+- **Equipping Unlocked Ships**: Once unlocked, switching and equipping ships is **always 100% free**.
 
 ---
 
-## 🚀 6. 3 Lives System & Respawn Protocol
+## 🛡️ 3. Emergency Hull Reinforcement Protocol (`Hull ≤ 20%`)
 
-- **3 Starting Lives (`🚀 x3`)**: Displayed on the top HUD.
-- **Quantum Invulnerability Respawn**:
-  - When your fighter's hull reaches 0, 1 life is deducted.
-  - A tactical reserve ship is deployed with full Hull and Shields at the flight line.
-  - A shimmering **Golden Quantum Invulnerability Shield** protects the ship for 3.5 seconds.
-- **Extra Lives in Store**: Purchase additional reserve ships in the Armory Store (`500 CR`, up to 5 lives).
-- **Game Over**: Triggers only once all reserve ships are depleted.
-
----
-
-## 🛒 7. Interactive Weapon & Armory Store (`[B]` Key)
-
-Access the store anytime during flight with **`B`** or clicking **`🛒 ARMORY`**, or after clearing a sector.
-
-### Categories & Upgrades
-- **Weapons (Tiers 1–10)**:
-  - *Continuous Laser Supercharge* (Lv. 1–10): Continuous beam thickness expansion & +35% DPS per level (`200 CR * Lv`).
-  - *Dual Plasma Booster* (Lv. 1–10): +22% bolt kinetic damage & velocity per level (`150 CR * Lv`).
-  - *Flak Scatter Bore* (Lv. 1–10): +2 scatter pellets and wider blast radius per level (`180 CR * Lv`).
-  - *Quantum Photon Torpedo* (Lv. 1–10): +35% antimatter concussive yield and spherical blast radius (`220 CR * Lv`).
-  - *Tesla Arc Induction* (Lv. 1–10): +28% electrical voltage and additional lightning chain jumps (`240 CR * Lv`).
-  - *HUD Quick-Upgrade Buttons*: Upgrade power directly on the HUD dock with coins on the fly!
-- **Systems & Drones**:
-  - *Autonomous Escort Drone Alpha*: Deploys wingman drone on port flank firing synchronized micro-lasers (`350 CR`).
-  - *Autonomous Escort Drone Beta*: Deploys second drone on starboard flank for dual-escort coverage (`600 CR`).
-  - *Reserve Starfighter (+1 Life)*: `500 CR` (Max 5 lives).
-  - *Titanium Composite Armor*: +35 Max Hull & instant full repair (`250 CR`).
-  - *Capacitor Overclocking*: +40% faster shield regeneration (`200 CR`).
-  - *Quantum Tractor Coils*: Doubled magnet pickup range for scrap & powerups (`150 CR`).
-- **Munitions**:
-  - *Homing Swarm Missiles x4*: `100 CR`.
-  - *Singularity Overcharge Cell*: Instant 100% EMP charge (`250 CR`).
+When your vessel's hull integrity drops to **20% or below**, an emergency combat warning activates:
+- **Tactical Decision Window**: The game enters bullet-time slow motion (or safe window) so the pilot can decide without being destroyed while the interface appears.
+- **Nanite Reinforcement**: Restores **+55% maximum hull points**.
+- **Dynamic Sector Pricing**:
+  - Sectors 1–10: 10,000 CR
+  - Sectors 11–20: 25,000 CR
+  - Sectors 21–30: 50,000 CR
+  - Sectors 31–50: 100,000 CR
+  - Sectors 51–75: 200,000 CR
+  - Sectors 76–100: 350,000 CR
+  - Sectors 100+: 500,000+ CR
+- **Strict Limit**: Exactly **1 emergency repair per combat sector**. Automatically resets when warping into the next sector.
 
 ---
 
-## 🎼 8. Procedural Space Sound Engine (100% Web Audio API)
+## 🎼 4. Interstellar-Inspired Procedural Cinematic Soundtrack
 
-Zero external audio asset dependencies, with smooth dynamic crossfades, automatic playlist rotation, and customizable volumes:
-- **🌌 Cosmic Ambient**: Deep 55Hz sub-drone, floating D Dorian / F Lydian space pads, and twinkling starlight pentatonic chimes.
+100% Web Audio API procedural synthesizer engine with dynamic category routing:
+- **🎹 Cosmic Organ Odyssey (Interstellar)**: Cathedral space organ synthesis with multi-oscillator detuned drawbars, deep 43.65Hz gravitational sub-bass pedal, slow majestic swelling chords, and clockwork time-dilation ticks.
+- **⚔️ Titan Incursion (Boss Battle)**: Dramatic brass-synth chords, aggressive 16th-note battle bass pulses, and tense cinematic swells.
+- **🌌 Cosmic Ambient**: Deep sub-drone, floating D Dorian / F Lydian space pads, and starlight chimes.
 - **✨ Celestial Starlight**: Peaceful crystal bell arpeggios, gentle high serene pads, and tranquil harmonics.
-- **⚡ Cybernetic Synthwave**: Retro 80s space synth pulse with rhythmic 16th bass arpeggios (~108 BPM) and warm analog pads.
-- **🚀 Deep Space Odyssey**: Ultra-deep planetary 43.65Hz sub-bass, slow-sweeping minor 9th cinematic pads, and celestial radar telemetry pings.
-- **🔥 Battle Pulsar**: Driving pulse basslines, high-octane resonant saw leads, and dramatic cosmic swells.
-- **Automatic Playlist Rotation**: Music smoothly crossfades between tracks as you conquer sectors.
-- **Refined Sound Design**: Silenced repetitive dive and comms alerts for a polished, irritation-free audio experience.
+- **⚡ Cybernetic Synthwave**: Retro 80s space synth pulse with rhythmic bass arpeggios.
+- **🚀 Deep Space Odyssey**: Planetary minor 9th cinematic pads and deep radar telemetry pings.
+- **🔥 Battle Pulsar**: High-octane driving pulse basslines and resonant saw leads.
+- **Dynamic Category Router**: Automatically matches music to context (`MENU`, `NORMAL_BATTLE`, `DEEP_SPACE`, `HIGH_SECTOR`, `BOSS_BATTLE`, `VICTORY`, `GAME_OVER`).
+- **Pristine Audio Design**: Repetitive "pi pi" and "ping" sounds are completely removed.
 
 ---
 
-## 💎 9. Dynamic Destructible 3D Asteroids
-- **Deep Space Mineral Fields**: Tumbling 3D procedural rocky and crystalline asteroids drift into the combat corridor.
-- **Laser Cutting Physics**: Carving asteroids with your Continuous Laser or blasting them with plasma shatters them into fragments.
-- **Mineral Crystal Drops**: Shattering asteroids drops bonus crystal scrap (`+25 to +50 CR`) and awards XP.
+## ⬅️ 5. Universal Back Navigation Stack
+
+Every menu, modal, and submenu contains a responsive, styled **`← BACK`** button:
+- Top-left placement matching the cybernetic HUD aesthetic.
+- History stack navigates cleanly back to the immediately previous screen without resetting state or selections.
+- Integrated across Pilot Briefing, Hangar Store, Galaxy Selector, Command Settings, and Combat Tutorial.
 
 ---
 
-## 🏆 10. Persistent Career Data & Achievements
-- **8 Permanent Medals**: First Contact, Laser Surgeon, Leviathan Hunter, Fleet Commander, Maximum Overdrive, Scrap Tycoon, Asteroid Miner, Deep Space Ace.
-- **Persistent LocalStorage**: Credits, highest sector, pilot callsign, active starfighter, unlocked galaxies, purchased fleet, weapon tiers, rank, and achievements persist between sessions.
+## 👾 6. Sector-Scaled Alien Fleets & Scaled Rewards
+
+- **Alien Incursions by Sector**:
+  - Sectors 1–10: Agile Bio-Saucers & Stalker Scouts
+  - Sectors 11–30: Armored Heavy Raiders & Shielded Drones
+  - Sectors 31–60: Stealth Void Cruisers & Heavy Gunships
+  - Sectors 61–80: Dark Energy Fighters & Apex Titans
+  - Sectors 81–100+: Cosmic Titans & Celestial Flagships
+- **Scaled Credit Bounties**:
+  - Normal Bosses: **25,000 CR**
+  - Advanced Bosses: **75,000 CR**
+  - Elite Bosses: **200,000 CR**
+  - Legendary Bosses: **500,000 CR**
+  - End-Game Bosses: **1,000,000+ CR**
+
+---
+
+## 🎯 7. Calibrated 7-Second Tactical Auto-Aim
+
+- Strictly capped at **7.0 seconds maximum** across all triggers.
+- Live countdown timer (`AUTO-AIM: 7.0s` down to `0.0s`) displayed on the HUD and crosshair.
+- Clean disengagement with zero lingering lock-on or stuck timers.
+
+---
+
+## 💾 8. Persistent Progression & Anti-Exploit Security
+
+- Full persistence via browser `localStorage`: Unlocked ships, equipped loadout, charted galaxies, selected battlefield, credits, high score, highest sector, and weapon tiers.
+- Atomic balance checks prevent negative credits, duplicate purchases, or refresh exploits.
 
 ---
 
 ## 👨‍💻 Author & Developer
 
-**Developed by Gaurav Gautam (GG)**
+**Developed by Gaurav Gautam**
 - **GitHub**: [@ggthedeveloper](https://github.com/ggthedeveloper)
 - **Repository**: [https://github.com/ggthedeveloper/Space-Shooter-3D](https://github.com/ggthedeveloper/Space-Shooter-3D)

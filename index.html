@@ -781,6 +781,65 @@
     margin: 0 0 16px 0;
   }
 
+  
+  /* MODAL BACK BUTTON */
+  .modal-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    color: #00e5ff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
+  }
+  .modal-back-btn:hover {
+    background: rgba(0, 229, 255, 0.25);
+    border-color: #00f0ff;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.45);
+    transform: translateX(-3px);
+  }
+  .modal-back-btn:active {
+    transform: scale(0.96);
+  }
+
+  /* EMERGENCY HULL MODAL */
+  #emergencyHullModal {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 2, 6, 0.88);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 120;
+    animation: emergencyPulseBg 1.8s infinite alternate;
+  }
+  #emergencyHullModal.active { display: flex; }
+  @keyframes emergencyPulseBg {
+    from { background: rgba(18, 2, 6, 0.85); }
+    to { background: rgba(35, 4, 12, 0.92); }
+  }
+
+  /* ABILITY CARD IN DOCK */
+  #abilityCard.ready {
+    border-color: #00ff88 !important;
+    background: rgba(0, 255, 136, 0.18) !important;
+    box-shadow: 0 0 16px rgba(0, 255, 136, 0.5) !important;
+    animation: abilityPulseGlow 1.2s infinite alternate;
+  }
+  @keyframes abilityPulseGlow {
+    from { box-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
+    to { box-shadow: 0 0 22px rgba(0, 255, 136, 0.85); }
+  }
+
   /* STORE TABS */
   .store-tabs {
     display: flex;
@@ -1557,6 +1616,14 @@
         <div class="weapon-name" id="overchargeStateText">OVERDRIVE (0%)</div>
         <div class="weapon-sub">Colossal Super-Beam</div>
       </div>
+            <div class="weapon-card ready" id="abilityCard" onclick="triggerShipSpecialAbility()" style="cursor: pointer; border-color: #00ff88;" title="Trigger Starfighter Special Ability [C]">
+        <div class="weapon-key" style="color: #00ff88;">[C] ABILITY</div>
+        <div class="weapon-name" id="abilityNameText">⚡ EMP BLAST</div>
+        <div class="weapon-sub" id="abilitySubText">READY</div>
+        <div id="abilityCooldownBarBg" style="width: 100%; height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-top: 2px; overflow: hidden; display: none;">
+          <div id="abilityCooldownBarFill" style="width: 0%; height: 100%; background: #00ff88;"></div>
+        </div>
+      </div>
       <div class="weapon-card" id="autoAimCard" onclick="quickRebootAutoAim()" style="cursor: pointer;" title="Tactical AI Auto-Aiming Module">
         <div class="weapon-key">[TARGETING AI]</div>
         <div class="weapon-name" id="autoAimStateText">🎯 AUTO-AIM: OFF</div>
@@ -1578,7 +1645,7 @@
 
     <!-- QUICK CONTROLS HINT -->
     <div id="controlsHint">
-      <strong>WASD / Mouse</strong>: Move & Aim &middot; <strong style="color: #00ff88;">🔥 AUTO-FIRE</strong> &middot; <strong>1 - 5</strong>: Weapons &middot; <strong style="color: #ffd166;">H: Tutorial</strong> &middot; <strong>R</strong>: Hyper-Beam &middot; <strong>Q</strong>: EMP &middot; <strong>F</strong>: Missile &middot; <strong>B</strong>: Store &middot; <strong>Shift</strong>: Roll
+      <strong>WASD / Mouse</strong>: Move & Aim &middot; <strong style="color: #00ff88;">🔥 AUTO-FIRE</strong> &middot; <strong>1 - 5</strong>: Weapons &middot; <strong style="color: #00ff88;">C: Ability</strong> &middot; <strong style="color: #ffd166;">H: Tutorial</strong> &middot; <strong>R</strong>: Hyper-Beam &middot; <strong>Q</strong>: EMP &middot; <strong>F</strong>: Missile &middot; <strong>B</strong>: Store &middot; <strong>Shift</strong>: Roll
     </div>
 
     <!-- FLOATING DAMAGE NUMBERS -->
@@ -1603,19 +1670,21 @@
         <div class="touch-btn-row">
           <button class="t-btn" id="touchAutoAimBtn" style="background: rgba(255, 209, 102, 0.25); border-color: #ffd166; font-size: 10px;">AUTO-AIM</button>
           <button class="t-btn" id="touchStoreBtn" onclick="toggleStoreModal()" style="background: rgba(255, 209, 102, 0.2); border-color: #ffd166; font-size: 10px;">STORE</button>
+                    <button class="t-btn" id="touchAbilityBtn" onclick="triggerShipSpecialAbility()" style="background: rgba(0, 255, 136, 0.25); border-color: #00ff88; font-size: 10px;">ABILITY</button>
           <button class="t-btn fire" id="touchFireBtn">FIRE</button>
         </div>
       </div>
     </div>
 
     <!-- GAME FOOTER ATTRIBUTION (NON-CLICKABLE) -->
-    <div id="gameFooter">Developed by <span class="dev-highlight">GG</span></div>
+    <div id="gameFooter">Developed by <span class="dev-highlight">Gaurav Gautam</span></div>
   </div>
 
   <!-- PILOT REGISTRATION & FIGHTER BRIEFING MODAL -->
   <div id="pilotModal" class="modal-overlay active">
     <div class="modal-card" style="width: min(840px, 94vw); max-height: 90vh; overflow-y: auto;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <button class="modal-back-btn" id="pilotBackBtn" onclick="NavigationStack.back()" style="display: none;">← BACK</button>
         <span style="font-size: 11px; font-weight: 800; color: #ffd166; letter-spacing: 2px;">EARTH DEFENSE INITIATIVE &middot; STARFIGHTER COMMAND</span>
         <span style="font-size: 11px; color: #00ff88; font-weight: 800;">● SYSTEM OPERATIONAL</span>
       </div>
@@ -1724,6 +1793,7 @@
   <div id="storeModal" class="modal-overlay">
     <div class="modal-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <button class="modal-back-btn" onclick="NavigationStack.back()">← BACK</button>
         <h2 class="modal-title" style="color: var(--credits); margin: 0;">TACTICAL ARMORY</h2>
         <div style="font-size: 16px; font-weight: 800; color: var(--credits);">⚡ <span id="storeCreditsVal">0</span> CR</div>
       </div>
@@ -2045,7 +2115,11 @@
   <!-- COMMAND MENU MODAL -->
   <div id="mainMenuModal" class="modal-overlay">
     <div class="modal-card">
-      <h2 class="modal-title">COMMAND MENU</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <button class="modal-back-btn" onclick="NavigationStack.back()">← BACK</button>
+        <h2 class="modal-title" style="margin: 0;">COMMAND MENU</h2>
+        <button class="icon-btn" onclick="closeMenuModal()" style="padding: 4px 10px; font-size: 14px;" title="Close Menu">✕</button>
+      </div>
       <p class="modal-subtitle">Flight Computer & Persistent Career Profile</p>
 
       <!-- Pilot Callsign Banner in Menu -->
@@ -2128,11 +2202,13 @@
         <span>Space Music Style</span>
         <select id="menuMusicStyleSelect">
           <option value="auto">🔀 Auto-Rotate Playlist (Dynamic)</option>
+          <option value="interstellar">🎹 Cosmic Organ Odyssey (Interstellar)</option>
           <option value="ambient">🌌 Cosmic Ambient (Serene)</option>
           <option value="starlight">✨ Celestial Starlight (Peaceful)</option>
           <option value="synthwave">⚡ Cybernetic Synthwave (Retro)</option>
           <option value="odyssey">🚀 Deep Space Odyssey (Cinematic)</option>
           <option value="pulsar">🔥 Battle Pulsar (High-Energy)</option>
+          <option value="boss">⚔️ Titan Incursion (Boss Battle)</option>
         </select>
       </div>
       <div class="setting-row">
@@ -2170,6 +2246,7 @@
   <div id="galaxyModal" class="modal-overlay">
     <div class="modal-card" style="width: min(880px, 95vw); max-height: 90vh; overflow-y: auto;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <button class="modal-back-btn" onclick="NavigationStack.back()">← BACK</button>
         <h2 class="modal-title" style="color: #00f0ff; margin: 0;">🌌 GALAXY SECTOR NAVIGATION</h2>
         <button class="icon-btn" onclick="closeGalaxyModal()" style="padding: 4px 10px; font-size: 14px;" title="Close Galaxy Map">✕</button>
       </div>
@@ -2221,6 +2298,7 @@
   <div id="tutorialModal" class="modal-overlay">
     <div class="modal-card" style="width: min(860px, 95vw); max-height: 92vh; overflow-y: auto;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <button class="modal-back-btn" onclick="NavigationStack.back()" style="margin-right: 10px;">← BACK</button>
         <span style="font-size: 11px; font-weight: 800; color: #ffd166; letter-spacing: 2px;">EARTH DEFENSE INITIATIVE &middot; COMBAT MANUAL</span>
         <button class="icon-btn" onclick="closeTutorialModal()" style="padding: 4px 10px; font-size: 14px;" title="Close Tutorial">✕</button>
       </div>
@@ -2673,7 +2751,7 @@ class SoundEngine {
   }
 
   setMusicStyle(style) {
-    const valid = ['ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar', 'auto'];
+    const valid = ['ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar', 'interstellar', 'boss', 'auto'];
     if (!valid.includes(style)) style = 'ambient';
     this.musicStyle = style;
     localStorage.setItem('alien_assault_music_style', style);
@@ -2704,7 +2782,7 @@ class SoundEngine {
   }
 
   nextTrack() {
-    const list = ['ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar'];
+    const list = ['interstellar', 'ambient', 'starlight', 'synthwave', 'odyssey', 'pulsar', 'boss'];
     let cur = (this.musicStyle === 'auto' ? this.currentAutoTrack : this.musicStyle) || 'ambient';
     let idx = list.indexOf(cur);
     let next = list[(idx + 1) % list.length];
@@ -3137,7 +3215,11 @@ class SoundEngine {
       style = this.currentAutoTrack;
     }
 
-    if (style === 'starlight') {
+    if (style === 'interstellar') {
+      this.generateInterstellarJourney();
+    } else if (style === 'boss') {
+      this.generateTitanIncursion();
+    } else if (style === 'starlight') {
       this.generateCelestialStarlight();
     } else if (style === 'synthwave') {
       this.generateCyberneticSynthwave();
@@ -3701,6 +3783,255 @@ class SoundEngine {
     this.synthTimer = setInterval(playPulsarStep, STEP_MS);
   }
 
+
+  generateInterstellarJourney() {
+    // Atmospheric Procedural Space Organ inspired by deep-space exploration
+    try {
+      const t = this.ctx.currentTime;
+      this.droneOsc = this.ctx.createOscillator();
+      this.droneFilter = this.ctx.createBiquadFilter();
+      this.droneGain = this.ctx.createGain();
+
+      this.droneOsc.type = 'triangle';
+      this.droneOsc.frequency.setValueAtTime(43.65, t); // F0 deep gravitational pedal
+      this.droneFilter.type = 'lowpass';
+      this.droneFilter.frequency.setValueAtTime(95, t);
+      this.droneGain.gain.setValueAtTime(0.075, t);
+
+      this.droneOsc.connect(this.droneFilter);
+      this.droneFilter.connect(this.droneGain);
+      this.droneGain.connect(this.bgmGain);
+      this.droneOsc.start(t);
+    } catch(e) {}
+
+    // Emotional Space Organ Harmonic Chords (Am9 -> Fmaj7 -> Dm9 -> Em7 -> Cmaj9 -> Gsus4)
+    const organChords = [
+      [55.00, 110.00, 164.81, 220.00, 261.63, 329.63, 493.88], // Am9
+      [43.65, 87.31, 130.81, 174.61, 261.63, 329.63, 392.00],  // Fmaj7
+      [73.42, 110.00, 146.83, 220.00, 261.63, 349.23, 440.00], // Dm9
+      [82.41, 123.47, 164.81, 246.94, 329.63, 392.00, 493.88], // Em7
+      [65.41, 130.81, 196.00, 261.63, 329.63, 392.00, 523.25], // Cmaj9
+      [49.00, 98.00, 146.83, 196.00, 293.66, 392.00, 440.00]   // Gsus4
+    ];
+    const CHORD_DURATION = 8.0;
+
+    const playOrganChord = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chordNotes = organChords[this.bgmStep % organChords.length];
+        this.bgmStep++;
+        const now = this.ctx.currentTime;
+
+        chordNotes.forEach((freq, idx) => {
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const osc3 = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const noteGain = this.ctx.createGain();
+
+          osc1.type = 'triangle';
+          osc1.frequency.setValueAtTime(freq, now);
+          osc1.detune.setValueAtTime(-2.8, now);
+
+          osc2.type = 'sawtooth';
+          osc2.frequency.setValueAtTime(freq, now);
+          osc2.detune.setValueAtTime(2.8, now);
+
+          osc3.type = 'sine';
+          osc3.frequency.setValueAtTime(freq * 2, now); // Upper harmonic rank
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(320 + idx * 45, now);
+          filter.frequency.linearRampToValueAtTime(740 + idx * 55, now + 3.8);
+          filter.frequency.exponentialRampToValueAtTime(300 + idx * 40, now + CHORD_DURATION + 2.0);
+          filter.Q.setValueAtTime(1.6, now);
+
+          const targetVol = (idx === 0) ? 0.052 : (idx === 1 ? 0.042 : 0.026 / Math.sqrt(idx));
+          noteGain.gain.setValueAtTime(0.0001, now);
+          noteGain.gain.linearRampToValueAtTime(targetVol, now + 2.4); // Slow majestic build
+          noteGain.gain.setValueAtTime(targetVol, now + 5.2);
+          noteGain.gain.exponentialRampToValueAtTime(0.0001, now + CHORD_DURATION + 2.2);
+
+          osc1.connect(filter);
+          osc2.connect(filter);
+          osc3.connect(filter);
+          filter.connect(noteGain);
+          noteGain.connect(this.bgmGain);
+
+          osc1.start(now);
+          osc2.start(now);
+          osc3.start(now);
+
+          const stopT = now + CHORD_DURATION + 2.4;
+          osc1.stop(stopT);
+          osc2.stop(stopT);
+          osc3.stop(stopT);
+
+          setTimeout(() => {
+            try {
+              osc1.disconnect(); osc2.disconnect(); osc3.disconnect();
+              filter.disconnect(); noteGain.disconnect();
+            } catch(e) {}
+          }, (CHORD_DURATION + 2.6) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playOrganChord();
+    this.bgmTimer = setInterval(playOrganChord, CHORD_DURATION * 1000);
+
+    // Clockwork Gravitational Pulsar Tick
+    const triggerGravitationalTick = () => {
+      if (!this.ctx || !this.bgmPlaying || this.bgmVolume <= 0.02 || this.isMuted) return;
+      try {
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(2200, now);
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(2200, now);
+        filter.Q.setValueAtTime(8.0, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.016, now + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.07);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 0.08);
+        setTimeout(() => {
+          try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 100);
+      } catch(e) {}
+    };
+
+    this.chimeTimer = setInterval(triggerGravitationalTick, 1250);
+  }
+
+  generateTitanIncursion() {
+    // Boss Battle: Aggressive Cinematic Brass-Synth Chords & Frantic Battle Bass
+    const bossChords = [
+      { root: 55.00, notes: [55.00, 82.41, 110.00, 138.59, 164.81] }, // A dim
+      { root: 51.91, notes: [51.91, 77.78, 103.83, 130.81, 155.56] }, // G# dim
+      { root: 49.00, notes: [49.00, 73.42, 98.00, 123.47, 146.83] },  // G dim
+      { root: 58.27, notes: [58.27, 87.31, 116.54, 146.83, 174.61] }  // Bb min
+    ];
+    let bossChordIdx = 0;
+    let bossStep = 0;
+    const STEP_MS = 130;
+
+    const playBossPad = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = bossChords[bossChordIdx % bossChords.length];
+        const now = this.ctx.currentTime;
+        const dur = 3.6;
+        chord.notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq * 1.5, now);
+          osc.detune.setValueAtTime(idx % 2 === 0 ? -6 : 6, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(650 + idx * 80, now);
+          filter.frequency.linearRampToValueAtTime(1250 + idx * 100, now + 1.2);
+          filter.frequency.exponentialRampToValueAtTime(450, now + dur);
+          filter.Q.setValueAtTime(3.2, now);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.035, now + 0.4);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.bgmGain);
+
+          osc.start(now);
+          osc.stop(now + dur + 0.1);
+          setTimeout(() => {
+            try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+          }, (dur + 0.2) * 1000);
+        });
+      } catch(e) {}
+    };
+
+    playBossPad();
+    this.bgmTimer = setInterval(playBossPad, 3600);
+
+    const playBossBassStep = () => {
+      if (!this.ctx || !this.bgmPlaying || this.isMuted || this.bgmVolume <= 0.01) return;
+      try {
+        const chord = bossChords[bossChordIdx % bossChords.length];
+        bossStep++;
+        if (bossStep % 16 === 0) bossChordIdx = (bossChordIdx + 1) % bossChords.length;
+
+        const pattern = [1, 1, 1.5, 1, 1, 1.2, 1.5, 2];
+        const freq = chord.root * pattern[bossStep % pattern.length];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(750, now);
+        filter.frequency.exponentialRampToValueAtTime(110, now + 0.1);
+        filter.Q.setValueAtTime(3.5, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(0.045, now + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 0.11);
+        setTimeout(() => {
+          try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {}
+        }, 140);
+      } catch(e) {}
+    };
+
+    this.synthTimer = setInterval(playBossBassStep, STEP_MS);
+  }
+
+  playCategoryMusic(category) {
+    if (this.currentCategory === category && this.bgmPlaying) return;
+    this.currentCategory = category;
+
+    if (this.musicStyle !== 'auto' && this.musicStyle !== undefined) {
+      // If user specifically locked to a track, preserve it unless in Boss Battle
+      if (category !== 'BOSS_BATTLE') return;
+    }
+
+    let track = 'ambient';
+    if (category === 'MENU') {
+      track = 'ambient';
+    } else if (category === 'NORMAL_BATTLE') {
+      track = (Math.random() > 0.5) ? 'synthwave' : 'interstellar';
+    } else if (category === 'DEEP_SPACE') {
+      track = 'interstellar';
+    } else if (category === 'HIGH_SECTOR') {
+      track = (Math.random() > 0.5) ? 'pulsar' : 'interstellar';
+    } else if (category === 'BOSS_BATTLE') {
+      track = 'boss';
+    }
+    this.crossfadeToTrack(track);
+  }
+
   // Alias for backward compatibility
   startProceduralBgm() {
     this.startCalmSpaceMusic();
@@ -3711,6 +4042,59 @@ const audio = new SoundEngine();
 window.audio = audio;
 
 // ==========================================
+
+// ==========================================
+// UNIVERSAL BACK NAVIGATION STACK
+// ==========================================
+const NavigationStack = {
+  stack: [],
+  push(modalId) {
+    if (!this.stack.includes(modalId)) {
+      this.stack.push(modalId);
+    }
+  },
+  back() {
+    if (this.stack.length > 1) {
+      const currentModalId = this.stack.pop();
+      closeModalById(currentModalId);
+      const prevModalId = this.stack[this.stack.length - 1];
+      openModalById(prevModalId, true);
+    } else if (this.stack.length === 1) {
+      const currentModalId = this.stack.pop();
+      closeModalById(currentModalId);
+      state.paused = false;
+    } else {
+      closeAllModals();
+      state.paused = false;
+    }
+  }
+};
+
+function closeModalById(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('active');
+}
+
+function openModalById(id, isBack = false) {
+  if (id === 'pilotModal') {
+    openPilotRegistrationModal();
+  } else if (id === 'storeModal') {
+    openStoreModal(false);
+  } else if (id === 'mainMenuModal') {
+    openMenuModal();
+  } else if (id === 'galaxyModal') {
+    openGalaxyModal();
+  } else if (id === 'tutorialModal') {
+    openTutorialModal();
+  }
+}
+
+function closeAllModals() {
+  ['pilotModal', 'storeModal', 'mainMenuModal', 'galaxyModal', 'tutorialModal', 'emergencyHullModal'].forEach(id => {
+    closeModalById(id);
+  });
+}
+
 // 2. THREE.JS SCENE SETUP
 // ==========================================
 const canvas = document.getElementById('gameCanvas');
@@ -3781,149 +4165,204 @@ scene.add(starField);
 // 3.1 CELESTIAL GALAXIES & MAP ENVIRONMENTS
 // ==========================================
 const GALAXIES = {
+  nebula: {
+    id: 'nebula',
+    name: 'Nebula Galaxy',
+    subtitle: 'Emerald & Teal Stellar Corona',
+    icon: '🌌',
+    unlockSector: 1,
+    cost: 0,
+    desc: 'Dense bio-luminescent interstellar gas cloud with emerald ionized dust and gentle starlight.',
+    clearColor: 0x031217,
+    sunColor: 0x66ffcc,
+    sunIntensity: 1.5,
+    fillColor: 0x054d40,
+    fillIntensity: 1.2,
+    palette: [0x66ffcc, 0x00ff88, 0x00f0ff, 0x99ffd6, 0xffffff],
+    nebulaColor: 0x00ff88
+  },
+  red: {
+    id: 'red',
+    name: 'Red Galaxy',
+    subtitle: 'High-Hazard Crimson Incursion',
+    icon: '🔴',
+    unlockSector: 15,
+    cost: 50000,
+    desc: 'Volatile red-giant stellar nursery drenched in crimson solar flares and high-radiation plasma.',
+    clearColor: 0x160303,
+    sunColor: 0xff3333,
+    sunIntensity: 1.9,
+    fillColor: 0x5a0b0b,
+    fillIntensity: 1.3,
+    palette: [0xff3366, 0xff7700, 0xff0044, 0xffd166, 0xffffff],
+    nebulaColor: 0xff0044
+  },
+  ice: {
+    id: 'ice',
+    name: 'Ice Galaxy',
+    subtitle: 'Sub-Zero Diamond Cryo Field',
+    icon: '❄️',
+    unlockSector: 25,
+    cost: 100000,
+    desc: 'Freezing cryogenic asteroid field illuminated by a blinding sub-zero white dwarf and diamond dust.',
+    clearColor: 0x020f1c,
+    sunColor: 0xddf4ff,
+    sunIntensity: 1.8,
+    fillColor: 0x1a4b75,
+    fillIntensity: 1.1,
+    palette: [0x00f0ff, 0x70d6ff, 0xa0e7e5, 0xffffff, 0xbfe6ff],
+    nebulaColor: 0x00f0ff
+  },
+  dark: {
+    id: 'dark',
+    name: 'Dark Galaxy',
+    subtitle: 'Abyssal Singularity Core',
+    icon: '🌑',
+    unlockSector: 35,
+    cost: 200000,
+    desc: 'Pitch-black dead space bordering a supermassive black hole with ominous amber gravitational lensing.',
+    clearColor: 0x010204,
+    sunColor: 0xffaa00,
+    sunIntensity: 1.2,
+    fillColor: 0x241704,
+    fillIntensity: 0.9,
+    palette: [0xffaa00, 0xff7700, 0x4a3b00, 0x885500, 0xffffff],
+    nebulaColor: 0xff9900
+  },
+  void: {
+    id: 'void',
+    name: 'Void Galaxy',
+    subtitle: 'Deep Purple Antimatter Rift',
+    icon: '🟣',
+    unlockSector: 50,
+    cost: 400000,
+    desc: 'Shattered spacetime rift saturated with volatile dark energy and swirling violet cosmic rifts.',
+    clearColor: 0x0d0317,
+    sunColor: 0xd946ef,
+    sunIntensity: 1.7,
+    fillColor: 0x4a0e6b,
+    fillIntensity: 1.2,
+    palette: [0xa855f7, 0xc026d3, 0xd946ef, 0x00f0ff, 0xffffff],
+    nebulaColor: 0xa855f7
+  },
   cosmic: {
     id: 'cosmic',
     name: 'Cosmic Galaxy',
-    unlockSector: 1,
-    subtitle: 'Deep Void of the Core Orion Arm',
+    subtitle: 'Deep Indigo Deep Space',
+    icon: '✨',
+    unlockSector: 70,
+    cost: 750000,
+    desc: 'The heart of known deep space, featuring multi-spectral star clusters and ancient cosmic tranquility.',
     clearColor: 0x02050f,
     sunColor: 0xfff5e6,
     sunIntensity: 1.6,
     fillColor: 0x385b88,
     fillIntensity: 1.0,
     palette: [0x9db4ff, 0xf8f9fa, 0xfff4e8, 0xffd2a1, 0x00f0ff],
-    nebulaColor: null,
-    icon: '🌌',
-    desc: 'Crystal-clear deep space vacuum with balanced stellar illumination and multi-spectral starlight.'
+    nebulaColor: 0x7c3aed
   },
-  nebula: {
-    id: 'nebula',
-    name: 'Nebula Galaxy',
-    unlockSector: 3,
-    subtitle: 'Luminescent Stellar Nursery',
-    clearColor: 0x0e031a,
-    sunColor: 0xe0aaff,
-    sunIntensity: 1.7,
-    fillColor: 0x7b2cbf,
-    fillIntensity: 1.3,
-    palette: [0xd946ef, 0xa855f7, 0x8b5cf6, 0x00f0ff, 0xf472b6],
-    nebulaColor: 0xa855f7,
-    icon: '🔮',
-    desc: 'Vibrant ionizing gas clouds and violet interstellar dust with luminous drifting nebula formations.'
+  destroyed: {
+    id: 'destroyed',
+    name: 'Destroyed Galaxy',
+    subtitle: 'Cataclysmic Shattered Expanse',
+    icon: '☄️',
+    unlockSector: 85,
+    cost: 1000000,
+    desc: 'Remnants of an ancient solar apocalypse filled with burning molten asteroid clusters and radioactive dust.',
+    clearColor: 0x140700,
+    sunColor: 0xff6600,
+    sunIntensity: 2.0,
+    fillColor: 0x4d1a00,
+    fillIntensity: 1.4,
+    palette: [0xff4500, 0xffd700, 0xff8800, 0xff2200, 0xffffff],
+    nebulaColor: 0xff4500
   },
-  red: {
-    id: 'red',
-    name: 'Red Galaxy',
-    unlockSector: 5,
-    subtitle: 'Crimson Solar Flare Expanse',
-    clearColor: 0x160303,
-    sunColor: 0xff4422,
-    sunIntensity: 1.8,
-    fillColor: 0x991b1b,
-    fillIntensity: 1.2,
-    palette: [0xff3366, 0xff7700, 0xffd166, 0xff0044, 0xf97316],
-    nebulaColor: 0xff3300,
-    icon: '🔥',
-    desc: 'Superheated coronal storm region glowing with thermonuclear plasma flares and ember star clusters.'
-  },
-  ice: {
-    id: 'ice',
-    name: 'Ice Galaxy',
-    unlockSector: 7,
-    subtitle: 'Cryo-Glacial Void Fringe',
-    clearColor: 0x010d1a,
-    sunColor: 0x88eeff,
-    sunIntensity: 1.65,
-    fillColor: 0x0284c7,
-    fillIntensity: 1.25,
-    palette: [0x00f0ff, 0x38bdf8, 0xe0f2fe, 0x7dd3fc, 0xffffff],
-    nebulaColor: 0x00e5ff,
-    icon: '❄️',
-    desc: 'Sub-zero cryo sector adrift with glittering diamond ice crystals and high-luminescence blue giants.'
-  },
-  dark: {
-    id: 'dark',
-    name: 'Dark Galaxy',
-    unlockSector: 10,
-    subtitle: 'Antimatter Event Horizon',
-    clearColor: 0x000103,
-    sunColor: 0x00ff88,
-    sunIntensity: 1.4,
-    fillColor: 0x064e3b,
-    fillIntensity: 1.1,
-    palette: [0x10b981, 0x059669, 0x00f0ff, 0x6366f1, 0x1e293b],
-    nebulaColor: 0x00ff88,
-    icon: '🌑',
-    desc: 'Pitch-black singularity threshold where light is bent by dark matter rifts and ghostly emerald rifts.'
+  legendary: {
+    id: 'legendary',
+    name: 'Legendary Galaxy',
+    subtitle: 'Divine Prismatic Sanctuary',
+    icon: '🌠',
+    unlockSector: 100,
+    cost: 1500000,
+    desc: 'The mythical cradle of creation bathed in divine golden starlight and prismatic chromatic radiance.',
+    clearColor: 0x120e03,
+    sunColor: 0xffe680,
+    sunIntensity: 2.2,
+    fillColor: 0x5e4807,
+    fillIntensity: 1.5,
+    palette: [0xffd700, 0xffffff, 0xfff3a8, 0x00f0ff, 0xff77ff],
+    nebulaColor: 0xffd700
   }
 };
 
 let nebulaCloudGroup = null;
 
 function applyGalaxyEnvironment(mapId) {
-  const map = GALAXIES[mapId] || GALAXIES.cosmic;
-  state.selectedGalaxy = map.id;
-  try {
-    renderer.setClearColor(map.clearColor, 1.0);
-    sunLight.color.setHex(map.sunColor);
-    sunLight.intensity = map.sunIntensity;
-    spaceFillLight.color.setHex(map.fillColor);
-    spaceFillLight.intensity = map.fillIntensity;
+  const g = GALAXIES[mapId] || GALAXIES.nebula;
+  state.selectedGalaxy = g.id;
 
-    // Update Starfield Palette
-    const colorsAttr = starGeo.attributes.color;
-    if (colorsAttr) {
-      for (let i = 0; i < STAR_COUNT; i++) {
-        const hex = map.palette[i % map.palette.length];
-        const c = new THREE.Color(hex);
-        colorsAttr.setXYZ(i, c.r, c.g, c.b);
-      }
-      colorsAttr.needsUpdate = true;
-    }
-
-    // Dynamic 3D Volumetric Nebula Clouds
-    if (nebulaCloudGroup) {
-      scene.remove(nebulaCloudGroup);
-      nebulaCloudGroup.traverse(child => {
-        if (child.geometry) child.geometry.dispose();
-        if (child.material) child.material.dispose();
-      });
-      nebulaCloudGroup = null;
-    }
-
-    if (map.nebulaColor) {
-      nebulaCloudGroup = new THREE.Group();
-      const cloudCount = 14;
-      const cloudGeo = new THREE.PlaneGeometry(60, 60);
-      const cloudMat = new THREE.MeshBasicMaterial({
-        color: map.nebulaColor,
-        transparent: true,
-        opacity: 0.12,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        side: THREE.DoubleSide
-      });
-
-      for (let i = 0; i < cloudCount; i++) {
-        const cloud = new THREE.Mesh(cloudGeo, cloudMat);
-        cloud.position.set(
-          (Math.random() - 0.5) * 160,
-          (Math.random() - 0.5) * 90,
-          -40 - Math.random() * 180
-        );
-        cloud.rotation.z = Math.random() * Math.PI * 2;
-        cloud.scale.setScalar(0.8 + Math.random() * 1.5);
-        nebulaCloudGroup.add(cloud);
-      }
-      scene.add(nebulaCloudGroup);
-    }
-
-    // Update Pilot Briefing Display
-    const pilotGalaxyEl = document.getElementById('pilotGalaxyName');
-    if (pilotGalaxyEl) pilotGalaxyEl.textContent = `${map.icon} ${map.name}`;
-  } catch(e) {
-    console.warn("Galaxy environment apply error:", e);
+  if (renderer) renderer.setClearColor(g.clearColor, 1.0);
+  if (sunLight) {
+    sunLight.color.setHex(g.sunColor);
+    sunLight.intensity = g.sunIntensity;
   }
+  if (spaceFillLight) {
+    spaceFillLight.color.setHex(g.fillColor);
+    spaceFillLight.intensity = g.fillIntensity;
+  }
+
+  // Multi-spectral starfield recoloring
+  if (starGeo && starColors) {
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const hex = g.palette[i % g.palette.length];
+      const col = new THREE.Color(hex);
+      starColors[i*3] = col.r;
+      starColors[i*3+1] = col.g;
+      starColors[i*3+2] = col.b;
+    }
+    starGeo.attributes.color.needsUpdate = true;
+  }
+
+  // Procedural 3D Volumetric Nebula Clouds
+  if (nebulaCloudGroup) {
+    scene.remove(nebulaCloudGroup);
+    nebulaCloudGroup.traverse(c => {
+      if (c.geometry) c.geometry.dispose();
+      if (c.material) c.material.dispose();
+    });
+    nebulaCloudGroup = null;
+  }
+
+  if (g.nebulaColor) {
+    nebulaCloudGroup = new THREE.Group();
+    const cloudMat = new THREE.MeshBasicMaterial({
+      color: g.nebulaColor,
+      transparent: true,
+      opacity: 0.16,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const cloudClusterCount = 14;
+    for (let i = 0; i < cloudClusterCount; i++) {
+      const radius = 18 + Math.random() * 26;
+      const sphereGeo = new THREE.DodecahedronGeometry(radius, 1);
+      const mesh = new THREE.Mesh(sphereGeo, cloudMat);
+      mesh.position.set(
+        (Math.random() - 0.5) * 120,
+        (Math.random() - 0.5) * 70,
+        -50 - Math.random() * 180
+      );
+      mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+      mesh.scale.set(1 + Math.random() * 0.8, 0.6 + Math.random() * 0.6, 1);
+      nebulaCloudGroup.add(mesh);
+    }
+    scene.add(nebulaCloudGroup);
+  }
+
+  // Update starting deployment card indicator if present
+  const pilotGalaxyEl = document.getElementById('pilotGalaxyName');
+  if (pilotGalaxyEl) pilotGalaxyEl.textContent = `${g.icon} ${g.name}`;
 }
 
 // 3D Targeting Plane
@@ -4376,6 +4815,512 @@ function buildApexSovereignShip() {
   return group;
 }
 
+
+// Ship 2: Scout (Solar Dart)
+function buildScoutShip() {
+  const group = new THREE.Group();
+  const hullMat = new THREE.MeshStandardMaterial({ color: 0x1a2639, metalness: 0.85, roughness: 0.2 });
+  const trimMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+  const canopyMat = new THREE.MeshPhysicalMaterial({ color: 0x003344, roughness: 0.1, metalness: 0.8, clearcoat: 1.0 });
+
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.35, 3.4, 4), hullMat);
+  nose.rotation.x = Math.PI / 2;
+  nose.rotation.y = Math.PI / 4;
+  group.add(nose);
+
+  const wingShape = new THREE.Shape();
+  wingShape.moveTo(0, 0);
+  wingShape.lineTo(2.0, 0.4);
+  wingShape.lineTo(1.8, -0.6);
+  wingShape.lineTo(0, -0.3);
+  wingShape.closePath();
+  const wingGeo = new THREE.ExtrudeGeometry(wingShape, { depth: 0.04, bevelEnabled: true, bevelSize: 0.02, bevelThickness: 0.02 });
+
+  const wingR = new THREE.Mesh(wingGeo, hullMat);
+  wingR.rotation.x = Math.PI / 2;
+  wingR.position.set(0.12, 0.02, 0.4);
+  group.add(wingR);
+
+  const wingL = wingR.clone();
+  wingL.scale.x = -1;
+  wingL.position.x = -0.12;
+  group.add(wingL);
+
+  const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), canopyMat);
+  cockpit.scale.set(0.8, 0.7, 1.8);
+  cockpit.position.set(0, 0.16, 0.1);
+  group.add(cockpit);
+
+  const cannonGeo = new THREE.CylinderGeometry(0.025, 0.035, 1.4, 6);
+  cannonGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(cannonGeo, trimMat);
+  cannonR.position.set(0.9, 0, -0.1);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -0.9;
+  group.add(cannonL);
+
+  const plume = new THREE.Mesh(new THREE.ConeGeometry(0.18, 1.3, 8), trimMat);
+  plume.rotation.x = -Math.PI / 2;
+  plume.position.set(0, 0.05, 1.8);
+  group.add(plume);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(2.3, 12, 12), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR: plume, plumeL: plume, shieldMesh, shieldMat, cannonL, cannonR };
+  return group;
+}
+
+// Ship 3: Interceptor (Aero Blade)
+function buildInterceptorShip() {
+  const group = new THREE.Group();
+  const armorMat = new THREE.MeshStandardMaterial({ color: 0x1b202e, metalness: 0.9, roughness: 0.2 });
+  const goldMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+  const glowMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
+
+  const pod = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.4, 2.6), armorMat);
+  group.add(pod);
+
+  const boomR = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.3, 2.4), armorMat);
+  boomR.position.set(1.3, 0, 0.2);
+  group.add(boomR);
+
+  const boomL = boomR.clone();
+  boomL.position.x = -1.3;
+  group.add(boomL);
+
+  const wingR = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.06, 1.2), armorMat);
+  wingR.position.set(0.65, 0, 0.3);
+  group.add(wingR);
+
+  const wingL = wingR.clone();
+  wingL.position.x = -0.65;
+  group.add(wingL);
+
+  const gunGeo = new THREE.CylinderGeometry(0.06, 0.09, 1.6, 8);
+  gunGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(gunGeo, goldMat);
+  cannonR.position.set(1.3, 0.05, -0.6);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -1.3;
+  group.add(cannonL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.18, 1.2, 8), glowMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(1.3, 0, 1.5);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -1.3;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(2.6, 14, 14), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL, cannonR };
+  return group;
+}
+
+// Ship 4: Assault Fighter (Plasma Marauder)
+function buildAssaultShip() {
+  const group = new THREE.Group();
+  const plateMat = new THREE.MeshStandardMaterial({ color: 0x241116, metalness: 0.9, roughness: 0.25 });
+  const redMat = new THREE.MeshBasicMaterial({ color: 0xff3355 });
+  const thrusterMat = new THREE.MeshBasicMaterial({ color: 0xff7700 });
+
+  const prow = new THREE.Mesh(new THREE.ConeGeometry(0.8, 2.6, 5), plateMat);
+  prow.rotation.x = Math.PI / 2;
+  group.add(prow);
+
+  const body = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.45, 2.2), plateMat);
+  body.position.set(0, 0, 0.5);
+  group.add(body);
+
+  const cannonGeo = new THREE.CylinderGeometry(0.12, 0.15, 1.8, 8);
+  cannonGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(cannonGeo, redMat);
+  cannonR.position.set(1.4, -0.05, 0.2);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -1.4;
+  group.add(cannonL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.2, 1.3, 8), thrusterMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.65, 0, 1.8);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.65;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0xff3355, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(2.8, 14, 14), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL, cannonR };
+  return group;
+}
+
+// Ship 6: Guardian (Aegis Bastion)
+function buildGuardianShip() {
+  const group = new THREE.Group();
+  const shieldAlloyMat = new THREE.MeshStandardMaterial({ color: 0x0f233a, metalness: 0.9, roughness: 0.2 });
+  const blueCoreMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+
+  const hexGeo = new THREE.CylinderGeometry(0.85, 1.4, 2.6, 6);
+  hexGeo.rotateX(Math.PI / 2);
+  const body = new THREE.Mesh(hexGeo, shieldAlloyMat);
+  group.add(body);
+
+  for (let i = 0; i < 4; i++) {
+    const angle = (i / 4) * Math.PI * 2 + Math.PI / 4;
+    const pylon = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), blueCoreMat);
+    pylon.position.set(Math.cos(angle) * 1.6, Math.sin(angle) * 0.7, 0.2);
+    group.add(pylon);
+  }
+
+  const gunGeo = new THREE.CylinderGeometry(0.12, 0.14, 1.7, 8);
+  gunGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(gunGeo, shieldAlloyMat);
+  cannonR.position.set(1.0, 0, 0.3);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -1.0;
+  group.add(cannonL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.24, 1.4, 8), blueCoreMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.55, 0, 1.6);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.55;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(3.0, 16, 16), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL, cannonR };
+  return group;
+}
+
+// Ship 7: Destroyer (Iron Hammer)
+function buildDestroyerShip() {
+  const group = new THREE.Group();
+  const ironMat = new THREE.MeshStandardMaterial({ color: 0x22262d, metalness: 0.95, roughness: 0.3 });
+  const hazardMat = new THREE.MeshBasicMaterial({ color: 0xff6600 });
+  const blueArcMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
+
+  const spine = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.65, 4.4), ironMat);
+  group.add(spine);
+
+  const railGeo = new THREE.BoxGeometry(0.12, 0.2, 2.5);
+  const railR = new THREE.Mesh(railGeo, ironMat);
+  railR.position.set(0.45, 0.05, -2.0);
+  group.add(railR);
+
+  const railL = railR.clone();
+  railL.position.x = -0.45;
+  group.add(railL);
+
+  for (let i = 0; i < 3; i++) {
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.48, 0.06, 6, 16), blueArcMat);
+    ring.position.set(0, 0.05, -1.8 + i * 0.8);
+    group.add(ring);
+  }
+
+  const finGeo = new THREE.BoxGeometry(0.04, 0.8, 1.2);
+  const finR = new THREE.Mesh(finGeo, ironMat);
+  finR.rotation.z = -0.4;
+  finR.position.set(0.9, 0, 0.6);
+  group.add(finR);
+
+  const finL = finR.clone();
+  finL.rotation.z = 0.4;
+  finL.position.x = -0.9;
+  group.add(finL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.22, 1.5, 8), hazardMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.45, 0, 2.4);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.45;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0xff6600, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(3.2, 16, 16), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL: railL, cannonR: railR };
+  return group;
+}
+
+// Ship 9: Nova (Supernova Flash)
+function buildNovaShip() {
+  const group = new THREE.Group();
+  const goldAlloyMat = new THREE.MeshStandardMaterial({ color: 0x3d2904, metalness: 0.9, roughness: 0.2 });
+  const radiantSunMat = new THREE.MeshBasicMaterial({ color: 0xffbb00 });
+  const flareCoreMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+  const core = new THREE.Mesh(new THREE.OctahedronGeometry(1.0), goldAlloyMat);
+  core.scale.set(1.4, 0.4, 2.2);
+  group.add(core);
+
+  const ringGeo = new THREE.TorusGeometry(0.9, 0.06, 8, 20);
+  const ring = new THREE.Mesh(ringGeo, radiantSunMat);
+  ring.position.set(0, 0.1, 0.2);
+  group.add(ring);
+
+  const heart = new THREE.Mesh(new THREE.SphereGeometry(0.35, 10, 10), flareCoreMat);
+  heart.position.set(0, 0.12, 0.2);
+  group.add(heart);
+
+  const lensGeo = new THREE.CylinderGeometry(0.08, 0.12, 1.2, 8);
+  lensGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(lensGeo, radiantSunMat);
+  cannonR.position.set(1.5, 0, 0);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -1.5;
+  group.add(cannonL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.2, 1.4, 8), radiantSunMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.45, 0, 1.8);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.45;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(2.7, 14, 14), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL, cannonR, heart };
+  return group;
+}
+
+// Ship 11: Eclipse (Umbra Cruiser)
+function buildEclipseShip() {
+  const group = new THREE.Group();
+  const obsidianMat = new THREE.MeshStandardMaterial({ color: 0x0a0512, metalness: 0.95, roughness: 0.15 });
+  const violetGlowMat = new THREE.MeshBasicMaterial({ color: 0xa855f7 });
+
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.5, 3.8, 3), obsidianMat);
+  nose.rotation.x = Math.PI / 2;
+  nose.rotation.z = Math.PI / 6;
+  group.add(nose);
+
+  const wingGeo = new THREE.BoxGeometry(1.6, 0.06, 2.0);
+  const wingR = new THREE.Mesh(wingGeo, obsidianMat);
+  wingR.rotation.y = 0.2;
+  wingR.position.set(1.1, 0, 0.4);
+  group.add(wingR);
+
+  const wingL = wingR.clone();
+  wingL.rotation.y = -0.2;
+  wingL.position.x = -1.1;
+  group.add(wingL);
+
+  const core = new THREE.Mesh(new THREE.DodecahedronGeometry(0.38), violetGlowMat);
+  core.position.set(0, 0.18, 0.1);
+  group.add(core);
+
+  const gunGeo = new THREE.CylinderGeometry(0.05, 0.08, 1.6, 6);
+  gunGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(gunGeo, violetGlowMat);
+  cannonR.position.set(1.7, 0, 0.1);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -1.7;
+  group.add(cannonL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.18, 1.4, 8), violetGlowMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.35, 0, 2.0);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.35;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(2.8, 14, 14), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL, cannonR, core };
+  return group;
+}
+
+// Ship 12: Void Hunter (Abyssal Stalker)
+function buildVoidHunterShip() {
+  const group = new THREE.Group();
+  const carapaceMat = new THREE.MeshStandardMaterial({ color: 0x111c16, metalness: 0.85, roughness: 0.25 });
+  const toxicMat = new THREE.MeshBasicMaterial({ color: 0x00ff88 });
+
+  const body = new THREE.Mesh(new THREE.ConeGeometry(0.6, 3.2, 5), carapaceMat);
+  body.rotation.x = Math.PI / 2;
+  group.add(body);
+
+  const mGeo = new THREE.ConeGeometry(0.12, 1.6, 4);
+  mGeo.rotateX(Math.PI / 2);
+  const manR = new THREE.Mesh(mGeo, carapaceMat);
+  manR.position.set(0.4, 0, -1.2);
+  group.add(manR);
+
+  const manL = manR.clone();
+  manL.position.x = -0.4;
+  group.add(manL);
+
+  const podGeo = new THREE.BoxGeometry(0.35, 0.25, 1.4);
+  const podR = new THREE.Mesh(podGeo, carapaceMat);
+  podR.position.set(1.2, 0.1, 0.3);
+  group.add(podR);
+
+  const podL = podR.clone();
+  podL.position.x = -1.2;
+  group.add(podL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.18, 1.3, 8), toxicMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.4, 0, 1.8);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.4;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0x00ff88, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(2.7, 14, 14), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL: manL, cannonR: manR };
+  return group;
+}
+
+// Ship 14: Galaxy Guardian (Astral Sentinel)
+function buildGalaxyGuardianShip() {
+  const group = new THREE.Group();
+  const sapphireMat = new THREE.MeshStandardMaterial({ color: 0x071b30, metalness: 0.95, roughness: 0.15 });
+  const astralCyanMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+
+  const citadel = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.6, 3.4, 8), sapphireMat);
+  citadel.rotation.x = Math.PI / 2;
+  group.add(citadel);
+
+  for (let i = 0; i < 4; i++) {
+    const a = (i / 4) * Math.PI * 2;
+    const pylon = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 10), astralCyanMat);
+    pylon.position.set(Math.cos(a) * 1.9, Math.sin(a) * 0.8, 0.4);
+    group.add(pylon);
+  }
+
+  const wingGeo = new THREE.BoxGeometry(1.8, 0.12, 2.4);
+  const wingR = new THREE.Mesh(wingGeo, sapphireMat);
+  wingR.position.set(1.6, 0, 0.3);
+  group.add(wingR);
+
+  const wingL = wingR.clone();
+  wingL.position.x = -1.6;
+  group.add(wingL);
+
+  const gunGeo = new THREE.CylinderGeometry(0.08, 0.12, 1.6, 8);
+  gunGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(gunGeo, astralCyanMat);
+  cannonR.position.set(1.8, 0.05, -0.2);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -1.8;
+  group.add(cannonL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.2, 1.5, 8), astralCyanMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.65, 0, 2.0);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.65;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(3.4, 16, 16), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL, cannonR };
+  return group;
+}
+
+// Ship 15: Celestial (Seraph Prime)
+function buildCelestialShip() {
+  const group = new THREE.Group();
+  const ivoryGoldMat = new THREE.MeshStandardMaterial({ color: 0x2d2410, metalness: 0.95, roughness: 0.15, emissive: 0x4a3b00 });
+  const starlightMat = new THREE.MeshBasicMaterial({ color: 0xffe680 });
+  const haloMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.6, 4.2, 8), ivoryGoldMat);
+  nose.rotation.x = Math.PI / 2;
+  group.add(nose);
+
+  for (let pair = 0; pair < 3; pair++) {
+    const span = 2.4 - pair * 0.4;
+    const wingGeo = new THREE.BoxGeometry(span, 0.05, 1.2);
+    const wingR = new THREE.Mesh(wingGeo, starlightMat);
+    wingR.position.set(span * 0.5 + 0.3, pair * 0.12 - 0.1, pair * 0.9);
+    group.add(wingR);
+
+    const wingL = wingR.clone();
+    wingL.position.x = -(span * 0.5 + 0.3);
+    group.add(wingL);
+  }
+
+  const halo = new THREE.Mesh(new THREE.TorusGeometry(0.85, 0.06, 8, 24), haloMat);
+  halo.rotation.x = Math.PI / 3;
+  halo.position.set(0, 0.5, 0.6);
+  group.add(halo);
+
+  const gunGeo = new THREE.CylinderGeometry(0.06, 0.09, 1.8, 8);
+  gunGeo.rotateX(Math.PI / 2);
+  const cannonR = new THREE.Mesh(gunGeo, starlightMat);
+  cannonR.position.set(1.5, 0, -0.4);
+  group.add(cannonR);
+
+  const cannonL = cannonR.clone();
+  cannonL.position.x = -1.5;
+  group.add(cannonL);
+
+  const plumeR = new THREE.Mesh(new THREE.ConeGeometry(0.18, 1.6, 8), haloMat);
+  plumeR.rotation.x = -Math.PI / 2;
+  plumeR.position.set(0.4, 0, 2.2);
+  group.add(plumeR);
+
+  const plumeL = plumeR.clone();
+  plumeL.position.x = -0.4;
+  group.add(plumeL);
+
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0xffea75, transparent: true, opacity: 0.0, wireframe: true });
+  const shieldMesh = new THREE.Mesh(new THREE.SphereGeometry(3.3, 16, 16), shieldMat);
+  group.add(shieldMesh);
+
+  group.userData = { plumeR, plumeL, shieldMesh, shieldMat, cannonL, cannonR, halo };
+  return group;
+}
+
 // Master Player Container
 const player = new THREE.Group();
 player.position.set(0, 0, BOUNDS.playerZ);
@@ -4513,56 +5458,162 @@ scene.add(droneBeta);
 // ==========================================
 const SHIP_WEAPON_CONFIG = {
   valkyrie: {
-    name: "Valkyrie Interceptor",
+    name: "Valkyrie MK-II",
     cardTheme: "#00f0ff",
-    wep1: { name: "Dual Plasma", sub: "Rapid Kinetic Twin", key: "[1] PRIMARY", color: 0x00f0ff, speed: 66, dmgMult: 1.0 },
+    ability: { name: "EMP BLAST", type: "emp", icon: "⚡", cooldown: 20, desc: "Disables hostiles & wipes bullets" },
+    wep1: { name: "Dual Plasma", sub: "Pulse Cannon", key: "[1] PRIMARY", color: 0x00f0ff, speed: 66, dmgMult: 1.0 },
     wep2: { name: "Cutting Laser", sub: "Sustained Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00f0ff, glowColor: 0x0088ff },
     wep3: { name: "Micro-Flak", sub: "Shrapnel Scatter", key: "[3] SCATTER", color: 0xffaa00, pelletCount: 7 },
     wep4: { name: "Photon Torpedo", sub: "Antimatter Blast", key: "[4] TORPEDO", color: 0x00ffff, glowColor: 0x0088ff },
     wep5: { name: "Ion Pulse Arc", sub: "Disrupter Shock", key: "[5] TESLA", color: 0x00f0ff }
   },
-  titan: {
-    name: "Titan Behemoth",
-    cardTheme: "#ff5500",
-    wep1: { name: "Siege Cannons", sub: "Heavy Explosive Slugs", key: "[1] PRIMARY", color: 0xff5500, speed: 52, dmgMult: 1.45, isHeavySlug: true },
-    wep2: { name: "Inferno Lance", sub: "Thermal Molten Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xff3300, glowColor: 0xff6600 },
-    wep3: { name: "Cluster Artillery", sub: "11-Shot Heavy Scatter", key: "[3] SCATTER", color: 0xff4400, pelletCount: 11 },
-    wep4: { name: "Bunkerbuster", sub: "Colossal Concussion", key: "[4] TORPEDO", color: 0xff2200, glowColor: 0xff7700 },
-    wep5: { name: "Magnetic Shock", sub: "Concussive Wave", key: "[5] TESLA", color: 0xffaa00 }
+  scout: {
+    name: "Solar Dart",
+    cardTheme: "#00ffcc",
+    ability: { name: "OVERDRIVE", type: "overdrive", icon: "🔥", cooldown: 18, desc: "2x Fire Rate & +30% Speed for 5s" },
+    wep1: { name: "Rapid Laser", sub: "High-Frequency Needles", key: "[1] PRIMARY", color: 0x00ffcc, speed: 85, dmgMult: 0.85, isNeedle: true },
+    wep2: { name: "Needle Beam", sub: "Continuous Needle Lance", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00ffcc, glowColor: 0x00bb99 },
+    wep3: { name: "Micro-Dart Scatter", sub: "Speed Flak", key: "[3] SCATTER", color: 0x00ffaa, pelletCount: 6 },
+    wep4: { name: "Dart Torpedo", sub: "Fast Photon", key: "[4] TORPEDO", color: 0x00f0ff, glowColor: 0x00ffff },
+    wep5: { name: "Static Needle Arc", sub: "High-Hz Shock", key: "[5] TESLA", color: 0x00ffcc }
   },
-  phantom: {
-    name: "Phantom Ghost",
-    cardTheme: "#a855f7",
-    wep1: { name: "Void Needles", sub: "Armor-Piercing Lasers", key: "[1] PRIMARY", color: 0xbf00ff, speed: 82, dmgMult: 0.95, isNeedle: true },
-    wep2: { name: "Phase Cutter", sub: "Ultraviolet Slicer", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x9333ea, glowColor: 0xc084fc },
-    wep3: { name: "Razor Shards", sub: "Obsidian Fan Spread", key: "[3] SCATTER", color: 0xd946ef, pelletCount: 8 },
-    wep4: { name: "Dark Singularity", sub: "Vortex Implosion", key: "[4] TORPEDO", color: 0x7c3aed, glowColor: 0xa855f7 },
-    wep5: { name: "Tesla Lightning", sub: "High-Voltage Arc", key: "[5] TESLA", color: 0xa855f7 }
+  interceptor: {
+    name: "Aero Blade",
+    cardTheme: "#ffd166",
+    ability: { name: "LASER BARRAGE", type: "barrage", icon: "⚔️", cooldown: 15, desc: "7-Laser Fan Spray Barrage" },
+    wep1: { name: "Twin Plasma", sub: "Dual Heavy Plasma", key: "[1] PRIMARY", color: 0xffaa00, speed: 72, dmgMult: 1.15 },
+    wep2: { name: "Aero Beam", sub: "Thermal Slicer", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xffaa00, glowColor: 0xff8800 },
+    wep3: { name: "Flak Shredder", sub: "Twin Cone Scatter", key: "[3] SCATTER", color: 0xffbb33, pelletCount: 8 },
+    wep4: { name: "Magma Torpedo", sub: "Thermal Warhead", key: "[4] TORPEDO", color: 0xffaa00, glowColor: 0xff5500 },
+    wep5: { name: "Aero Shock Arc", sub: "Magnetic Chain", key: "[5] TESLA", color: 0xffd166 }
+  },
+  assault: {
+    name: "Plasma Marauder",
+    cardTheme: "#ff3355",
+    ability: { name: "PLASMA BURST", type: "plasma_burst", icon: "💥", cooldown: 22, desc: "Massive AoE Plasma Fireball" },
+    wep1: { name: "Heavy Plasma Cannon", sub: "Colossal Slugs", key: "[1] PRIMARY", color: 0xff3355, speed: 56, dmgMult: 1.35, isHeavySlug: true },
+    wep2: { name: "Molten Lance", sub: "Superheated Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xff0044, glowColor: 0xff5500 },
+    wep3: { name: "Marauder Flak", sub: "10-Shot Heavy Spread", key: "[3] SCATTER", color: 0xff2244, pelletCount: 10 },
+    wep4: { name: "Bunker Torpedo", sub: "High-Yield Antimatter", key: "[4] TORPEDO", color: 0xff0055, glowColor: 0xff3300 },
+    wep5: { name: "Disruption Arc", sub: "Armor-Cracking Shock", key: "[5] TESLA", color: 0xff5577 }
   },
   phoenix: {
     name: "Solar Phoenix",
     cardTheme: "#ffd166",
-    wep1: { name: "Solar Flare", sub: "Sunburst Magma Orbs", key: "[1] PRIMARY", color: 0xffaa00, speed: 62, dmgMult: 1.18, isMagma: true },
+    ability: { name: "ENERGY SHIELD", type: "shield", icon: "🛡️", cooldown: 25, desc: "Invulnerable Barrier for 4s" },
+    wep1: { name: "Solar Flare", sub: "Sunburst Magma Orbs", key: "[1] PRIMARY", color: 0xffaa00, speed: 62, dmgMult: 1.25, isMagma: true },
     wep2: { name: "Prominence Ray", sub: "Radiant Amber Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xffaa00, glowColor: 0xffe066 },
     wep3: { name: "Solar Scatter", sub: "Radiance Burst", key: "[3] SCATTER", color: 0xffdd00, pelletCount: 9 },
     wep4: { name: "Supernova Orb", sub: "Miniature Star Blast", key: "[4] TORPEDO", color: 0xff8800, glowColor: 0xffea00 },
     wep5: { name: "Corona Storm", sub: "Solar Plasma Arcs", key: "[5] TESLA", color: 0xffcc00 }
   },
-  reaper: {
-    name: "Void Reaper",
+  guardian: {
+    name: "Aegis Bastion",
+    cardTheme: "#00f0ff",
+    ability: { name: "ENERGY SHIELD", type: "shield", icon: "🛡️", cooldown: 25, desc: "Invulnerable Fortress Dome (4s)" },
+    wep1: { name: "Shield Cannon", sub: "Defensive Pulses (+Shield)", key: "[1] PRIMARY", color: 0x00f0ff, speed: 64, dmgMult: 1.15, isShieldCannon: true },
+    wep2: { name: "Aegis Beam", sub: "Coherent Barrier Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x0099ff, glowColor: 0x00f0ff },
+    wep3: { name: "Barrier Flak", sub: "Repulsion Pellets", key: "[3] SCATTER", color: 0x00ccff, pelletCount: 8 },
+    wep4: { name: "Aegis Torpedo", sub: "Concussive Dome", key: "[4] TORPEDO", color: 0x00f0ff, glowColor: 0x0088ff },
+    wep5: { name: "Bastion Arc", sub: "Defensive Chain Shock", key: "[5] TESLA", color: 0x00f0ff }
+  },
+  destroyer: {
+    name: "Iron Hammer",
+    cardTheme: "#ff6600",
+    ability: { name: "METEOR STRIKE", type: "meteor", icon: "☄️", cooldown: 24, desc: "Orbital Kinetic Missile Barrage" },
+    wep1: { name: "Rail Cannon", sub: "Piercing Hyper-Slug", key: "[1] PRIMARY", color: 0xff6600, speed: 90, dmgMult: 1.6, isPiercingRail: true },
+    wep2: { name: "Fusion Lance", sub: "Industrial Cutting Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xff6600, glowColor: 0xff3300 },
+    wep3: { name: "Siege Flak", sub: "12-Shot Tungsten Scatter", key: "[3] SCATTER", color: 0xff5500, pelletCount: 12 },
+    wep4: { name: "Bunkerbuster Torpedo", sub: "Spatial Rupture Blast", key: "[4] TORPEDO", color: 0xff3300, glowColor: 0xff7700 },
+    wep5: { name: "Hammer Arc", sub: "Magnetic Shockwave", key: "[5] TESLA", color: 0xffaa00 }
+  },
+  phantom: {
+    name: "Shadow Wraith",
+    cardTheme: "#a855f7",
+    ability: { name: "VOID RIFT", type: "void_rift", icon: "🌀", cooldown: 22, desc: "Summons Crushing Gravity Vortex" },
+    wep1: { name: "Phase Blaster", sub: "Quantum Phasing Bolts", key: "[1] PRIMARY", color: 0xbf00ff, speed: 84, dmgMult: 1.25, isPhasing: true },
+    wep2: { name: "Phase Cutter", sub: "Ultraviolet Slicer", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x9333ea, glowColor: 0xc084fc },
+    wep3: { name: "Razor Shards", sub: "Obsidian Fan Spread", key: "[3] SCATTER", color: 0xd946ef, pelletCount: 8 },
+    wep4: { name: "Dark Singularity", sub: "Vortex Implosion", key: "[4] TORPEDO", color: 0x7c3aed, glowColor: 0xa855f7 },
+    wep5: { name: "Tesla Lightning", sub: "High-Voltage Arc", key: "[5] TESLA", color: 0xa855f7 }
+  },
+  nova: {
+    name: "Supernova Flash",
+    cardTheme: "#ffbb00",
+    ability: { name: "PLASMA BURST", type: "plasma_burst", icon: "💥", cooldown: 20, desc: "Supernova Flare Detonation" },
+    wep1: { name: "Nova Beam", sub: "Concentrated Thermal Lance", key: "[1] PRIMARY", color: 0xffbb00, speed: 76, dmgMult: 1.35 },
+    wep2: { name: "Solar Core Beam", sub: "Continuous Sun Flare", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xffbb00, glowColor: 0xff8800 },
+    wep3: { name: "Nova Scatter", sub: "Prismatic Shell Burst", key: "[3] SCATTER", color: 0xffcc22, pelletCount: 9 },
+    wep4: { name: "Nova Orb", sub: "Supernova Blast", key: "[4] TORPEDO", color: 0xff9900, glowColor: 0xffdd00 },
+    wep5: { name: "Solar Arc", sub: "Golden Chain Flame", key: "[5] TESLA", color: 0xffbb00 }
+  },
+  titan: {
+    name: "Titan Behemoth",
+    cardTheme: "#ff5500",
+    ability: { name: "METEOR STRIKE", type: "meteor", icon: "☄️", cooldown: 24, desc: "Orbital Kinetic Missile Barrage" },
+    wep1: { name: "Mega Plasma Launcher", sub: "Colossal Artillery Slugs", key: "[1] PRIMARY", color: 0xff5500, speed: 52, dmgMult: 1.5, isHeavySlug: true },
+    wep2: { name: "Inferno Lance", sub: "Thermal Molten Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xff3300, glowColor: 0xff6600 },
+    wep3: { name: "Cluster Artillery", sub: "11-Shot Heavy Scatter", key: "[3] SCATTER", color: 0xff4400, pelletCount: 11 },
+    wep4: { name: "Bunkerbuster", sub: "Colossal Concussion", key: "[4] TORPEDO", color: 0xff2200, glowColor: 0xff7700 },
+    wep5: { name: "Magnetic Shock", sub: "Concussive Wave", key: "[5] TESLA", color: 0xffaa00 }
+  },
+  eclipse: {
+    name: "Umbra Cruiser",
+    cardTheme: "#a855f7",
+    ability: { name: "VOID RIFT", type: "void_rift", icon: "🌀", cooldown: 22, desc: "Spawns Gravity Vortex" },
+    wep1: { name: "Dark Energy Cannon", sub: "Corrosive Umbra Bolts", key: "[1] PRIMARY", color: 0xa855f7, speed: 70, dmgMult: 1.4 },
+    wep2: { name: "Umbra Slicer", sub: "Dark Matter Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x9333ea, glowColor: 0xc084fc },
+    wep3: { name: "Shadow Shards", sub: "Dark Fan Spread", key: "[3] SCATTER", color: 0x8b5cf6, pelletCount: 9 },
+    wep4: { name: "Umbra Torpedo", sub: "Gravitational Collapse", key: "[4] TORPEDO", color: 0x6b21a8, glowColor: 0xa855f7 },
+    wep5: { name: "Void Lightning", sub: "Dark Arc Chain", key: "[5] TESLA", color: 0xa855f7 }
+  },
+  void_hunter: {
+    name: "Abyssal Stalker",
     cardTheme: "#00ff88",
-    wep1: { name: "Bio-Disrupter", sub: "Antimatter Vortex", key: "[1] PRIMARY", color: 0x00ff88, speed: 72, dmgMult: 1.25, isVortex: true },
+    ability: { name: "EMP BLAST", type: "emp", icon: "⚡", cooldown: 20, desc: "Abyssal EMP Burst" },
+    wep1: { name: "Void Missile System", sub: "Smart Tracking Micro-Missiles", key: "[1] PRIMARY", color: 0x00ff88, speed: 74, dmgMult: 1.45, isTrackingMissile: true },
+    wep2: { name: "Bio Siphon Beam", sub: "Toxic Siphon", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00ff88, glowColor: 0x05ffa1 },
+    wep3: { name: "Stalker Flak", sub: "Toxic Needle Spread", key: "[3] SCATTER", color: 0x10b981, pelletCount: 9 },
+    wep4: { name: "Abyssal Torpedo", sub: "Bio-Matter Blast", key: "[4] TORPEDO", color: 0x00ffcc, glowColor: 0x00ff88 },
+    wep5: { name: "Emerald Arc", sub: "Bio-Electric Shock", key: "[5] TESLA", color: 0x00ff88 }
+  },
+  reaper: {
+    name: "Cosmic Reaper",
+    cardTheme: "#00ff88",
+    ability: { name: "COSMIC WAVE", type: "cosmic_wave", icon: "🌌", cooldown: 28, desc: "Fullscreen Chromatic Energy Tsunami" },
+    wep1: { name: "Death Ray", sub: "Antimatter Vortex", key: "[1] PRIMARY", color: 0x00ff88, speed: 78, dmgMult: 1.6, isVortex: true },
     wep2: { name: "Void Siphon", sub: "Dark Energy Siphon", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00ff88, glowColor: 0x05ffa1 },
-    wep3: { name: "Nether Shards", sub: "Toxic Splinter Fan", key: "[3] SCATTER", color: 0x10b981, pelletCount: 8 },
+    wep3: { name: "Nether Shards", sub: "Toxic Splinter Fan", key: "[3] SCATTER", color: 0x10b981, pelletCount: 10 },
     wep4: { name: "Gravity Torpedo", sub: "Spatial Collapse", key: "[4] TORPEDO", color: 0x00ffcc, glowColor: 0x00ff88 },
     wep5: { name: "Spectral Shock", sub: "Emerald Void Chain", key: "[5] TESLA", color: 0x00ff88 }
+  },
+  galaxy_guardian: {
+    name: "Astral Sentinel",
+    cardTheme: "#00f0ff",
+    ability: { name: "ENERGY SHIELD", type: "shield", icon: "🛡️", cooldown: 25, desc: "Aegis Sanctuary Barrier (4.5s)" },
+    wep1: { name: "Cosmic Pulse", sub: "Broad-Cone Wave Cannon", key: "[1] PRIMARY", color: 0x00f0ff, speed: 70, dmgMult: 1.65, isCosmicPulse: true },
+    wep2: { name: "Astral Beam", sub: "Coherent Cosmic Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00f0ff, glowColor: 0x0088ff },
+    wep3: { name: "Astral Flak", sub: "Prismatic Starlight Burst", key: "[3] SCATTER", color: 0x70d6ff, pelletCount: 11 },
+    wep4: { name: "Cosmic Torpedo", sub: "Astral Nova Blast", key: "[4] TORPEDO", color: 0x00f0ff, glowColor: 0x00ffff },
+    wep5: { name: "Sentinel Arc", sub: "Cosmic Chain Arcs", key: "[5] TESLA", color: 0x00f0ff }
+  },
+  celestial: {
+    name: "Seraph Prime",
+    cardTheme: "#ffd166",
+    ability: { name: "COSMIC WAVE", type: "cosmic_wave", icon: "🌌", cooldown: 28, desc: "Divine Supernova Tsunami" },
+    wep1: { name: "Celestial Beam", sub: "Divine Stellar Lance", key: "[1] PRIMARY", color: 0xffe680, speed: 86, dmgMult: 1.85 },
+    wep2: { name: "Seraph Beam", sub: "Holy Radiant Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0xffd166, glowColor: 0xffffff },
+    wep3: { name: "Starlight Flak", sub: "Prismatic Halo Shards", key: "[3] SCATTER", color: 0xffea75, pelletCount: 12 },
+    wep4: { name: "Divine Torpedo", sub: "Starlight Supernova", key: "[4] TORPEDO", color: 0xffea75, glowColor: 0xffd166 },
+    wep5: { name: "Celestial Arc", sub: "Divine Holy Chain", key: "[5] TESLA", color: 0xffe680 }
   },
   apex: {
     name: "Apex Sovereign",
     cardTheme: "#ffd166",
-    wep1: { name: "Quantum Disrupter", sub: "Twin Chrono Bolts", key: "[1] PRIMARY", color: 0x00f0ff, speed: 78, dmgMult: 1.45 },
+    ability: { name: "COSMIC WAVE", type: "cosmic_wave", icon: "🌌", cooldown: 28, desc: "Singularity Reality-Shattering Blast" },
+    wep1: { name: "Omega Cannon", sub: "Reality-Shattering Singularities", key: "[1] PRIMARY", color: 0x00f0ff, speed: 82, dmgMult: 2.1, isOmegaCannon: true },
     wep2: { name: "Singularity Lance", sub: "Chrono-Wave Beam", key: "[2] BEAM", coreColor: 0xffffff, midColor: 0x00f0ff, glowColor: 0xffd166 },
-    wep3: { name: "Chronos Flak", sub: "Time-Dilation Cluster", key: "[3] SCATTER", color: 0xffd166, pelletCount: 10 },
+    wep3: { name: "Chronos Flak", sub: "Time-Dilation Cluster", key: "[3] SCATTER", color: 0xffd166, pelletCount: 12 },
     wep4: { name: "Event Horizon", sub: "Micro-Black Hole", key: "[4] TORPEDO", color: 0x00ffff, glowColor: 0xffd166 },
     wep5: { name: "Chrono-Arc", sub: "Singularity Chain Arc", key: "[5] TESLA", color: 0x00f0ff }
   }
@@ -4589,36 +5640,29 @@ function setStarship(shipType) {
   state.shipType = shipType;
   if (currentShipModel) player.remove(currentShipModel);
 
-  if (shipType === 'titan') {
-    currentShipModel = buildTitanShip();
-    state.speed = 13;
-    state.maxHull = 180;
-    state.maxShield = 160;
-  } else if (shipType === 'phantom') {
-    currentShipModel = buildPhantomShip();
-    state.speed = 24;
-    state.maxHull = 75;
-    state.maxShield = 85;
-  } else if (shipType === 'phoenix') {
-    currentShipModel = buildSolarPhoenixShip();
-    state.speed = 20;
-    state.maxHull = 240;
-    state.maxShield = 200;
-  } else if (shipType === 'reaper') {
-    currentShipModel = buildVoidReaperShip();
-    state.speed = 27;
-    state.maxHull = 130;
-    state.maxShield = 170;
-  } else if (shipType === 'apex') {
-    currentShipModel = buildApexSovereignShip();
-    state.speed = 28;
-    state.maxHull = 300;
-    state.maxShield = 300;
-  } else {
-    currentShipModel = buildValkyrieShip();
-    state.speed = 18;
-    state.maxHull = 100;
-    state.maxShield = 100;
+  const def = SHIP_DEFINITIONS[shipType] || SHIP_DEFINITIONS.valkyrie;
+  state.speed = def.speed || 18;
+  state.maxHull = def.hull || 100;
+  state.maxShield = def.shield || 100;
+  state.damageMult = (def.damage || 100) / 100;
+
+  switch (shipType) {
+    case 'scout': currentShipModel = buildScoutShip(); break;
+    case 'interceptor': currentShipModel = buildInterceptorShip(); break;
+    case 'assault': currentShipModel = buildAssaultShip(); break;
+    case 'phoenix': currentShipModel = buildSolarPhoenixShip(); break;
+    case 'guardian': currentShipModel = buildGuardianShip(); break;
+    case 'destroyer': currentShipModel = buildDestroyerShip(); break;
+    case 'phantom': currentShipModel = buildPhantomShip(); break;
+    case 'nova': currentShipModel = buildNovaShip(); break;
+    case 'titan': currentShipModel = buildTitanShip(); break;
+    case 'eclipse': currentShipModel = buildEclipseShip(); break;
+    case 'void_hunter': currentShipModel = buildVoidHunterShip(); break;
+    case 'reaper': currentShipModel = buildVoidReaperShip(); break;
+    case 'galaxy_guardian': currentShipModel = buildGalaxyGuardianShip(); break;
+    case 'celestial': currentShipModel = buildCelestialShip(); break;
+    case 'apex': currentShipModel = buildApexSovereignShip(); break;
+    default: currentShipModel = buildValkyrieShip(); break;
   }
 
   player.add(currentShipModel);
@@ -4626,16 +5670,9 @@ function setStarship(shipType) {
   state.hull = Math.min(state.hull, state.maxHull);
   state.shield = Math.min(state.shield, state.maxShield);
 
-  // Update UI Card selection
-  document.getElementById('shipCardValkyrie')?.classList.toggle('active', shipType === 'valkyrie');
-  document.getElementById('shipCardTitan')?.classList.toggle('active', shipType === 'titan');
-  document.getElementById('shipCardPhantom')?.classList.toggle('active', shipType === 'phantom');
-  document.getElementById('shipCardPhoenix')?.classList.toggle('active', shipType === 'phoenix');
-  document.getElementById('shipCardReaper')?.classList.toggle('active', shipType === 'reaper');
-  document.getElementById('shipCardApex')?.classList.toggle('active', shipType === 'apex');
-
-  // Update Weapon Arsenal Dock cards to match this starfighter's unique loadout
+  // Update Weapon Arsenal Dock cards and ability card
   updateWeaponDockForShip(shipType);
+  updateAbilityUI();
   updateHUD();
 }
 
@@ -4966,27 +6003,33 @@ function buildAlienApexTitan(colorIdx = 0) {
 
 function createAlienMesh(sec, idx = 0) {
   const s = sec || state.sector || 1;
-  if (s <= 3) {
+  if (s <= 10) {
     return (idx % 2 === 0) ? buildAlienSaucerWithPilot(idx) : buildAlienBioScout();
-  } else if (s <= 6) {
+  } else if (s <= 30) {
     const pick = idx % 3;
     if (pick === 0) return buildAlienArmoredRaider(idx);
     if (pick === 1) return buildAlienSaucerWithPilot(idx);
     return buildAlienBioScout();
-  } else if (s <= 9) {
+  } else if (s <= 60) {
     const pick = idx % 4;
     if (pick === 0) return buildAlienVoidCruiser(idx);
     if (pick === 1) return buildAlienArmoredRaider(idx);
     if (pick === 2) return buildAlienSaucerWithPilot(idx);
     return buildAlienBioScout();
-  } else {
-    // Sector 10+
+  } else if (s <= 80) {
     const pick = idx % 5;
     if (pick === 0) return buildAlienApexTitan(idx);
     if (pick === 1) return buildAlienVoidCruiser(idx);
     if (pick === 2) return buildAlienArmoredRaider(idx);
     if (pick === 3) return buildAlienSaucerWithPilot(idx);
     return buildAlienBioScout();
+  } else {
+    // End Game Sectors 81-100+
+    const pick = idx % 4;
+    if (pick === 0) return buildAlienApexTitan(idx);
+    if (pick === 1) return buildAlienVoidCruiser(idx);
+    if (pick === 2) return buildAlienApexTitan(idx + 1);
+    return buildAlienArmoredRaider(idx);
   }
 }
 
@@ -5406,8 +6449,8 @@ function saveGameData() {
       highScore: state.highScore,
       credits: state.credits,
       shipType: state.shipType,
-      selectedGalaxy: state.selectedGalaxy || 'cosmic',
-      unlockedGalaxies: state.unlockedGalaxies || ['cosmic'],
+      selectedGalaxy: state.selectedGalaxy || 'nebula',
+      unlockedGalaxies: state.unlockedGalaxies || ['nebula'],
       plasmaTier: state.plasmaTier,
       railgunTier: state.railgunTier,
       flakTier: state.flakTier,
@@ -5461,7 +6504,7 @@ function loadGameData() {
       if (typeof data.highestSector === 'number') state.highestSector = data.highestSector;
       if (data.shipType) state.shipType = data.shipType;
       if (typeof applyGalaxyEnvironment === 'function') {
-        applyGalaxyEnvironment(state.selectedGalaxy || 'cosmic');
+        applyGalaxyEnvironment(state.selectedGalaxy || 'nebula');
       }
       if (typeof checkProgressionUnlocks === 'function') {
         checkProgressionUnlocks();
@@ -5472,7 +6515,7 @@ function loadGameData() {
       const oldPilot = localStorage.getItem('alien_assault_pilot_name');
       if (oldPilot) state.pilotName = oldPilot;
       if (typeof applyGalaxyEnvironment === 'function') {
-        applyGalaxyEnvironment('cosmic');
+        applyGalaxyEnvironment('nebula');
       }
     }
   } catch(e) {}
@@ -5591,7 +6634,8 @@ function toggleMenuModal() {
   else openMenuModal();
 }
 
-function openMenuModal() {
+function openMenuModal(isBack = false) {
+  if (!isBack) NavigationStack.push("mainMenuModal");
   state.paused = true;
   const mp = document.getElementById('menuPilotNameVal');
   if (mp) mp.textContent = state.pilotName || 'STARFIGHTER ACE';
@@ -5624,7 +6668,8 @@ function toggleTutorialModal() {
   else openTutorialModal();
 }
 
-function openTutorialModal() {
+function openTutorialModal(isBack = false) {
+  if (!isBack) NavigationStack.push("tutorialModal");
   audio.init(); audio.resume();
   state.paused = true;
   showTutorialStep(1);
@@ -5965,102 +7010,281 @@ function randomizeCallsign() {
 }
 
 const SHIP_DEFINITIONS = {
+  // --- TIER 1: BASIC ---
   valkyrie: {
     id: 'valkyrie',
     name: 'Valkyrie MK-II',
-    role: 'Agile Interceptor',
+    role: 'Balanced Interceptor',
+    tier: 'Basic',
     unlockSector: 1,
     cost: 0,
-    speed: 22,
+    speed: 18,
     hull: 100,
     shield: 100,
     damage: 100,
     fireRate: 'High',
-    ability: 'Dual Kinetic + Cutting Laser',
-    desc: 'Balanced tactical starfighter with swift maneuverability and twin lasers.'
+    primaryWeapon: 'Pulse Cannon',
+    specialAbility: 'EMP Blast',
+    desc: 'Standard fleet-issue combat interceptor with balanced maneuverability, twin pulse cannons, and EMP blast.'
+  },
+  scout: {
+    id: 'scout',
+    name: 'Solar Dart',
+    role: 'Recon Scout',
+    tier: 'Basic',
+    unlockSector: 5,
+    cost: 12000,
+    speed: 24,
+    hull: 70,
+    shield: 80,
+    damage: 85,
+    fireRate: 'Ultra Fast',
+    primaryWeapon: 'Rapid Laser',
+    specialAbility: 'Overdrive',
+    desc: 'Lightweight, ultra-agile dart scout firing high-frequency needle lasers and equipped with Overdrive.'
+  },
+
+  // --- TIER 2: ADVANCED ---
+  interceptor: {
+    id: 'interceptor',
+    name: 'Aero Blade',
+    role: 'Strike Interceptor',
+    tier: 'Advanced',
+    unlockSector: 10,
+    cost: 35000,
+    speed: 22,
+    hull: 90,
+    shield: 110,
+    damage: 115,
+    fireRate: 'High',
+    primaryWeapon: 'Twin Plasma Cannons',
+    specialAbility: 'Laser Barrage',
+    desc: 'Aggressive twin-boom space superiority fighter armed with dual plasma cannons and 7-laser fan barrage.'
+  },
+  assault: {
+    id: 'assault',
+    name: 'Plasma Marauder',
+    role: 'Heavy Assault Fighter',
+    tier: 'Advanced',
+    unlockSector: 15,
+    cost: 55000,
+    speed: 16,
+    hull: 140,
+    shield: 130,
+    damage: 135,
+    fireRate: 'Medium',
+    primaryWeapon: 'Heavy Plasma Cannon',
+    specialAbility: 'Plasma Burst',
+    desc: 'Reinforced gunship designed to breach hostile formations with colossal plasma slugs and AoE plasma bursts.'
+  },
+  phoenix: {
+    id: 'phoenix',
+    name: 'Solar Phoenix',
+    role: 'Chrono-Vanguard',
+    tier: 'Advanced',
+    unlockSector: 20,
+    cost: 80000,
+    speed: 20,
+    hull: 200,
+    shield: 220,
+    damage: 140,
+    fireRate: 'High',
+    primaryWeapon: 'Solar Flare',
+    specialAbility: 'Energy Shield',
+    desc: 'Radiant solar cruiser equipped with sunburst magma orbs, nanite self-repair (+3 HP/s), and invulnerable energy shield.'
+  },
+  guardian: {
+    id: 'guardian',
+    name: 'Aegis Bastion',
+    role: 'Fortress Gunship',
+    tier: 'Advanced',
+    unlockSector: 25,
+    cost: 110000,
+    speed: 15,
+    hull: 220,
+    shield: 240,
+    damage: 130,
+    fireRate: 'Medium',
+    primaryWeapon: 'Shield Cannon',
+    specialAbility: 'Energy Shield',
+    desc: 'Heavily armored fortress ship. Hits regenerate player shields, and possesses an invincible defensive dome.'
+  },
+  destroyer: {
+    id: 'destroyer',
+    name: 'Iron Hammer',
+    role: 'Siege Destroyer',
+    tier: 'Advanced',
+    unlockSector: 30,
+    cost: 150000,
+    speed: 14,
+    hull: 260,
+    shield: 190,
+    damage: 160,
+    fireRate: 'Slow',
+    primaryWeapon: 'Rail Cannon',
+    specialAbility: 'Meteor Strike',
+    desc: 'Colossal railgun destroyer discharging piercing kinetic slugs that punch through multiple hostiles and orbital meteor strikes.'
+  },
+
+  // --- TIER 3: ELITE ---
+  phantom: {
+    id: 'phantom',
+    name: 'Shadow Wraith',
+    role: 'Stealth Infiltrator',
+    tier: 'Elite',
+    unlockSector: 35,
+    cost: 200000,
+    speed: 26,
+    hull: 80,
+    shield: 90,
+    damage: 150,
+    fireRate: 'Extreme',
+    primaryWeapon: 'Phase Blaster',
+    specialAbility: 'Void Rift',
+    desc: 'Phasing stealth fighter built with razor-swept wings. Fires armor-piercing quantum bolts and tears open Void Rifts.'
+  },
+  nova: {
+    id: 'nova',
+    name: 'Supernova Flash',
+    role: 'Energy Skirmisher',
+    tier: 'Elite',
+    unlockSector: 40,
+    cost: 260000,
+    speed: 23,
+    hull: 150,
+    shield: 180,
+    damage: 165,
+    fireRate: 'High',
+    primaryWeapon: 'Nova Beam',
+    specialAbility: 'Plasma Burst',
+    desc: 'Equipped with rotating solar focus rings and concentrated thermal nova beams that incinerate enemy squadrons.'
   },
   titan: {
     id: 'titan',
     name: 'Titan Behemoth',
     role: 'Assault Dreadnought',
-    unlockSector: 3,
-    cost: 400,
-    speed: 14,
-    hull: 240,
-    shield: 180,
-    damage: 140,
-    fireRate: 'Medium',
-    ability: 'Heavy Slugs (+40% Kinetic Dmg)',
-    desc: 'Heavily plated gunship with reinforced composite armor and slug cannons.'
-  },
-  phantom: {
-    id: 'phantom',
-    name: 'Phantom Ghost',
-    role: 'Stealth Infiltrator',
-    unlockSector: 5,
-    cost: 750,
-    speed: 26,
-    hull: 80,
-    shield: 90,
-    damage: 125,
-    fireRate: 'Ultra',
-    ability: 'Void Needles (+25% RoF & Evasion)',
-    desc: 'Stealth interceptor built with forward-swept razor wings and void needles.'
-  },
-  phoenix: {
-    id: 'phoenix',
-    name: 'Solar Phoenix',
-    role: 'Vanguard Cruiser',
-    unlockSector: 7,
-    cost: 1200,
-    speed: 20,
-    hull: 200,
+    tier: 'Elite',
+    unlockSector: 45,
+    cost: 330000,
+    speed: 13,
+    hull: 280,
     shield: 220,
-    damage: 150,
-    fireRate: 'High',
-    ability: 'Magma Orbs & Nanite Self-Repair (+3 HP/s)',
-    desc: 'Solar energy cruiser equipped with radiant energy sails and nanite repair.'
+    damage: 180,
+    fireRate: 'Heavy',
+    primaryWeapon: 'Mega Plasma Launcher',
+    specialAbility: 'Meteor Strike',
+    desc: 'Super-heavy battle dreadnought launching colossal plasma artillery shells and calling devastating missile strikes.'
   },
+  eclipse: {
+    id: 'eclipse',
+    name: 'Umbra Cruiser',
+    role: 'Dark Matter Battlecruiser',
+    tier: 'Elite',
+    unlockSector: 50,
+    cost: 420000,
+    speed: 21,
+    hull: 190,
+    shield: 240,
+    damage: 185,
+    fireRate: 'High',
+    primaryWeapon: 'Dark Energy Cannon',
+    specialAbility: 'Void Rift',
+    desc: 'Dark-matter vessel firing armor-corroding dark energy bolts and summoning swirling gravitational vortexes.'
+  },
+  void_hunter: {
+    id: 'void_hunter',
+    name: 'Abyssal Stalker',
+    role: 'Bio-Hunter',
+    tier: 'Elite',
+    unlockSector: 55,
+    cost: 520000,
+    speed: 27,
+    hull: 140,
+    shield: 200,
+    damage: 195,
+    fireRate: 'High',
+    primaryWeapon: 'Void Missile System',
+    specialAbility: 'EMP Blast',
+    desc: 'Predatory bio-mechanical fighter armed with smart tracking void micro-missiles and EMP electromagnetic bursts.'
+  },
+
+  // --- TIER 4: LEGENDARY & ULTIMATE ---
   reaper: {
     id: 'reaper',
-    name: 'Void Reaper',
-    role: 'Bio-Hybrid Flagship',
-    unlockSector: 10,
-    cost: 2000,
+    name: 'Cosmic Reaper',
+    role: 'Antimatter Assassin',
+    tier: 'Legendary',
+    unlockSector: 65,
+    cost: 650000,
     speed: 28,
-    hull: 140,
-    shield: 190,
-    damage: 180,
+    hull: 160,
+    shield: 220,
+    damage: 220,
     fireRate: 'Ultra',
-    ability: 'Antimatter Vortex (+50% Crits & 2x EMP)',
-    desc: 'Alien dark matter hybrid armed with high-frequency vortex emitters.'
+    primaryWeapon: 'Death Ray',
+    specialAbility: 'Cosmic Wave',
+    desc: 'Legendary void assassin armed with a sustained antimatter death ray (+50% crits) and screen-wide Cosmic Wave attacks.'
+  },
+  galaxy_guardian: {
+    id: 'galaxy_guardian',
+    name: 'Astral Sentinel',
+    role: 'Cosmic Bastion',
+    tier: 'Legendary',
+    unlockSector: 75,
+    cost: 850000,
+    speed: 22,
+    hull: 280,
+    shield: 280,
+    damage: 230,
+    fireRate: 'High',
+    primaryWeapon: 'Cosmic Pulse',
+    specialAbility: 'Energy Shield',
+    desc: 'Sanctuary fortress vessel with quad guardian shield pylons, wide-arc cosmic pulse cannons, and invincible shields.'
+  },
+  celestial: {
+    id: 'celestial',
+    name: 'Seraph Prime',
+    role: 'Divine Flagship',
+    tier: 'Legendary',
+    unlockSector: 85,
+    cost: 1100000,
+    speed: 29,
+    hull: 260,
+    shield: 300,
+    damage: 260,
+    fireRate: 'Max',
+    primaryWeapon: 'Celestial Beam',
+    specialAbility: 'Cosmic Wave',
+    desc: 'Divine starship with six glowing starlight wings, firing an apocalyptic celestial beam and reality-cleansing waves.'
   },
   apex: {
     id: 'apex',
     name: 'Apex Sovereign',
-    role: 'Chrono-Singularity Flagship',
-    unlockSector: 15,
-    cost: 3500,
-    speed: 30,
-    hull: 300,
-    shield: 300,
-    damage: 220,
-    fireRate: 'Max',
-    ability: 'Chrono-Overdrive & Quad Quantum Disrupters',
-    desc: 'Supreme alien-command dreadnought featuring twin singularity warp rings and chrono-field.'
+    role: 'Omega Dreadnought',
+    tier: 'Ultimate',
+    unlockSector: 100,
+    cost: 1500000,
+    speed: 32,
+    hull: 350,
+    shield: 350,
+    damage: 300,
+    fireRate: 'Supreme',
+    primaryWeapon: 'Omega Cannon',
+    specialAbility: 'Cosmic Wave',
+    desc: 'The ultimate space battle flagship. Twin singularity warp rings, reality-collapsing Omega Cannon, and unstoppable firepower.'
   }
 };
 
 function checkProgressionUnlocks() {
   const highest = Math.max(state.highestSector || 1, state.sector || 1);
   if (!state.unlockedShips) state.unlockedShips = ['valkyrie'];
-  if (!state.unlockedGalaxies) state.unlockedGalaxies = ['cosmic'];
+  if (!state.unlockedGalaxies) state.unlockedGalaxies = ['nebula'];
 
   // Check Ships
   Object.values(SHIP_DEFINITIONS).forEach(ship => {
     if (highest >= ship.unlockSector && !state.unlockedShips.includes(ship.id)) {
       state.unlockedShips.push(ship.id);
-      spawnFloatingText(player.position, `🛸 NEW SHIP UNLOCKED: ${ship.name.toUpperCase()}!`, "#00ff88");
+      spawnFloatingText(player.position, `🛸 SHIP UNLOCKED: ${ship.name.toUpperCase()}!`, "#00ff88");
       if (typeof showAchievementToast === 'function') {
         showAchievementToast({ icon: '🛸', title: 'Starfighter Unlocked', desc: `${ship.name} ready in Hangar!` });
       }
@@ -6071,7 +7295,7 @@ function checkProgressionUnlocks() {
   Object.values(GALAXIES).forEach(g => {
     if (highest >= g.unlockSector && !state.unlockedGalaxies.includes(g.id)) {
       state.unlockedGalaxies.push(g.id);
-      spawnFloatingText(player.position, `🌌 NEW GALAXY DISCOVERED: ${g.name.toUpperCase()}!`, "#00f0ff");
+      spawnFloatingText(player.position, `🌌 GALAXY DISCOVERED: ${g.name.toUpperCase()}!`, "#00f0ff");
       if (typeof showAchievementToast === 'function') {
         showAchievementToast({ icon: '🌌', title: 'Galaxy Discovered', desc: `${g.name} coordinates charted!` });
       }
@@ -6081,7 +7305,8 @@ function checkProgressionUnlocks() {
   saveGameData();
 }
 
-function openGalaxyModal() {
+function openGalaxyModal(isBack = false) {
+  if (!isBack) NavigationStack.push("galaxyModal");
   state.paused = true;
   updateGalaxyModalUI();
   const modal = document.getElementById('galaxyModal');
@@ -6098,16 +7323,26 @@ function selectGalaxy(id) {
   if (!GALAXIES[id]) return;
   const g = GALAXIES[id];
   checkProgressionUnlocks();
-  const isUnlocked = (state.unlockedGalaxies || ['cosmic']).includes(id) || (state.highestSector || 1) >= g.unlockSector;
+  if (!state.unlockedGalaxies) state.unlockedGalaxies = ['nebula'];
+
+  const isUnlocked = state.unlockedGalaxies.includes(id) || (state.highestSector || 1) >= g.unlockSector;
   if (!isUnlocked) {
-    spawnFloatingText(player.position, `LOCKED - REACH SECTOR ${g.unlockSector}!`, "#ff3366");
-    if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
-    return;
+    if (state.credits >= g.cost) {
+      state.credits -= g.cost;
+      state.unlockedGalaxies.push(id);
+      saveGameData();
+      spawnFloatingText(player.position, `🌌 ${g.name.toUpperCase()} UNLOCKED!`, "#ffd166");
+    } else {
+      spawnFloatingText(player.position, `LOCKED - REACH SECTOR ${g.unlockSector} OR ${g.cost.toLocaleString()} CR!`, "#ff3366");
+      if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
+      return;
+    }
   }
+
   applyGalaxyEnvironment(id);
   updateGalaxyModalUI();
   if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
-  spawnFloatingText(player.position, `🌌 COURSE SET: ${g.name.toUpperCase()}!`, "#00ff88");
+  spawnFloatingText(player.position, `🌌 WARP COURSE SET: ${g.name.toUpperCase()}!`, "#00ff88");
   saveGameData();
 }
 
@@ -6118,29 +7353,36 @@ function updateGalaxyModalUI() {
   grid.innerHTML = '';
 
   const highest = Math.max(state.highestSector || 1, state.sector || 1);
-  const selected = state.selectedGalaxy || 'cosmic';
+  const selected = state.selectedGalaxy || 'nebula';
 
   Object.values(GALAXIES).forEach(g => {
-    const isUnlocked = (state.unlockedGalaxies || ['cosmic']).includes(g.id) || highest >= g.unlockSector;
+    const isUnlocked = (state.unlockedGalaxies || ['nebula']).includes(g.id) || highest >= g.unlockSector;
     const isSelected = (selected === g.id);
 
     const card = document.createElement('div');
     card.className = `galaxy-card ${isSelected ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
-    card.onclick = () => { if (isUnlocked) selectGalaxy(g.id); };
+    card.onclick = () => { selectGalaxy(g.id); };
 
-    const bgGradient = g.id === 'nebula' ? 'linear-gradient(135deg, #1f0b38, #581c87, #0e031a)' :
+    const bgGradient = g.id === 'nebula' ? 'linear-gradient(135deg, #031217, #064e3b, #022c22)' :
                        g.id === 'red' ? 'linear-gradient(135deg, #2d0606, #991b1b, #160303)' :
                        g.id === 'ice' ? 'linear-gradient(135deg, #042f4b, #0284c7, #010d1a)' :
-                       g.id === 'dark' ? 'linear-gradient(135deg, #022014, #059669, #000103)' :
+                       g.id === 'dark' ? 'linear-gradient(135deg, #022014, #451a03, #000103)' :
+                       g.id === 'void' ? 'linear-gradient(135deg, #1f0b38, #581c87, #0d0317)' :
+                       g.id === 'destroyed' ? 'linear-gradient(135deg, #431407, #9a3412, #140700)' :
+                       g.id === 'legendary' ? 'linear-gradient(135deg, #422006, #ca8a04, #120e03)' :
                        'linear-gradient(135deg, #081538, #1e3a8a, #02050f)';
 
     let actionBtnHtml = '';
     if (isSelected) {
-      actionBtnHtml = `<button class="ship-action-btn equipped" style="margin-top: 6px;">SELECTED BATTLEFIELD</button>`;
+      actionBtnHtml = `<button class="ship-action-btn equipped" style="margin-top: 6px;">⭐ CURRENT BATTLEFIELD</button>`;
     } else if (isUnlocked) {
       actionBtnHtml = `<button class="ship-action-btn equip" style="margin-top: 6px;" onclick="event.stopPropagation(); selectGalaxy('${g.id}')">SELECT GALAXY</button>`;
     } else {
-      actionBtnHtml = `<button class="ship-action-btn locked" style="margin-top: 6px;" disabled>🔒 REACH SECTOR ${g.unlockSector} TO UNLOCK</button>`;
+      if (state.credits >= g.cost) {
+        actionBtnHtml = `<button class="ship-action-btn buy" style="margin-top: 6px;" onclick="event.stopPropagation(); selectGalaxy('${g.id}')">💰 BUY & WARP (${g.cost.toLocaleString()} CR)</button>`;
+      } else {
+        actionBtnHtml = `<button class="ship-action-btn locked" style="margin-top: 6px;" disabled>🔒 SEC ${g.unlockSector} OR ${g.cost.toLocaleString()} CR</button>`;
+      }
     }
 
     card.innerHTML = `
@@ -6177,7 +7419,8 @@ function selectInitialShip(type) {
   saveGameData();
 }
 
-function openPilotRegistrationModal() {
+function openPilotRegistrationModal(isBack = false) {
+  if (!isBack) NavigationStack.push("pilotModal");
   state.paused = true;
   checkProgressionUnlocks();
   const input = document.getElementById('pilotCallsignInput');
@@ -6193,10 +7436,54 @@ function openPilotRegistrationModal() {
   if (secEl) secEl.textContent = `Sector ${state.highestSector || 1}`;
   if (credsEl) credsEl.textContent = `${state.credits || 0} CR`;
 
+    // Populate pilotShipSelectGrid with full 16-ship fleet
+  const pilotGrid = document.getElementById('pilotShipSelectGrid');
+  if (pilotGrid) {
+    pilotGrid.innerHTML = '';
+    Object.values(SHIP_DEFINITIONS).forEach(ship => {
+      const isUnlocked = state.unlockedShips && state.unlockedShips.includes(ship.id);
+      const isEquipped = (state.shipType === ship.id);
+      const card = document.createElement('div');
+      card.className = `store-card ship-select-card ${isEquipped ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
+      card.id = `initShip_${ship.id}`;
+      card.onclick = () => { selectInitialShip(ship.id); };
+
+      let icon = '🚀';
+      if (ship.id === 'scout') icon = '⚡';
+      else if (ship.id === 'interceptor') icon = '🗡️';
+      else if (ship.id === 'assault') icon = '💥';
+      else if (ship.id === 'phoenix') icon = '☀️';
+      else if (ship.id === 'guardian') icon = '🛡️';
+      else if (ship.id === 'destroyer') icon = '🔨';
+      else if (ship.id === 'phantom') icon = '👻';
+      else if (ship.id === 'nova') icon = '🌟';
+      else if (ship.id === 'titan') icon = '🗿';
+      else if (ship.id === 'eclipse') icon = '🌑';
+      else if (ship.id === 'void_hunter') icon = '👾';
+      else if (ship.id === 'reaper') icon = '🌌';
+      else if (ship.id === 'galaxy_guardian') icon = '🌠';
+      else if (ship.id === 'celestial') icon = '✨';
+      else if (ship.id === 'apex') icon = '👑';
+
+      card.innerHTML = `
+        <div style="font-size: 22px; margin-bottom: 2px;">${icon}</div>
+        <div style="font-weight: 800; font-size: 11px; color: #00e5ff;">${ship.name}</div>
+        <div style="font-size: 9px; color: #9db2d9;">${ship.role}</div>
+        <div style="font-size: 9px; color: ${isUnlocked ? '#00ff88' : '#ffd166'}; margin-top: 3px; font-weight: 700;">
+          ${isEquipped ? '⭐ EQUIPPED' : (isUnlocked ? '🟢 READY' : `🔒 SEC ${ship.unlockSector}`)}
+        </div>
+      `;
+      pilotGrid.appendChild(card);
+    });
+  }
   selectInitialShip(state.shipType || 'valkyrie');
   const pilotGalaxyEl = document.getElementById('pilotGalaxyName');
   const curG = GALAXIES[state.selectedGalaxy || 'cosmic'] || GALAXIES.cosmic;
   if (pilotGalaxyEl) pilotGalaxyEl.textContent = `${curG.icon} ${curG.name}`;
+  const pilotBackBtn = document.getElementById('pilotBackBtn');
+  if (pilotBackBtn) {
+    pilotBackBtn.style.display = (NavigationStack.stack.length > 1) ? 'inline-flex' : 'none';
+  }
   if (pilotModal) pilotModal.classList.add('active');
 }
 
@@ -6268,7 +7555,8 @@ function toggleStoreModal() {
 }
 document.getElementById('storeBtn').addEventListener('click', toggleStoreModal);
 
-function openStoreModal(isSectorClear = false) {
+function openStoreModal(isSectorClear = false, isBack = false) {
+  if (!isBack) NavigationStack.push("storeModal");
   state.paused = true;
   document.getElementById('storeCreditsVal').textContent = state.credits;
   document.getElementById('storeLivesCountText').textContent = `Lives: ${state.lives}/${state.maxLives}`;
@@ -6380,38 +7668,80 @@ function updateStoreItemButtons() {
 
   // Update Hangar Ship Action Buttons and Active Cards
   checkProgressionUnlocks();
-  const shipTypes = ['valkyrie', 'titan', 'phantom', 'phoenix', 'reaper', 'apex'];
-  shipTypes.forEach(type => {
-    const card = document.getElementById(`shipCard_${type}`);
-    const btn = document.getElementById(`btnHangar_${type}`);
-    const def = SHIP_DEFINITIONS[type] || SHIP_DEFINITIONS.valkyrie;
-    const isUnlocked = state.unlockedShips && state.unlockedShips.includes(type);
-    const isEquipped = (state.shipType === type);
+  // Render full 16-ship Fleet in Hangar
+  const hangarGrid = document.getElementById('tabHangarContent');
+  if (hangarGrid) {
+    hangarGrid.innerHTML = '';
+    const highest = Math.max(state.highestSector || 1, state.sector || 1);
 
-    if (card) card.classList.toggle('active', isEquipped);
-    if (btn) {
+    Object.values(SHIP_DEFINITIONS).forEach(ship => {
+      const isUnlocked = state.unlockedShips && state.unlockedShips.includes(ship.id);
+      const isEquipped = (state.shipType === ship.id);
+      const canAfford = (state.credits >= ship.cost);
+
+      const card = document.createElement('div');
+      card.className = `ship-card ${isEquipped ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
+      card.id = `shipCard_${ship.id}`;
+      card.onclick = () => { selectStarship(ship.id); };
+
+      let icon = '🚀';
+      if (ship.id === 'scout') icon = '⚡';
+      else if (ship.id === 'interceptor') icon = '🗡️';
+      else if (ship.id === 'assault') icon = '💥';
+      else if (ship.id === 'phoenix') icon = '☀️';
+      else if (ship.id === 'guardian') icon = '🛡️';
+      else if (ship.id === 'destroyer') icon = '🔨';
+      else if (ship.id === 'phantom') icon = '👻';
+      else if (ship.id === 'nova') icon = '🌟';
+      else if (ship.id === 'titan') icon = '🗿';
+      else if (ship.id === 'eclipse') icon = '🌑';
+      else if (ship.id === 'void_hunter') icon = '👾';
+      else if (ship.id === 'reaper') icon = '🌌';
+      else if (ship.id === 'galaxy_guardian') icon = '🌠';
+      else if (ship.id === 'celestial') icon = '✨';
+      else if (ship.id === 'apex') icon = '👑';
+
+      let btnClass = 'locked';
+      let btnText = `🔒 SEC ${ship.unlockSector} OR ${ship.cost.toLocaleString()} CR`;
+      let btnDisabled = true;
+
       if (isEquipped) {
-        btn.className = 'ship-action-btn equipped';
-        btn.textContent = 'EQUIPPED';
-        btn.disabled = true;
+        btnClass = 'equipped';
+        btnText = '⭐ EQUIPPED';
+        btnDisabled = true;
       } else if (isUnlocked) {
-        btn.className = 'ship-action-btn equip';
-        btn.textContent = 'EQUIP VESSEL';
-        btn.disabled = false;
-      } else {
-        const canAfford = (state.credits >= def.cost);
-        if (canAfford) {
-          btn.className = 'ship-action-btn buy';
-          btn.textContent = `BUY: ${def.cost} CR`;
-          btn.disabled = false;
-        } else {
-          btn.className = 'ship-action-btn locked';
-          btn.textContent = `🔒 COMPLETE SECTOR ${def.unlockSector} TO UNLOCK`;
-          btn.disabled = true;
-        }
+        btnClass = 'equip';
+        btnText = '🟢 EQUIP VESSEL';
+        btnDisabled = false;
+      } else if (canAfford) {
+        btnClass = 'buy';
+        btnText = `💰 BUY & EQUIP (${ship.cost.toLocaleString()} CR)`;
+        btnDisabled = false;
       }
-    }
-  });
+
+      card.innerHTML = `
+        <div class="ship-icon">${icon}</div>
+        <div class="ship-title">${ship.name}</div>
+        <div class="ship-role">${ship.role} <span style="font-size: 8.5px; color: #ffd166;">(${ship.tier})</span></div>
+        <div class="ship-stat-row">
+          <span>Spd: ${ship.speed}</span>
+          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.speed / 32) * 100)}%; background: #00e5ff;"></div></div>
+        </div>
+        <div class="ship-stat-row">
+          <span>Hull: ${ship.hull}</span>
+          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.hull / 350) * 100)}%; background: #00ff88;"></div></div>
+        </div>
+        <div class="ship-stat-row">
+          <span>Shd: ${ship.shield}</span>
+          <div class="ship-stat-bar-bg"><div class="ship-stat-bar-fill" style="width: ${Math.min(100, (ship.shield / 350) * 100)}%; background: #00f0ff;"></div></div>
+        </div>
+        <div style="font-size: 9.5px; color: #00f0ff; margin-top: 4px; font-weight: 700;">🔫 ${ship.primaryWeapon}</div>
+        <div style="font-size: 9.0px; color: #ffd166; margin-top: 2px;">✨ ${ship.specialAbility}</div>
+        <button class="ship-action-btn ${btnClass}" id="btnHangar_${ship.id}" ${btnDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); selectStarship('${ship.id}')">${btnText}</button>
+      `;
+      hangarGrid.appendChild(card);
+    });
+  }
 }
 
 function buyWingmanDrone(slot) {
@@ -6584,7 +7914,7 @@ function handleHangarShipAction(type) {
 }
 
 function selectStarship(type) {
-  audio.init(); audio.resume();
+  if (audio) { audio.init(); audio.resume(); }
   checkProgressionUnlocks();
   const def = SHIP_DEFINITIONS[type] || SHIP_DEFINITIONS.valkyrie;
   if (!state.unlockedShips) state.unlockedShips = ['valkyrie'];
@@ -6597,13 +7927,13 @@ function selectStarship(type) {
     const cost = def.cost || 0;
     if (state.credits < cost) {
       if (typeof audio.playDeflect === 'function') audio.playDeflect();
-      spawnFloatingText(player.position, `LOCKED - REACH SECTOR ${def.unlockSector} OR ${cost} CR!`, "#ff3366");
+      spawnFloatingText(player.position, `LOCKED - REACH SECTOR ${def.unlockSector} OR ${cost.toLocaleString()} CR!`, "#ff3366");
       return;
     }
     state.credits -= cost;
     state.unlockedShips.push(type);
     saveGameData();
-    spawnFloatingText(player.position, `${def.name.toUpperCase()} PURCHASED!`, "#ffd166");
+    spawnFloatingText(player.position, `${def.name.toUpperCase()} UNLOCKED!`, "#ffd166");
   }
 
   setStarship(type);
@@ -6614,6 +7944,257 @@ function selectStarship(type) {
 }
 
 // ==========================================
+
+// ==========================================
+// SPECIAL SHIP ABILITIES SUBSYSTEM
+// ==========================================
+function updateAbilityUI() {
+  const card = document.getElementById('abilityCard');
+  const nameEl = document.getElementById('abilityNameText');
+  const subEl = document.getElementById('abilitySubText');
+  const barBg = document.getElementById('abilityCooldownBarBg');
+  const barFill = document.getElementById('abilityCooldownBarFill');
+  const cfg = SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  const ab = cfg.ability;
+
+  if (!card || !ab) return;
+  if (nameEl) nameEl.textContent = `${ab.icon} ${ab.name}`;
+
+  if (state.abilityCooldown > 0) {
+    card.classList.remove('ready');
+    const remaining = Math.ceil(state.abilityCooldown);
+    if (subEl) subEl.textContent = `CD: ${remaining}s`;
+    if (barBg && barFill) {
+      barBg.style.display = 'block';
+      const pct = Math.max(0, Math.min(100, (1 - state.abilityCooldown / (state.abilityMaxCooldown || 20)) * 100));
+      barFill.style.width = `${pct}%`;
+    }
+  } else {
+    card.classList.add('ready');
+    if (subEl) subEl.textContent = 'READY [C]';
+    if (barBg) barBg.style.display = 'none';
+  }
+}
+
+function triggerShipSpecialAbility() {
+  if (state.abilityCooldown > 0 || state.hull <= 0 || !state.running || state.paused) return;
+  const cfg = SHIP_WEAPON_CONFIG[state.shipType] || SHIP_WEAPON_CONFIG.valkyrie;
+  const ab = cfg.ability;
+  if (!ab) return;
+
+  state.abilityCooldown = ab.cooldown || 20;
+  state.abilityMaxCooldown = ab.cooldown || 20;
+
+  if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
+  spawnFloatingText(player.position, `✨ ${ab.name} ACTIVATED!`, "#00ff88");
+  triggerShake(8);
+
+  if (ab.type === 'emp') {
+    triggerEmpSingularity();
+  } else if (ab.type === 'plasma_burst') {
+    triggerPlasmaBurstAbility();
+  } else if (ab.type === 'meteor') {
+    triggerMeteorStrikeAbility();
+  } else if (ab.type === 'void_rift') {
+    triggerVoidRiftAbility();
+  } else if (ab.type === 'overdrive') {
+    triggerOverdriveAbility();
+  } else if (ab.type === 'shield') {
+    triggerEnergyShieldAbility();
+  } else if (ab.type === 'barrage') {
+    triggerLaserBarrageAbility();
+  } else if (ab.type === 'cosmic_wave') {
+    triggerCosmicWaveAbility();
+  }
+
+  updateAbilityUI();
+}
+
+function triggerPlasmaBurstAbility() {
+  const targetPos = new THREE.Vector3(state.reticleX || 0, state.reticleY || 0, -20);
+  spawnExplosionFX(targetPos, 0xff3300, 50, 3.0);
+  if (audio) audio.playExplosion(2.2);
+
+  // Damage all hostiles within AoE radius 18
+  aliens.forEach(alien => {
+    if (alien.mesh && alien.mesh.visible) {
+      const dist = alien.mesh.position.distanceTo(targetPos);
+      if (dist < 18) {
+        damageAlien(alien, 380);
+      }
+    }
+  });
+}
+
+function triggerMeteorStrikeAbility() {
+  if (audio) audio.playExplosion(1.5);
+  for (let i = 0; i < 7; i++) {
+    setTimeout(() => {
+      if (!state.running) return;
+      const strikePos = new THREE.Vector3(
+        (Math.random() - 0.5) * 22,
+        (Math.random() - 0.5) * 14,
+        -15 - Math.random() * 25
+      );
+      spawnExplosionFX(strikePos, 0xff7700, 35, 2.2);
+      triggerShake(6);
+      if (audio) audio.playTorpedoLaunch();
+      aliens.forEach(alien => {
+        if (alien.mesh && alien.mesh.visible && alien.mesh.position.distanceTo(strikePos) < 10) {
+          damageAlien(alien, 280);
+        }
+      });
+    }, i * 140);
+  }
+}
+
+function triggerVoidRiftAbility() {
+  const riftPos = new THREE.Vector3(state.reticleX || 0, state.reticleY || 0, -22);
+  spawnExplosionFX(riftPos, 0xa855f7, 40, 2.8);
+  for (let step = 0; step < 5; step++) {
+    setTimeout(() => {
+      if (!state.running) return;
+      spawnExplosionFX(riftPos, 0xd946ef, 25, 1.8);
+      aliens.forEach(alien => {
+        if (alien.mesh && alien.mesh.visible) {
+          const d = alien.mesh.position.distanceTo(riftPos);
+          if (d < 16) {
+            alien.mesh.position.lerp(riftPos, 0.25);
+            damageAlien(alien, 120);
+          }
+        }
+      });
+    }, step * 250);
+  }
+}
+
+function triggerOverdriveAbility() {
+  state.invulnTimer = Math.max(state.invulnTimer, 5.0);
+  state.autoAimActive = true;
+  state.autoAimTimer = 7.0;
+  spawnFloatingText(player.position, "🔥 MAXIMUM OVERDRIVE (5s)!", "#ffd166");
+}
+
+function triggerEnergyShieldAbility() {
+  state.invulnTimer = Math.max(state.invulnTimer, 4.5);
+  state.shield = state.maxShield;
+  if (player.userData && player.userData.shieldMat) {
+    player.userData.shieldMat.opacity = 0.85;
+  }
+  spawnFloatingText(player.position, "🛡️ IMPENETRABLE BARRIER (4.5s)!", "#00f0ff");
+}
+
+function triggerLaserBarrageAbility() {
+  if (audio) audio.playLaser();
+  for (let i = -3; i <= 3; i++) {
+    const angle = (i / 3) * 0.45;
+    const dir = new THREE.Vector3(Math.sin(angle), 0, -Math.cos(angle));
+    fireCustomBolt(player.position.clone(), dir, 80, 0x00ff88, 140);
+  }
+}
+
+function triggerCosmicWaveAbility() {
+  triggerShake(18);
+  if (audio) audio.playExplosion(2.5);
+  spawnExplosionFX(player.position, 0x00f0ff, 60, 3.5);
+
+  // Clear all enemy projectiles
+  alienBullets.forEach(b => {
+    if (b.mesh) scene.remove(b.mesh);
+  });
+  alienBullets.length = 0;
+
+  // Heavy screen-wide cosmic wipe
+  aliens.forEach(alien => {
+    if (alien.mesh && alien.mesh.visible) {
+      damageAlien(alien, 450);
+    }
+  });
+  spawnFloatingText(player.position, "🌌 COSMIC WAVE DETONATED!", "#00ffff");
+}
+
+function fireCustomBolt(startPos, dir, speed, colorHex, dmg) {
+  const geo = new THREE.CylinderGeometry(0.08, 0.08, 1.2, 6);
+  geo.rotateX(Math.PI / 2);
+  const mat = new THREE.MeshBasicMaterial({ color: colorHex });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.copy(startPos);
+  scene.add(mesh);
+  playerBullets.push({
+    mesh,
+    vx: dir.x * speed,
+    vy: dir.y * speed,
+    vz: dir.z * speed,
+    damage: dmg,
+    life: 2.2,
+    pierce: 2
+  });
+}
+
+// ==========================================
+// EMERGENCY HULL REINFORCEMENT PROTOCOL
+// ==========================================
+function getEmergencyRepairCost() {
+  const s = state.sector || 1;
+  if (s <= 10) return 10000;
+  if (s <= 20) return 25000;
+  if (s <= 30) return 50000;
+  if (s <= 50) return 100000;
+  if (s <= 75) return 200000;
+  if (s <= 100) return 350000;
+  return 500000;
+}
+
+function triggerEmergencyHullProtocol() {
+  if (state.emergencyHullUsed || state.emergencyModalOpen || state.hull <= 0) return;
+  state.emergencyModalOpen = true;
+  state.invulnTimer = Math.max(state.invulnTimer, 6.0); // Safety window while deciding
+  state.timeScale = 0.05; // Tactical bullet-time slow-mo
+
+  const cost = getEmergencyRepairCost();
+  const costEl = document.getElementById('emergencyRepairCostVal');
+  const credsEl = document.getElementById('emergencyCurrentCreditsVal');
+  const buyBtn = document.getElementById('btnBuyEmergencyHull');
+
+  if (costEl) costEl.textContent = `${cost.toLocaleString()} CR`;
+  if (credsEl) credsEl.textContent = `${(state.credits || 0).toLocaleString()} CR`;
+  if (buyBtn) {
+    buyBtn.disabled = (state.credits < cost);
+    buyBtn.style.opacity = (state.credits < cost) ? '0.5' : '1.0';
+    buyBtn.textContent = (state.credits >= cost) ? 'REPAIR HULL (+55%) 🛡️' : 'INSUFFICIENT CREDITS';
+  }
+
+  const modal = document.getElementById('emergencyHullModal');
+  if (modal) modal.classList.add('active');
+  if (audio && typeof audio.playAlarm === 'function') audio.playAlarm();
+}
+
+function confirmEmergencyHullRepair() {
+  const cost = getEmergencyRepairCost();
+  if (state.credits < cost) {
+    if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
+    return;
+  }
+
+  state.credits -= cost;
+  state.emergencyHullUsed = true;
+  const healAmount = Math.round(state.maxHull * 0.55);
+  state.hull = Math.min(state.maxHull, state.hull + healAmount);
+
+  dismissEmergencyHullModal();
+  if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
+  spawnFloatingText(player.position, `EMERGENCY HULL REINFORCED (+${healAmount} HP)!`, "#00ff88");
+  saveGameData();
+  updateHUD();
+}
+
+function dismissEmergencyHullModal() {
+  state.emergencyModalOpen = false;
+  state.timeScale = 1.0;
+  const modal = document.getElementById('emergencyHullModal');
+  if (modal) modal.classList.remove('active');
+}
+
 // 8. WEAPONS FIRING ACTIONS
 // ==========================================
 
@@ -6640,14 +8221,21 @@ function firePlasmaCannons() {
 
   let boltGeo;
   if (wep1.isHeavySlug) {
-    boltGeo = new THREE.SphereGeometry(0.25, 8, 8);
+    boltGeo = new THREE.SphereGeometry(0.28, 8, 8);
   } else if (wep1.isNeedle) {
     boltGeo = new THREE.CylinderGeometry(0.04, 0.05, 2.2, 6);
     boltGeo.rotateX(Math.PI / 2);
   } else if (wep1.isMagma) {
-    boltGeo = new THREE.SphereGeometry(0.22, 8, 8);
+    boltGeo = new THREE.SphereGeometry(0.25, 8, 8);
   } else if (wep1.isVortex) {
-    boltGeo = new THREE.OctahedronGeometry(0.22);
+    boltGeo = new THREE.OctahedronGeometry(0.25);
+  } else if (wep1.isPiercingRail) {
+    boltGeo = new THREE.CylinderGeometry(0.07, 0.07, 3.2, 6);
+    boltGeo.rotateX(Math.PI / 2);
+  } else if (wep1.isCosmicPulse) {
+    boltGeo = new THREE.TorusGeometry(0.4, 0.08, 6, 16);
+  } else if (wep1.isOmegaCannon) {
+    boltGeo = new THREE.SphereGeometry(0.45, 10, 10);
   } else {
     boltGeo = new THREE.CylinderGeometry(0.1, 0.1, 1.4, 6);
     boltGeo.rotateX(Math.PI / 2);
@@ -6663,7 +8251,17 @@ function firePlasmaCannons() {
     scene.add(mesh);
     const speed = wep1.speed || 64;
     const dmg = 1.35 * state.damageMult * (1 + (state.plasmaTier - 1) * 0.22) * (wep1.dmgMult || 1.0);
-    playerBullets.push({ mesh, vx: dir.x * speed, vy: dir.y * speed, vz: dir.z * speed, dmg, impactColor: wep1.color });
+    playerBullets.push({
+      mesh,
+      vx: dir.x * speed,
+      vy: dir.y * speed,
+      vz: dir.z * speed,
+      dmg,
+      impactColor: wep1.color,
+      isShieldCannon: !!wep1.isShieldCannon,
+      isOmegaCannon: !!wep1.isOmegaCannon,
+      pierce: wep1.isPiercingRail ? 4 : (wep1.isPhasing ? 2 : 1)
+    });
   };
 
   const cannonLPos = new THREE.Vector3();
@@ -7069,8 +8667,9 @@ function damageEnemy(enemy, dmg) {
       audio.playPromotionFanfare();
       triggerShake(18);
       spawnExplosionFX(enemy.mesh.position, 0xff0055, 50, 2.2);
-      spawnFloatingText(player.position, "🎖️ ARMADA OVERRUN REPELLED! +400 CR · +250 XP", "#00ff88");
-      state.credits += 400;
+      const armadaBounty = Math.round(1500 * Math.pow(state.sector, 1.25));
+      spawnFloatingText(player.position, `🎖️ ARMADA OVERRUN REPELLED! +${armadaBounty.toLocaleString()} CR`, "#00ff88");
+      state.credits = Math.max(0, state.credits + armadaBounty);
       addPlayerXP(250);
       trackBountyProgress('armada', 1);
 
@@ -7088,7 +8687,7 @@ function damageEnemy(enemy, dmg) {
     spawnExplosionFX(enemy.mesh.position, enemy.color, enemy.isBoss ? 55 : (enemy.isArmadaCommander ? 45 : (enemy.isElite ? 35 : 20)), enemy.isBoss ? 2.4 : 1.0);
     triggerShake(enemy.isBoss ? 18 : (enemy.isArmadaCommander ? 14 : (enemy.isElite ? 10 : 6)));
 
-    const scrapVal = (enemy.isBoss ? 160 : (enemy.isArmadaCommander ? 120 : (enemy.isElite ? 85 : (enemy.isSaucer ? 25 : 14)))) * (1 + (state.sector - 1) * 0.35);
+    const scrapVal = (enemy.isBoss ? 2500 : (enemy.isArmadaCommander ? 1200 : (enemy.isElite ? 250 : (enemy.isSaucer ? 80 : 45)))) * (1 + (state.sector - 1) * 0.45);
     spawnScrapDrop(enemy.mesh.position, Math.round(scrapVal));
 
     if (enemy.isElite || enemy.isArmadaCommander) {
@@ -7106,7 +8705,21 @@ function damageEnemy(enemy, dmg) {
     if (enemy.isBoss) {
       state.bossActive = false;
       document.getElementById('bossBarContainer').style.display = 'none';
-      setTimeout(sectorCompleted, 1600);
+
+      let bossReward = 25000;
+      if (state.sector >= 80) bossReward = 1000000;
+      else if (state.sector >= 60) bossReward = 500000;
+      else if (state.sector >= 40) bossReward = 200000;
+      else if (state.sector >= 20) bossReward = 75000;
+
+      state.credits = Math.max(0, state.credits + bossReward);
+      audio.playPromotionFanfare();
+      triggerShake(22);
+      spawnExplosionFX(enemy.mesh.position, 0xffd166, 60, 3.0);
+      spawnFloatingText(player.position, `👑 TITAN OVERLORD DESTROYED! +${bossReward.toLocaleString()} CR`, "#ffd166");
+      saveGameData();
+      updateHUD();
+      setTimeout(sectorCompleted, 1800);
     }
   } else {
     if (enemy.mesh.userData.brain) {
@@ -7178,8 +8791,11 @@ function damagePlayer(amount) {
     state.hull = Math.max(0, state.hull - amount);
     audio.playExplosion(0.8);
     spawnExplosionFX(player.position, 0xff3366, 12, 0.8);
-    if (state.hull <= 30 && state.hull > 0) {
+        if (state.hull <= 30 && state.hull > 0) {
       spawnFloatingText(player.position, "⚠️ CRITICAL! EVASIVE ROLL [SHIFT]!", "#ff0055");
+    }
+    if (state.hull > 0 && (state.hull / state.maxHull) <= 0.20 && !state.emergencyHullUsed && !state.emergencyModalOpen) {
+      triggerEmergencyHullProtocol();
     }
   }
   updateHUD();
@@ -7586,14 +9202,15 @@ function sectorCompleted() {
   state.warpTimer = 2.8;
 
   audio.speak(`Sector ${state.sector} cleared. Hyperspace warp jump engaged.`);
+  const sectorReward = Math.round(500 * Math.pow(state.sector, 1.25));
   addScore(1500 * state.sector);
-  state.credits += 250 * state.sector;
+  state.credits = Math.max(0, state.credits + sectorReward);
   addPlayerXP(100 * state.sector);
   state.armadaOverrunActive = false;
   state.highestSector = Math.max(state.highestSector || 1, state.sector + 1);
   checkProgressionUnlocks();
   saveGameData();
-  spawnFloatingText(player.position, `SECTOR CLEARED! +${250 * state.sector} CR · +${100 * state.sector} XP`, "#ffd166");
+  spawnFloatingText(player.position, `SECTOR CLEARED! +${sectorReward.toLocaleString()} CR · +${100 * state.sector} XP`, "#ffd166");
   updateHUD();
 }
 
@@ -8099,6 +9716,13 @@ const clock = new THREE.Clock();
 let waveTime = 0;
 
 function update(dt) {
+  dt *= (state.timeScale !== undefined ? state.timeScale : 1.0);
+
+  // Ability Cooldown Timer
+  if (state.abilityCooldown > 0) {
+    state.abilityCooldown = Math.max(0, state.abilityCooldown - dt);
+    updateAbilityUI();
+  }
 
   // Starfield parallax + Warp acceleration
   const starAttr = starField.geometry.attributes.position;
@@ -8690,13 +10314,28 @@ function update(dt) {
       if (b.mesh.position.distanceTo(e.mesh.position) < hitDist) {
         if (b.isTorpedo) {
           detonateTorpedo(b.mesh.position, b.blastRadius, b.dmg, b.torpColor || 0x00ffff);
+          b.mesh.position.z = -9999;
+          scene.remove(b.mesh);
+          break;
         } else {
           damageEnemy(e, b.dmg);
-          spawnExplosionFX(b.mesh.position, b.impactColor || 0x00f0ff, 5, 0.4);
+          spawnExplosionFX(b.mesh.position, b.impactColor || 0x00f0ff, 6, 0.45);
+          if (b.isShieldCannon) {
+            state.shield = Math.min(state.maxShield, state.shield + 2.5);
+            updateHUD();
+          }
+          if (b.isOmegaCannon) {
+            spawnExplosionFX(b.mesh.position, 0x00f0ff, 25, 2.0);
+            triggerShake(4);
+          }
         }
-        b.mesh.position.z = -9999;
-        scene.remove(b.mesh);
-        break;
+        if (b.pierce && b.pierce > 1) {
+          b.pierce--;
+        } else {
+          b.mesh.position.z = -9999;
+          scene.remove(b.mesh);
+          break;
+        }
       }
     }
   }
@@ -8926,5 +10565,33 @@ updateHUD();
 openPilotRegistrationModal();
 loop();
 </script>
+
+  <!-- EMERGENCY CRITICAL HULL PROTOCOL MODAL -->
+  <div id="emergencyHullModal" class="modal-overlay">
+    <div class="modal-card" style="border-color: #ff0055; box-shadow: 0 0 50px rgba(255, 0, 85, 0.6); max-width: 520px; text-align: center;">
+      <div style="font-size: 42px; margin-bottom: 6px; filter: drop-shadow(0 0 16px rgba(255, 0, 85, 0.8));">⚠️</div>
+      <h2 class="modal-title" style="color: #ff0055; margin-bottom: 4px;">CRITICAL HULL INTEGRITY</h2>
+      <div style="font-size: 13px; font-weight: 800; color: #ffd166; margin-bottom: 12px; letter-spacing: 1px;">EMERGENCY HULL REINFORCEMENT AVAILABLE</div>
+      <p style="font-size: 12px; color: #9db2d9; line-height: 1.5; margin-bottom: 16px;">
+        Vessel structural collapse imminent! Automated nanite reinforcement can restore <strong>+55% Hull Reinforcement</strong> immediately.
+        <br><span style="color: #ff7700; font-size: 11px; font-weight: 700;">(Tactical protocol: exactly 1 emergency repair available per combat sector)</span>
+      </p>
+      <div style="background: rgba(255, 0, 85, 0.1); border: 1px solid rgba(255, 0, 85, 0.35); border-radius: 8px; padding: 12px; margin-bottom: 18px; text-align: left;">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+          <span style="color: #8da4cf;">REPAIR COST:</span>
+          <span style="font-weight: 800; color: #ffd166;" id="emergencyRepairCostVal">10,000 CR</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+          <span style="color: #8da4cf;">CREDIT BALANCE:</span>
+          <span style="font-weight: 800; color: #00ff88;" id="emergencyCurrentCreditsVal">0 CR</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button id="btnBuyEmergencyHull" class="btn-primary" onclick="confirmEmergencyHullRepair()" style="background: linear-gradient(180deg, #00ff88, #00bb66); color: #081024; font-weight: 800; border: none; padding: 10px 22px; box-shadow: 0 0 16px rgba(0, 255, 136, 0.5);">REPAIR HULL (+55%) 🛡️</button>
+        <button class="btn-secondary" onclick="dismissEmergencyHullModal()" style="border-color: #64748b; color: #94a3b8; padding: 10px 18px;">DISMISS / EVADE</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
