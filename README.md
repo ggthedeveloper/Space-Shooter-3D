@@ -94,6 +94,16 @@ When your vessel's hull integrity drops to **20% or below**, an animated combat 
 
 ---
 
+## 🚀 4. Extra Life Reserve Purchase (40,000 CR Every Time)
+
+Pilots can deploy additional reserve starfighter lives for **40,000 Credits every time** without arbitrary life caps:
+- **Armory Systems Store**: Available directly under the Tactical Armory `Systems` tab (`[B]` key).
+- **Direct HUD Click**: Clicking on the top-left HUD lives indicator (`[LIVES 🚀 🚀 🚀]`) instantly purchases +1 Extra Life for 40,000 CR during flight.
+- **Pilot Enlistment Hangar**: Purchase reserve starfighter lives before launching into combat directly from the pilot records briefing.
+- **Game Over Emergency Reinforcement**: If all lives are lost with 40,000+ credits in your bank, click **"REINFORCE WITH +1 EXTRA LIFE & RESUME (40,000 CR)"** to respawn immediately with invulnerability shields and keep your current sector progress!
+
+---
+
 ## 🎼 4. Interstellar-Inspired Procedural Cinematic Soundtrack (12 Tracks)
 
 100% Web Audio API procedural synthesizer engine with dynamic category routing and in-game track cycling:

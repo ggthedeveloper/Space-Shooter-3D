@@ -1505,8 +1505,8 @@
           <div class="bar-label"><span>Shields</span><span id="shieldVal">100%</span></div>
           <div class="meter-bg"><div id="shieldFill" class="meter-fill" style="width: 100%;"></div></div>
         </div>
-        <!-- 3 LIVES INDICATOR -->
-        <div id="livesContainer">
+        <!-- 3 LIVES INDICATOR (Click to buy +1 Extra Life for 40,000 CR) -->
+        <div id="livesContainer" onclick="buyExtraLife()" style="cursor: pointer;" title="Click to deploy +1 Reserve Life for 40,000 Credits">
           <div class="bar-label" style="color: #ff3366;"><span>LIVES</span><span id="livesVal">3/3</span></div>
           <div id="livesIconsRow">
             <span>🚀</span><span>🚀</span><span>🚀</span>
@@ -1796,7 +1796,7 @@
       </div>
 
       <!-- Pilot Career Records & New Features Row -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-bottom: 14px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 14px;">
         <div class="store-card" style="padding: 10px; text-align: left;">
           <div style="font-size: 10px; color: #8da4cf; font-weight: 800;">CAREER HIGH SCORE</div>
           <div style="font-size: 18px; font-weight: 800; color: #00f0ff;" id="pilotRecHighScore">0</div>
@@ -1812,6 +1812,13 @@
         <div class="store-card" style="padding: 10px; text-align: left;">
           <div style="font-size: 10px; color: #8da4cf; font-weight: 800;">SCRAP BANK</div>
           <div style="font-size: 18px; font-weight: 800; color: #ffaa00;" id="pilotRecCredits">0 CR</div>
+        </div>
+        <div class="store-card" style="padding: 10px; text-align: left; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="font-size: 10px; color: #ff3366; font-weight: 800;">RESERVE LIVES</div>
+            <div style="font-size: 18px; font-weight: 800; color: #ff3366;" id="pilotRecLives">3</div>
+          </div>
+          <button class="btn-primary" onclick="buyExtraLifeFromPilotModal()" style="padding: 4px 8px; font-size: 9px; font-weight: 800; background: linear-gradient(180deg, #ff3366, #cc0044); border: none; margin-top: 4px; cursor: pointer;">+1 LIFE (40K CR)</button>
         </div>
       </div>
 
@@ -1919,15 +1926,15 @@
       <!-- Tab Content: Systems & Lives -->
       <div class="store-grid" id="tabSystemsContent" style="display: none;">
         <!-- Buy Extra Life -->
-        <div class="store-card" style="border-color: rgba(255, 51, 102, 0.4);">
+        <div class="store-card" style="border-color: rgba(255, 51, 102, 0.5); background: rgba(255, 51, 102, 0.05);">
           <div class="store-card-header">
-            <span class="store-card-title" style="color: #ff3366;">Reserve Starfighter (+1 Life)</span>
-            <span class="store-card-cost">500 CR</span>
+            <span class="store-card-title" style="color: #ff3366;">🚀 Reserve Starfighter (+1 Extra Life)</span>
+            <span class="store-card-cost" style="color: #ffd166;">40,000 CR</span>
           </div>
-          <div class="store-card-desc">Deploy an additional reserve vessel. Automatically respawns with invulnerability shield upon destruction (Max 5).</div>
+          <div class="store-card-desc">Deploy an additional reserve starfighter into your squadron. Automatically respawns with an invulnerability shield upon destruction. Can be purchased repeatedly for 40,000 Credits every time!</div>
           <div class="store-card-action">
-            <span style="font-size: 11px; color: #ff3366;" id="storeLivesCountText">Lives: 3/5</span>
-            <button class="store-buy-btn" id="buyLifeBtn" onclick="buyExtraLife()">PURCHASE</button>
+            <span style="font-size: 11px; color: #ff3366; font-weight: 800;" id="storeLivesCountText">Lives: 3</span>
+            <button class="store-buy-btn" id="buyLifeBtn" onclick="buyExtraLife()" style="background: linear-gradient(180deg, #ff3366, #cc0044); font-weight: 800;">BUY +1 LIFE (40,000 CR)</button>
           </div>
         </div>
         <!-- Hull Upgrade -->
@@ -2333,8 +2340,9 @@
         <div class="stat-card"><div class="stat-label">Scrap Recovered</div><div class="stat-val" id="finalCreditsVal">0 CR</div></div>
       </div>
 
-      <div style="margin-top: 24px;">
-        <button id="retryBtn" class="btn-primary">REDEPLOY SQUADRON</button>
+      <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <button id="buyLifeGameOverBtn" class="btn-primary" onclick="buyLifeAndContinueFromGameOver()" style="background: linear-gradient(180deg, #ff3366, #cc0044); border: none; font-size: 12px; font-weight: 800; padding: 10px 18px; box-shadow: 0 0 16px rgba(255, 51, 102, 0.5);">REINFORCE WITH +1 EXTRA LIFE & RESUME (40,000 CR) 🚀</button>
+        <button id="retryBtn" class="btn-secondary" style="border-color: #00f0ff; color: #00f0ff;">REDEPLOY SQUADRON (RESTART MISSION)</button>
       </div>
 
       <!-- Developer Credit Footer (Non-clickable) -->
@@ -8277,11 +8285,13 @@ function openPilotRegistrationModal(isBack = false) {
   const killsEl = document.getElementById('pilotRecKills');
   const secEl = document.getElementById('pilotRecSector');
   const credsEl = document.getElementById('pilotRecCredits');
+  const livesEl = document.getElementById('pilotRecLives');
 
   if (hsEl) hsEl.textContent = state.highScore || 0;
   if (killsEl) killsEl.textContent = state.totalAliensKilled || 0;
   if (secEl) secEl.textContent = `Sector ${state.highestSector || 1}`;
   if (credsEl) credsEl.textContent = `${(state.credits || 0).toLocaleString()} CR`;
+  if (livesEl) livesEl.textContent = state.lives || 3;
 
   pilotInspectedShip = state.shipType || 'valkyrie';
   renderPilotShipSelectionGrid();
@@ -8369,7 +8379,7 @@ function openStoreModal(isSectorClear = false, isBack = false) {
   if (!isBack) NavigationStack.push("storeModal");
   state.paused = true;
   document.getElementById('storeCreditsVal').textContent = state.credits;
-  document.getElementById('storeLivesCountText').textContent = `Lives: ${state.lives}/${state.maxLives}`;
+  document.getElementById('storeLivesCountText').textContent = `Current Lives: ${state.lives}`;
   document.getElementById('storeHullText').textContent = `Max: ${state.maxHull}`;
   document.getElementById('storeShieldText').textContent = `Regen: ${state.shieldRechargeRate}/s`;
   document.getElementById('storeMissileStockText').textContent = `Current: ${state.missileStock}/${state.maxMissiles}`;
@@ -8424,7 +8434,11 @@ function updateStoreItemButtons() {
   if (buyFlakBtn) buyFlakBtn.disabled = (state.flakTier >= 10 || state.credits < flakCost);
   if (buyTorpBtn) buyTorpBtn.disabled = (state.torpedoTier >= 10 || state.credits < torpCost);
   if (buyTeslaBtn) buyTeslaBtn.disabled = (state.teslaTier >= 10 || state.credits < teslaCost);
-  if (buyLifeBtn) buyLifeBtn.disabled = (state.lives >= state.maxLives || state.credits < 500);
+  if (buyLifeBtn) {
+    const canAffordLife = (state.credits >= 40000);
+    buyLifeBtn.disabled = !canAffordLife;
+    buyLifeBtn.textContent = canAffordLife ? 'BUY +1 LIFE (40,000 CR)' : 'NEED 40,000 CR';
+  }
 
   const plasmaCostText = document.getElementById('plasmaCostText');
   const railgunCostText = document.getElementById('railgunCostText');
@@ -8449,7 +8463,7 @@ function updateStoreItemButtons() {
   if (flakTierText) flakTierText.textContent = state.flakTier >= 10 ? 'MAX POWER' : `Tier ${state.flakTier} / 10`;
   if (torpTierText) torpTierText.textContent = state.torpedoTier >= 10 ? 'MAX POWER' : `Tier ${state.torpedoTier} / 10`;
   if (teslaTierText) teslaTierText.textContent = state.teslaTier >= 10 ? 'MAX POWER' : `Tier ${state.teslaTier} / 10`;
-  document.getElementById('storeLivesCountText').textContent = `Lives: ${state.lives}/${state.maxLives}`;
+  document.getElementById('storeLivesCountText').textContent = `Current Lives: ${state.lives}`;
 
   // Autonomous Wingman Drone Buttons
   const buyDroneAlphaBtn = document.getElementById('buyDroneAlphaBtn');
@@ -8651,15 +8665,60 @@ function quickUpgrade(type) {
 }
 
 function buyExtraLife() {
-  if (state.credits >= 500 && state.lives < state.maxLives) {
-    state.credits -= 500;
-    state.lives++;
-    audio.playPowerup();
-    audio.speak("Reserve starfighter deployed to hangar.");
-    saveGameData();
-    updateStoreItemButtons();
-    updateHUD();
+  const LIFE_COST = 40000;
+  if ((state.credits || 0) < LIFE_COST) {
+    if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
+    spawnFloatingText(player ? player.position : { x: 0, y: 0, z: 0 }, "INSUFFICIENT CREDITS (NEED 40,000 CR)!", "#ff3366");
+    return;
   }
+
+  state.credits -= LIFE_COST;
+  state.lives = (state.lives || 0) + 1;
+  state.maxLives = Math.max(state.maxLives || 5, state.lives);
+
+  if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
+  if (audio && typeof audio.speak === 'function') audio.speak("Reserve starfighter deployed to fleet reserves.");
+  spawnFloatingText(player ? player.position : { x: 0, y: 0, z: 0 }, `+1 EXTRA LIFE ACQUIRED! (${state.lives} TOTAL)`, "#00ff88");
+
+  saveGameData();
+  updateStoreItemButtons();
+  updateHUD();
+
+  const pilotRecLives = document.getElementById('pilotRecLives');
+  if (pilotRecLives) pilotRecLives.textContent = state.lives;
+  const pilotRecCredits = document.getElementById('pilotRecCredits');
+  if (pilotRecCredits) pilotRecCredits.textContent = `${(state.credits || 0).toLocaleString()} CR`;
+}
+
+function buyExtraLifeFromPilotModal() {
+  buyExtraLife();
+}
+
+function buyLifeAndContinueFromGameOver() {
+  const LIFE_COST = 40000;
+  if ((state.credits || 0) < LIFE_COST) {
+    if (audio && typeof audio.playDeflect === 'function') audio.playDeflect();
+    alert(`Insufficient credits! 40,000 CR required to deploy emergency reserve starfighter (You have ${(state.credits || 0).toLocaleString()} CR).`);
+    return;
+  }
+
+  state.credits -= LIFE_COST;
+  state.lives = 1;
+  state.maxLives = Math.max(state.maxLives || 5, state.lives);
+  state.hull = state.maxHull;
+  state.shield = state.maxShield;
+  state.invulnTimer = 4.0;
+  state.paused = false;
+
+  const gameOverModal = document.getElementById('gameOverModal');
+  if (gameOverModal) gameOverModal.classList.remove('active');
+
+  if (audio && typeof audio.playPowerup === 'function') audio.playPowerup();
+  if (audio && typeof audio.playCategoryMusic === 'function') audio.playCategoryMusic('NORMAL_BATTLE');
+
+  spawnFloatingText(player ? player.position : { x: 0, y: 0, z: 0 }, "EMERGENCY STARFIGHTER DEPLOYED (+1 LIFE)! -40,000 CR", "#00ff88");
+  saveGameData();
+  updateHUD();
 }
 
 function buyHullUpgrade() {
@@ -9679,6 +9738,13 @@ function playerDestroyed() {
     document.getElementById('highScoreVal').textContent = state.highScore;
     document.getElementById('finalSectorVal').textContent = state.sector;
     document.getElementById('finalCreditsVal').textContent = `${state.credits} CR`;
+    const buyLifeGameOverBtn = document.getElementById('buyLifeGameOverBtn');
+    if (buyLifeGameOverBtn) {
+      const canAfford = ((state.credits || 0) >= 40000);
+      buyLifeGameOverBtn.disabled = !canAfford;
+      buyLifeGameOverBtn.style.opacity = canAfford ? '1.0' : '0.5';
+      buyLifeGameOverBtn.textContent = canAfford ? 'REINFORCE WITH +1 EXTRA LIFE & RESUME (40,000 CR) 🚀' : 'NEED 40,000 CR TO RESUME MISSION';
+    }
     document.getElementById('gameOverModal').classList.add('active');
   }, 1200);
 }
