@@ -3,8 +3,13 @@
  * Universal back stack, modals (Pilot, Store, Galaxy, Tutorial, Game Over)
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { renderAchievementsMenu, renderMenuRankAndBounty, updateGalaxyModalUI, renderPilotShipSelectionGrid, updatePilotShipDetailUI, updateHUD, updateStoreItemButtons } from "./ui.js";
+import { startMission } from "./game.js";
+import { checkProgressionUnlocks } from "./progression.js";
+import { GALAXIES } from "./galaxies.js";
+import { saveGameData } from "./save.js";
 
 const NavigationStack = {
   stack: [],

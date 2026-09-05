@@ -15,8 +15,14 @@ const triggerShake = (...args) => (window.triggerShake ? window.triggerShake(...
  * Extraterrestrial bio-mechanical ships, cockpits, shields, attacks, and bosses
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { scene, enemyBullets } from "./game.js";
+import { player } from "./player.js";
+import { addPlayerXP, unlockAchievement } from "./progression.js";
+import { saveGameData } from "./save.js";
+import { sectorCompleted } from "./sectors.js";
+import { updateHUD } from "./ui.js";
 
 // Procedural Alien Meshes & Living Cockpit
 function buildRealisticAlienPilot(skinColorHex = 0x6e8b6b) {

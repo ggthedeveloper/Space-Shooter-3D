@@ -3,10 +3,19 @@
  * Three.js scene, camera, renderer, starfield, asteroids, drones, entities, and main loop
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
-import { BOUNDS, player, keys, isMouseDown, isRightMouseDown } from './player.js';
-import { buildContinuousBeam, buildWingmanDroneMesh } from './ships.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { BOUNDS, player, keys, isMouseDown, isRightMouseDown, damagePlayer, touchAxes, playerPointLight } from "./player.js";
+import { buildContinuousBeam, buildWingmanDroneMesh, setStarship } from "./ships.js";
+import { spawnExplosionFX, triggerShake, spawnFloatingText, updateHUD, updateAbilityUI, updateComms, updateWeaponDockForShip } from "./ui.js";
+import { saveGameData } from "./save.js";
+import { trackBountyProgress, addPlayerXP, unlockAchievement, activateAutoAim } from "./progression.js";
+import { loadSector, triggerArmadaOverrunEvent, spawnReinforcementWave, sectorCompleted } from "./sectors.js";
+import { nebulaCloudGroup, applyGalaxyEnvironment } from "./galaxies.js";
+import { openStoreModal } from "./menu.js";
+import { damageEnemy, enemyFire, enemyFireSpread, enemyFireHomingOrb } from "./enemies.js";
+import { SHIP_WEAPON_CONFIG, fireActiveWeapon, detonateTorpedo } from "./weapons.js";
+import { collectPowerup } from "./economy.js";
 
 // Three.js Scene, Camera, Renderer & Lights
 const canvas = document.getElementById('gameCanvas');
@@ -72,6 +81,8 @@ const raycaster = new THREE.Raycaster();
 const aimPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 32);
 const aimTargetPoint = new THREE.Vector3(0, 0, -32);
 let currentMouseNDC = new THREE.Vector2(0, 0);
+let reticleEl = typeof document !== 'undefined' ? document.getElementById('aimReticle') : null;
+let reticleTextEl = typeof document !== 'undefined' ? document.getElementById('aimReticleText') : null;
 
 // Continuous Laser Beam & Wingman Drones
 export const continuousBeam = buildContinuousBeam();
@@ -354,6 +365,8 @@ let waveTime = 0;
 
 function update(dt) {
   dt *= (state.timeScale !== undefined ? state.timeScale : 1.0);
+  if (!reticleEl && typeof document !== 'undefined') reticleEl = document.getElementById('aimReticle');
+  if (!reticleTextEl && typeof document !== 'undefined') reticleTextEl = document.getElementById('aimReticleText');
 
   // Ability Cooldown Timer
   if (state.abilityCooldown > 0) {
@@ -1184,5 +1197,6 @@ if (typeof window !== 'undefined') {
   window.scrapDrops = scrapDrops;
   window.asteroids = asteroids;
   window.startMission = startMission;
+  window.update = update;
   window.loop = loop;
 }

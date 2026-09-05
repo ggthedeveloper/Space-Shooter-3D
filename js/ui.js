@@ -11,8 +11,15 @@ const checkProgressionUnlocks = (...args) => (window.checkProgressionUnlocks ? w
  * Heads-up display updates, floating damage numbers, reticle crosshair, store & galaxy cards
  */
 
-import { state, RANKS, BOUNTY_POOL, ACHIEVEMENTS_LIST } from './state.js';
-import { audio } from './audio.js';
+import { state, RANKS, BOUNTY_POOL, ACHIEVEMENTS_LIST } from "./state.js";
+import { audio } from "./audio.js";
+import { scene, camera, renderer, raycaster, aimPlane, aimTargetPoint, currentMouseNDC, enemies, particles } from "./game.js";
+import { isMouseDown, isRightMouseDown, setMouseDown, setRightMouseDown } from "./player.js";
+import { SHIP_WEAPON_CONFIG, fireMissile } from "./weapons.js";
+import { getPlayerRank } from "./progression.js";
+import { GALAXIES, selectGalaxy } from "./galaxies.js";
+import { SHIP_DEFINITIONS, setStarship } from "./ships.js";
+import { equipPilotShip, buyAndEquipPilotShip, selectStarship } from "./economy.js";
 
 // Reticle and mouse coordinate targeting elements
 const reticleEl = document.getElementById('aimReticle');
@@ -39,12 +46,12 @@ window.addEventListener('mousemove', e => {
 window.addEventListener('mousedown', e => {
   audio.init(); audio.resume();
   updateAimCoordinates(e.clientX, e.clientY);
-  if (e.button === 0) isMouseDown = true;
-  if (e.button === 2) { e.preventDefault(); isRightMouseDown = true; fireMissile(); }
+  if (e.button === 0) setMouseDown(true);
+  if (e.button === 2) { e.preventDefault(); setRightMouseDown(true); fireMissile(); }
 });
 window.addEventListener('mouseup', e => {
-  if (e.button === 0) isMouseDown = false;
-  if (e.button === 2) isRightMouseDown = false;
+  if (e.button === 0) setMouseDown(false);
+  if (e.button === 2) setRightMouseDown(false);
 });
 window.addEventListener('contextmenu', e => e.preventDefault());
 

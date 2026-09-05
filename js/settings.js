@@ -3,8 +3,10 @@
  * Volume sliders, mute, calm space mode, music style selector, and fullscreen
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { startMission } from "./game.js";
+import { openTutorialModal } from "./menu.js";
 
 const volumeBtn = document.getElementById('volumeBtn');
 const volumePopover = document.getElementById('volumePopover');

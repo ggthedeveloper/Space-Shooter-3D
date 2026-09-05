@@ -3,8 +3,14 @@
  * Scrap drops, credit purchases, 40,000 CR extra life, 20,000 CR hull repair, and armory upgrades
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { scene, scrapDrops, powerups } from "./game.js";
+import { spawnExplosionFX, spawnFloatingText, updateHUD, updateStoreItemButtons, renderPilotShipSelectionGrid, updatePilotShipDetailUI } from "./ui.js";
+import { player } from "./player.js";
+import { activateAutoAim, unlockAchievement, checkProgressionUnlocks } from "./progression.js";
+import { saveGameData } from "./save.js";
+import { SHIP_DEFINITIONS, setStarship } from "./ships.js";
 
 function spawnScrapDrop(pos, val) {
   const geo = new THREE.BoxGeometry(0.3, 0.3, 0.3);

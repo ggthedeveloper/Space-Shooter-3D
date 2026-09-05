@@ -3,8 +3,14 @@
  * XP accumulation, military ranks, tactical bounties, achievements, and 7-second auto-aim
  */
 
-import { state, RANKS, BOUNTY_POOL, ACHIEVEMENTS_LIST, CALLSIGN_PRESETS } from './state.js';
-import { audio } from './audio.js';
+import { state, RANKS, BOUNTY_POOL, ACHIEVEMENTS_LIST, CALLSIGN_PRESETS } from "./state.js";
+import { audio } from "./audio.js";
+import { showAchievementToast, spawnFloatingText, updateHUD, updateBountyHUD, renderAchievementsMenu, triggerShake } from "./ui.js";
+import { player } from "./player.js";
+import { saveGameData } from "./save.js";
+import { SHIP_DEFINITIONS } from "./ships.js";
+import { GALAXIES } from "./galaxies.js";
+import { buyAutoAimReboot } from "./economy.js";
 
 function getPlayerRank(xp) {
   let cur = RANKS[0];

@@ -3,20 +3,29 @@
  * Starfighter group, flight boundaries, keyboard/touch input, barrel rolls, and damage
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { toggleMenuModal, toggleStoreModal, toggleTutorialModal } from "./menu.js";
+import { switchWeapon, triggerHyperOvercharge, fireMissile, triggerEmp } from "./weapons.js";
+import { updateAimCoordinates, spawnFloatingText, triggerShake, spawnExplosionFX, updateHUD } from "./ui.js";
+import { quickRebootAutoAim } from "./progression.js";
+import { triggerEmergencyHullProtocol } from "./economy.js";
+import { saveGameData } from "./save.js";
 
-export const BOUNDS = { minX: -11.5, maxX: 11.5, minY: -3.5, maxY: 6.5, playerZ: 10 };
+const BOUNDS = { minX: -11.5, maxX: 11.5, minY: -3.5, maxY: 6.5, playerZ: 10 };
 
-export const playerPointLight = new THREE.PointLight(0x00f0ff, 1.2, 12);
-export const player = new THREE.Group();
+const playerPointLight = new THREE.PointLight(0x00f0ff, 1.2, 12);
+const player = new THREE.Group();
 player.position.set(0, 0, BOUNDS.playerZ);
 player.add(playerPointLight);
 
 // Controls and Input Handling
 const keys = {};
+const inputState = { isMouseDown: false, isRightMouseDown: false };
 let isMouseDown = false;
 let isRightMouseDown = false;
+function setMouseDown(val) { isMouseDown = val; inputState.isMouseDown = val; if (typeof window !== "undefined") window.isMouseDown = val; }
+function setRightMouseDown(val) { isRightMouseDown = val; inputState.isRightMouseDown = val; if (typeof window !== "undefined") window.isRightMouseDown = val; }
 
 window.addEventListener('keydown', e => {
   audio.init(); audio.resume();
@@ -208,6 +217,12 @@ function playerDestroyed() {
 
 
 export {
+  BOUNDS,
+  playerPointLight,
+  player,
+  inputState,
+  setMouseDown,
+  setRightMouseDown,
   keys,
   isMouseDown,
   isRightMouseDown,

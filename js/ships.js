@@ -3,7 +3,9 @@
  * 16 Starships with full stats, 3D procedural geometries & materials
  */
 
-import { state } from './state.js';
+import { state } from "./state.js";
+import { player } from "./player.js";
+import { updateWeaponDockForShip, updateAbilityUI, updateHUD } from "./ui.js";
 
 const SHIP_DEFINITIONS = {
   // --- TIER 1: BASIC ---

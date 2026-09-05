@@ -18,3 +18,10 @@ export function randChoice(arr) {
 export function formatCr(val) {
   return (val || 0).toLocaleString() + ' CR';
 }
+
+if (typeof window !== "undefined") {
+  window.clamp = clamp;
+  window.randRange = randRange;
+  window.randChoice = randChoice;
+  window.formatCr = formatCr;
+}

@@ -3,8 +3,15 @@
  * Sector generation, alien waves, dynamic armada overruns, boss encounters, and warp
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { scene, enemies, camera } from "./game.js";
+import { createAlienMesh, attachAlienShield, buildLeviathanBoss, buildArmadaCommanderMesh } from "./enemies.js";
+import { updateHostilesHUD, spawnExplosionFX, triggerShake, spawnFloatingText, addScore, updateHUD } from "./ui.js";
+import { player } from "./player.js";
+import { unlockAchievement, addPlayerXP, checkProgressionUnlocks } from "./progression.js";
+import { saveGameData } from "./save.js";
+import { closeStoreModal } from "./menu.js";
 
 const SECTOR_NAMES = [
   "DEEP SPACE PERIMETER",

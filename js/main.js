@@ -3,24 +3,32 @@
  * Boots modules, wires window events, synchronizes UI, and initiates the cosmic campaign
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
-import { loadGameData } from './save.js';
-import { setStarship } from './ships.js';
-import { applyGalaxyEnvironment } from './galaxies.js';
-import { checkProgressionUnlocks } from './progression.js';
-import { openPilotRegistrationModal } from './menu.js';
-import { updateHUD, renderAchievementsMenu } from './ui.js';
-import { startMission, loop, renderer, camera } from './game.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { loadGameData } from "./save.js";
+import { setStarship } from "./ships.js";
+import { applyGalaxyEnvironment } from "./galaxies.js";
+import { checkProgressionUnlocks } from "./progression.js";
+import { openPilotRegistrationModal } from "./menu.js";
+import { updateHUD, renderAchievementsMenu } from "./ui.js";
+import { startMission, loop, renderer, camera } from "./game.js";
+
+// Ensure all submodules are loaded and registered
+import "./utils.js";
+import "./player.js";
+import "./weapons.js";
+import "./enemies.js";
+import "./sectors.js";
+import "./economy.js";
+import "./settings.js";
 
 // Global error handlers
-window.addEventListener('error', (e) => {
+window.addEventListener("error", (e) => {
   console.error("Global window error:", e.error || e);
 });
-window.addEventListener('unhandledrejection', (e) => {
+window.addEventListener("unhandledrejection", (e) => {
   console.error("Unhandled Promise:", e.reason);
 });
-
 
 // Viewport Resize Handler
 function onResize() {
@@ -32,10 +40,13 @@ function onResize() {
     camera.updateProjectionMatrix();
   }
 }
-window.addEventListener('resize', onResize);
+window.addEventListener("resize", onResize);
 
-// Initialize Career Progress and Starfighter Launch
-window.addEventListener('DOMContentLoaded', () => {
+// Initialize Career Progress and Starfighter Launch with deduplication guard
+let gameBooted = false;
+function bootGame() {
+  if (gameBooted) return;
+  gameBooted = true;
   onResize();
   loadGameData();
   renderAchievementsMenu();
@@ -43,17 +54,12 @@ window.addEventListener('DOMContentLoaded', () => {
   updateHUD();
   openPilotRegistrationModal();
   loop();
-});
+}
 
-// If DOMContentLoaded already fired
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  onResize();
-  loadGameData();
-  renderAchievementsMenu();
-  startMission();
-  updateHUD();
-  openPilotRegistrationModal();
-  loop();
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", bootGame);
+} else {
+  bootGame();
 }
 
 export { onResize };

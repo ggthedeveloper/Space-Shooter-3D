@@ -3,8 +3,13 @@
  * Ballistics, lasers, torpedoes, flak, missiles, and special superweapons
  */
 
-import { state } from './state.js';
-import { audio } from './audio.js';
+import { state } from "./state.js";
+import { audio } from "./audio.js";
+import { player } from "./player.js";
+import { scene, playerBullets, enemyBullets, missiles, beamEffects, shockwaves, asteroids, damageAsteroid, enemies, aimTargetPoint } from "./game.js";
+import { damageEnemy } from "./enemies.js";
+import { spawnFloatingText, triggerShake, updateAbilityUI, spawnExplosionFX, updateHUD } from "./ui.js";
+import { trackBountyProgress } from "./progression.js";
 
 const SHIP_WEAPON_CONFIG = {
   valkyrie: {
@@ -225,11 +230,11 @@ function triggerPlasmaBurstAbility() {
   if (audio) audio.playExplosion(2.2);
 
   // Damage all hostiles within AoE radius 18
-  aliens.forEach(alien => {
+  enemies.forEach(alien => {
     if (alien.mesh && alien.mesh.visible) {
       const dist = alien.mesh.position.distanceTo(targetPos);
       if (dist < 18) {
-        damageAlien(alien, 380);
+        damageEnemy(alien, 380);
       }
     }
   });
@@ -248,9 +253,9 @@ function triggerMeteorStrikeAbility() {
       spawnExplosionFX(strikePos, 0xff7700, 35, 2.2);
       triggerShake(6);
       if (audio) audio.playTorpedoLaunch();
-      aliens.forEach(alien => {
+      enemies.forEach(alien => {
         if (alien.mesh && alien.mesh.visible && alien.mesh.position.distanceTo(strikePos) < 10) {
-          damageAlien(alien, 280);
+          damageEnemy(alien, 280);
         }
       });
     }, i * 140);
@@ -264,12 +269,12 @@ function triggerVoidRiftAbility() {
     setTimeout(() => {
       if (!state.running) return;
       spawnExplosionFX(riftPos, 0xd946ef, 25, 1.8);
-      aliens.forEach(alien => {
+      enemies.forEach(alien => {
         if (alien.mesh && alien.mesh.visible) {
           const d = alien.mesh.position.distanceTo(riftPos);
           if (d < 16) {
             alien.mesh.position.lerp(riftPos, 0.25);
-            damageAlien(alien, 120);
+            damageEnemy(alien, 120);
           }
         }
       });
@@ -308,15 +313,15 @@ function triggerCosmicWaveAbility() {
   spawnExplosionFX(player.position, 0x00f0ff, 60, 3.5);
 
   // Clear all enemy projectiles
-  alienBullets.forEach(b => {
+  enemyBullets.forEach(b => {
     if (b.mesh) scene.remove(b.mesh);
   });
-  alienBullets.length = 0;
+  enemyBullets.length = 0;
 
   // Heavy screen-wide cosmic wipe
-  aliens.forEach(alien => {
+  enemies.forEach(alien => {
     if (alien.mesh && alien.mesh.visible) {
-      damageAlien(alien, 450);
+      damageEnemy(alien, 450);
     }
   });
   spawnFloatingText(player.position, "🌌 COSMIC WAVE DETONATED!", "#00ffff");
@@ -764,4 +769,13 @@ if (typeof window !== 'undefined') {
   window.triggerEnergyShieldAbility = triggerEnergyShieldAbility;
   window.triggerLaserBarrageAbility = triggerLaserBarrageAbility;
   window.triggerCosmicWaveAbility = triggerCosmicWaveAbility;
+  window.fireActiveWeapon = fireActiveWeapon;
+  window.firePlasmaCannons = firePlasmaCannons;
+  window.fireFusionRailgun = fireFusionRailgun;
+  window.fireFlakCannon = fireFlakCannon;
+  window.firePhotonTorpedo = firePhotonTorpedo;
+  window.detonateTorpedo = detonateTorpedo;
+  window.fireTeslaLightning = fireTeslaLightning;
+  window.createLightningArc = createLightningArc;
+  window.fireCustomBolt = fireCustomBolt;
 }
