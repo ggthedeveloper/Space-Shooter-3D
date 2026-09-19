@@ -560,3 +560,4 @@ if (typeof window !== 'undefined') {
   window.dismissEmergencyHullModal = dismissEmergencyHullModal;
   window.triggerEmergencyHullProtocol = triggerEmergencyHullProtocol;
 }
+//The ship's pricing can be imroved.
