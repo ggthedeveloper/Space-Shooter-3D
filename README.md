@@ -2,9 +2,6 @@
 
 An atmospheric, industry-level 3D space combat simulator built with **Three.js** and **Web Audio API**, featuring **8 Dynamic Galactic Battlefields**, **16 Selectable 3D Starfighters with Class-Specific Weapons & Special Abilities**, **Interstellar-Inspired Cinematic Soundtrack**, **Emergency Hull Reinforcement Protocol**, **Universal Back Navigation**, and **High-Stakes Sector Progression**.
 
-> **Developed by Gaurav Gautam**  
-> GitHub: [@ggthedeveloper](https://github.com/ggthedeveloper) 
-
 ---
 ### Live at: https://ggthedeveloper.github.io/Space-Shooter-3D/
 
